@@ -36,6 +36,11 @@ namespace PathFinding
 
         private void Awake()
         {
+            CreatMap();
+        }
+
+        public void CreatMap()
+        {
             // Initialize random generator with seed
             System.Random random = new System.Random(seed);
 
@@ -122,6 +127,11 @@ namespace PathFinding
                 algorithmName.text = "Lee Algorithm";
                 FindPathInstantly(start, end, LeeAlgorithm.FindPath);
             }
+            else if(Input.GetKeyDown(KeyCode.Alpha8))
+            {
+                algorithmName.text = "Dynamic Programming Maze";
+                FindPathInstantly(start, end, DynamicProgrammingMaze.FindPath);
+            }
             else if(Input.GetKeyDown(KeyCode.Escape))
             {
                 ResetGrid();
@@ -184,6 +194,13 @@ namespace PathFinding
                 _pathRoutine = FindPathSmoothly(start, end, LeeAlgorithm.FindPath);
                 StartCoroutine(_pathRoutine);
             }
+            else if(Input.GetKeyDown(KeyCode.Alpha8))
+            {
+                algorithmName.text = "Dynamic Programming Maze";
+                StopPathCoroutine();
+                _pathRoutine = FindPathSmoothly(start, end, DynamicProgrammingMaze.FindPath);
+                StartCoroutine(_pathRoutine);
+            }
 
             else if(Input.GetKeyDown(KeyCode.Escape))
             {
@@ -201,6 +218,17 @@ namespace PathFinding
                 StopCoroutine(_pathRoutine);
                 _pathRoutine = null;
             }
+        }
+
+        public bool IsWalkable(int row, int col)
+        {
+            if(!IsInBounds(row, col))
+            {
+                return false;
+            }
+
+            Tile tile = GetTile(row, col);
+            return tile.Weight != TileWeights.Infinity;
         }
 
         private void CreateObstacles(System.Random random, int obstacleCount)
@@ -328,7 +356,7 @@ namespace PathFinding
             }
         }
 
-        private bool IsInBounds(int row, int col)
+        public bool IsInBounds(int row, int col)
         {
             bool rowInRange = row >= 0 && row < Rows;
             bool colInRange = col >= 0 && col < Cols;
