@@ -49,6 +49,12 @@ namespace PathFinding
 
                 foreach(var neighbor in grid.GetNeighbors(current))
                 {
+                    if(neighbor.Weight == TileWeights.Infinity)
+                    {
+                        // Skip this neighbor as it is an obstacle
+                        continue;
+                    }
+
                     int newNeighborCost = current.Cost + neighbor.Weight;
                     if(newNeighborCost < neighbor.Cost)
                     {
@@ -83,7 +89,5 @@ namespace PathFinding
 
             return path;
         }
-
     }
 }
-

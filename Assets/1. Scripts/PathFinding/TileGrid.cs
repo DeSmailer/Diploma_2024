@@ -1,20 +1,20 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 namespace PathFinding
 {
     public class TileGrid : MonoBehaviour
     {
-        private const int TileWeight_Default = 1;
-        private const int TileWeight_Expensive = 50;
-        private const int TileWeight_Infinity = int.MaxValue;
+        public TMP_Text algorithmName;
 
         public int Rows;
         public int Cols;
         public int seed;
         public int numberOfObstacles;
+        public int numberOfExpensiveTiles;
         public Vector2 startPosition;
         public Vector2 endPosition;
 
@@ -44,7 +44,7 @@ namespace PathFinding
             {
                 for(int c = 0; c < Cols; c++)
                 {
-                    Tile tile = new Tile(this, r, c, TileWeight_Default);
+                    Tile tile = new Tile(this, r, c, TileWeights.Default);
                     tile.InitGameObject(transform, TilePrefab);
 
                     int index = GetTileIndex(r, c);
@@ -62,49 +62,12 @@ namespace PathFinding
                 endPosition = GenerateRandomPosition(random);
             }
 
-            // Generate obstacles
+            // Generate obstacles and expensive tiles
             CreateObstacles(random, numberOfObstacles); // Adjust the number of obstacles as needed
+            CreateExpensiveTiles(random, numberOfExpensiveTiles); // Adjust the number of expensive tiles as needed
 
             ResetGrid();
         }
-
-        //private void Update()
-        //{
-        //    Tile start = GetTile((int)startPosition.x, (int)startPosition.y);
-        //    Tile end = GetTile((int)endPosition.x, (int)endPosition.y);
-
-        //    if(Input.GetKeyDown(KeyCode.Alpha1))
-        //    {
-        //        StopPathCoroutine();
-        //        _pathRoutine = FindPath(start, end, BFS.FindPath);
-        //        StartCoroutine(_pathRoutine);
-        //    }
-        //    else if(Input.GetKeyDown(KeyCode.Alpha2))
-        //    {
-        //        StopPathCoroutine();
-        //        _pathRoutine = FindPath(start, end, Dijkstra.FindPath);
-        //        StartCoroutine(_pathRoutine);
-        //    }
-        //    else if(Input.GetKeyDown(KeyCode.Alpha3))
-        //    {
-        //        StopPathCoroutine();
-        //        _pathRoutine = FindPath(start, end, AStar.FindPath);
-        //        StartCoroutine(_pathRoutine);
-        //    }
-        //    else if(Input.GetKeyDown(KeyCode.Alpha4))
-        //    {
-        //        StopPathCoroutine();
-        //        _pathRoutine = FindPath(start, end, GreedyBestFirstSearch.FindPath);
-        //        StartCoroutine(_pathRoutine);
-        //    }
-        //    else if(Input.GetKeyDown(KeyCode.Escape))
-        //    {
-        //        StopPathCoroutine();
-        //        ResetGrid();
-        //        start.SetColor(TileColor_Start);
-        //        end.SetColor(TileColor_End);
-        //    }
-        //}
 
         private void Update()
         {
@@ -113,18 +76,22 @@ namespace PathFinding
 
             if(Input.GetKeyDown(KeyCode.Alpha1))
             {
+                algorithmName.text = "Breadth First Search";
                 FindPath(start, end, BFS.FindPath);
             }
             else if(Input.GetKeyDown(KeyCode.Alpha2))
             {
+                algorithmName.text = "Dijkstra";
                 FindPath(start, end, Dijkstra.FindPath);
             }
             else if(Input.GetKeyDown(KeyCode.Alpha3))
             {
+                algorithmName.text = "AStar";
                 FindPath(start, end, AStar.FindPath);
             }
             else if(Input.GetKeyDown(KeyCode.Alpha4))
             {
+                algorithmName.text = "Greedy Best First Search";
                 FindPath(start, end, GreedyBestFirstSearch.FindPath);
             }
             else if(Input.GetKeyDown(KeyCode.Escape))
@@ -153,7 +120,21 @@ namespace PathFinding
 
                 if(tile != null && position != startPosition && position != endPosition)
                 {
-                    tile.Weight = TileWeight_Infinity;
+                    tile.Weight = TileWeights.Infinity;
+                }
+            }
+        }
+
+        private void CreateExpensiveTiles(System.Random random, int expensiveTileCount)
+        {
+            for(int i = 0; i < expensiveTileCount; i++)
+            {
+                Vector2 position = GenerateRandomPosition(random);
+                Tile tile = GetTile((int)position.x, (int)position.y);
+
+                if(tile != null && tile.Weight != TileWeights.Infinity && position != startPosition && position != endPosition)
+                {
+                    tile.Weight = TileWeights.Expensive;
                 }
             }
         }
@@ -175,13 +156,13 @@ namespace PathFinding
 
                 switch(tile.Weight)
                 {
-                    case TileWeight_Default:
+                    case TileWeights.Default:
                         tile.SetColor(TileColor_Default);
                         break;
-                    case TileWeight_Expensive:
+                    case TileWeights.Expensive:
                         tile.SetColor(TileColor_Expensive);
                         break;
-                    case TileWeight_Infinity:
+                    case TileWeights.Infinity:
                         tile.SetColor(TileColor_Infinity);
                         break;
                 }
@@ -203,20 +184,6 @@ namespace PathFinding
                 step.Execute();
             }
         }
-
-        //private IEnumerator FindPath(Tile start, Tile end, Func<TileGrid, Tile, Tile, List<IVisualStep>, List<Tile>> pathFindingFunc)
-        //{
-        //    ResetGrid();
-
-        //    List<IVisualStep> steps = new List<IVisualStep>();
-        //    pathFindingFunc(this, start, end, steps);
-
-        //    foreach(var step in steps)
-        //    {
-        //        step.Execute();
-        //        yield return new WaitForFixedUpdate();
-        //    }
-        //}
 
         public Tile GetTile(int row, int col)
         {

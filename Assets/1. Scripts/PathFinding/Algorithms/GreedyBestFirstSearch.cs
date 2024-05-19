@@ -42,6 +42,11 @@ namespace PathFinding
 
                 foreach(var neighbor in grid.GetNeighbors(current))
                 {
+                    if(neighbor.Weight == TileWeights.Infinity)
+                    {
+                        continue;
+                    }
+
                     if(!visited.Contains(neighbor))
                     {
                         frontier.Add(neighbor);
@@ -71,4 +76,3 @@ namespace PathFinding
         }
     }
 }
-
