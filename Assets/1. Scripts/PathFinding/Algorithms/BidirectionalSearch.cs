@@ -1,11 +1,18 @@
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace PathFinding
 {
     public static class BidirectionalSearch
     {
-        public static List<Tile> FindPath(TileGrid grid, Tile start, Tile end, List<IVisualStep> outSteps)
+        public static List<Tile> FindPath(TileGrid grid, Tile start, Tile end, List<IVisualStep> outSteps, out long executionTime, out int nodesVisited, out int pathLength, out long memoryUsage)
         {
+            long memoryBefore = GC.GetTotalMemory(true);
+
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+
             outSteps.Add(new MarkStartTileStep(start));
             outSteps.Add(new MarkEndTileStep(end));
 
@@ -22,20 +29,44 @@ namespace PathFinding
             end.PrevTile = null;
 
             Tile meetingPoint = null;
+            nodesVisited = 0;
 
             while(frontierFromStart.Count > 0 && frontierFromEnd.Count > 0)
             {
                 if(ProcessFrontier(grid, frontierFromStart, visitedFromStart, visitedFromEnd, outSteps, ref meetingPoint, true))
                 {
-                    return BuildPath(start, end, meetingPoint, outSteps, true);
+                    stopwatch.Stop();
+                    executionTime = stopwatch.ElapsedMilliseconds;
+
+                    long memoryAfter = GC.GetTotalMemory(true);
+                    memoryUsage = memoryAfter - memoryBefore;
+
+                    List<Tile> path = BuildPath(start, end, meetingPoint, outSteps, true);
+                    pathLength = path.Count;
+                    return path;
                 }
 
                 if(ProcessFrontier(grid, frontierFromEnd, visitedFromEnd, visitedFromStart, outSteps, ref meetingPoint, false))
                 {
-                    return BuildPath(start, end, meetingPoint, outSteps, false);
+                    stopwatch.Stop();
+                    executionTime = stopwatch.ElapsedMilliseconds;
+
+                    long memoryAfter = GC.GetTotalMemory(true);
+                    memoryUsage = memoryAfter - memoryBefore;
+
+                    List<Tile> path = BuildPath(start, end, meetingPoint, outSteps, false);
+                    pathLength = path.Count;
+                    return path;
                 }
             }
 
+            stopwatch.Stop();
+            executionTime = stopwatch.ElapsedMilliseconds;
+
+            long memoryAfterFinal = GC.GetTotalMemory(true);
+            memoryUsage = memoryAfterFinal - memoryBefore;
+
+            pathLength = 0;
             return new List<Tile>(); // Return empty path if no path is found
         }
 

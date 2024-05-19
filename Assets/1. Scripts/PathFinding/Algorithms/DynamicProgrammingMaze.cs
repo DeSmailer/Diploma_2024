@@ -1,12 +1,19 @@
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using UnityEngine;
 
 namespace PathFinding
 {
     public static class DynamicProgrammingMaze
     {
-        public static List<Tile> FindPath(TileGrid grid, Tile start, Tile end, List<IVisualStep> outSteps)
+        public static List<Tile> FindPath(TileGrid grid, Tile start, Tile end, List<IVisualStep> outSteps, out long executionTime, out int nodesVisited, out int pathLength, out long memoryUsage)
         {
+            long memoryBefore = GC.GetTotalMemory(true);
+
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+
             outSteps.Add(new MarkStartTileStep(start));
             outSteps.Add(new MarkEndTileStep(end));
 
@@ -24,10 +31,12 @@ namespace PathFinding
 
             Queue<Tile> frontier = new Queue<Tile>();
             frontier.Enqueue(start);
+            nodesVisited = 0;
 
             while(frontier.Count > 0)
             {
                 Tile current = frontier.Dequeue();
+                nodesVisited++;
 
                 if(current != start && current != end)
                 {
@@ -56,7 +65,16 @@ namespace PathFinding
                 }
             }
 
-            return ReconstructPath(end, start, outSteps);
+            List<Tile> path = ReconstructPath(end, start, outSteps);
+            pathLength = path.Count;
+
+            stopwatch.Stop();
+            executionTime = stopwatch.ElapsedMilliseconds;
+
+            long memoryAfter = GC.GetTotalMemory(true);
+            memoryUsage = memoryAfter - memoryBefore;
+
+            return path;
         }
 
         private static List<Tile> ReconstructPath(Tile end, Tile start, List<IVisualStep> outSteps)

@@ -469,26 +469,22 @@ namespace PathFinding
                 algorithmName.text = "Depth First Search";
                 FindPathInstantly(start, end, DFS.FindPath, "Depth First Search");
             }
-            //else if(Input.GetKeyDown(KeyCode.Alpha6))
-            //{
-            //    algorithmName.text = "Bidirectional Search";
-            //    FindPathInstantly(start, end, BidirectionalSearch.FindPath, "Bidirectional Search");
-            //}
-            //else if(Input.GetKeyDown(KeyCode.Alpha7))
-            //{
-            //    algorithmName.text = "Lee Algorithm";
-            //    FindPathInstantly(start, end, LeeAlgorithm.FindPath, "Lee Algorithm");
-            //}
-            //else if(Input.GetKeyDown(KeyCode.Alpha8))
-            //{
-            //    algorithmName.text = "Dynamic Programming Maze";
-            //    FindPathInstantly(start, end, DynamicProgrammingMaze.FindPath, "Dynamic Programming Maze");
-            //}
-            //else if(Input.GetKeyDown(KeyCode.Alpha9))
-            //{
-            //    algorithmName.text = "Jump Point Search";
-            //    FindPathInstantly(start, end, JumpPointSearch.FindPath, "Jump Point Search");
-            //}
+            else if(Input.GetKeyDown(KeyCode.Alpha6))
+            {
+                algorithmName.text = "Bidirectional Search";
+                FindPathInstantly(start, end, BidirectionalSearch.FindPath, "Bidirectional Search");
+            }
+            else if(Input.GetKeyDown(KeyCode.Alpha7))
+            {
+                algorithmName.text = "Lee Algorithm";
+                FindPathInstantly(start, end, LeeAlgorithm.FindPath, "Lee Algorithm");
+            }
+            else if(Input.GetKeyDown(KeyCode.Alpha8))
+            {
+                algorithmName.text = "Dynamic Programming Maze";
+                FindPathInstantly(start, end, DynamicProgrammingMaze.FindPath, "Dynamic Programming Maze");
+            }
+
             else if(Input.GetKeyDown(KeyCode.Escape))
             {
                 ResetGrid();

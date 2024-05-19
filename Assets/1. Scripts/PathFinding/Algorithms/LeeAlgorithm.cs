@@ -1,12 +1,19 @@
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using UnityEngine;
 
 namespace PathFinding
 {
     public static class LeeAlgorithm
     {
-        public static List<Tile> FindPath(TileGrid grid, Tile start, Tile end, List<IVisualStep> outSteps)
+        public static List<Tile> FindPath(TileGrid grid, Tile start, Tile end, List<IVisualStep> outSteps, out long executionTime, out int nodesVisited, out int pathLength, out long memoryUsage)
         {
+            long memoryBefore = GC.GetTotalMemory(true);
+
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+
             outSteps.Add(new MarkStartTileStep(start));
             outSteps.Add(new MarkEndTileStep(end));
 
@@ -23,10 +30,12 @@ namespace PathFinding
             Queue<Tile> frontier = new Queue<Tile>();
             frontier.Enqueue(start);
             distances[start.Row, start.Col] = 0;
+            nodesVisited = 0;
 
             while(frontier.Count > 0)
             {
                 Tile current = frontier.Dequeue();
+                nodesVisited++;
 
                 if(current != start && current != end)
                 {
@@ -88,9 +97,15 @@ namespace PathFinding
             }
             else
             {
-                // No path found
                 path.Clear();
             }
+
+            stopwatch.Stop();
+            executionTime = stopwatch.ElapsedMilliseconds;
+
+            long memoryAfter = GC.GetTotalMemory(true);
+            memoryUsage = memoryAfter - memoryBefore;
+            pathLength = path.Count;
 
             return path;
         }
