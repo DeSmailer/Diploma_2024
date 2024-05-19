@@ -68,6 +68,44 @@ namespace PathFinding
             ResetGrid();
         }
 
+        //private void Update()
+        //{
+        //    Tile start = GetTile((int)startPosition.x, (int)startPosition.y);
+        //    Tile end = GetTile((int)endPosition.x, (int)endPosition.y);
+
+        //    if(Input.GetKeyDown(KeyCode.Alpha1))
+        //    {
+        //        StopPathCoroutine();
+        //        _pathRoutine = FindPath(start, end, BFS.FindPath);
+        //        StartCoroutine(_pathRoutine);
+        //    }
+        //    else if(Input.GetKeyDown(KeyCode.Alpha2))
+        //    {
+        //        StopPathCoroutine();
+        //        _pathRoutine = FindPath(start, end, Dijkstra.FindPath);
+        //        StartCoroutine(_pathRoutine);
+        //    }
+        //    else if(Input.GetKeyDown(KeyCode.Alpha3))
+        //    {
+        //        StopPathCoroutine();
+        //        _pathRoutine = FindPath(start, end, AStar.FindPath);
+        //        StartCoroutine(_pathRoutine);
+        //    }
+        //    else if(Input.GetKeyDown(KeyCode.Alpha4))
+        //    {
+        //        StopPathCoroutine();
+        //        _pathRoutine = FindPath(start, end, GreedyBestFirstSearch.FindPath);
+        //        StartCoroutine(_pathRoutine);
+        //    }
+        //    else if(Input.GetKeyDown(KeyCode.Escape))
+        //    {
+        //        StopPathCoroutine();
+        //        ResetGrid();
+        //        start.SetColor(TileColor_Start);
+        //        end.SetColor(TileColor_End);
+        //    }
+        //}
+
         private void Update()
         {
             Tile start = GetTile((int)startPosition.x, (int)startPosition.y);
@@ -75,31 +113,22 @@ namespace PathFinding
 
             if(Input.GetKeyDown(KeyCode.Alpha1))
             {
-                StopPathCoroutine();
-                _pathRoutine = FindPath(start, end, BFS.FindPath);
-                StartCoroutine(_pathRoutine);
+                FindPath(start, end, BFS.FindPath);
             }
             else if(Input.GetKeyDown(KeyCode.Alpha2))
             {
-                StopPathCoroutine();
-                _pathRoutine = FindPath(start, end, Dijkstra.FindPath);
-                StartCoroutine(_pathRoutine);
+                FindPath(start, end, Dijkstra.FindPath);
             }
             else if(Input.GetKeyDown(KeyCode.Alpha3))
             {
-                StopPathCoroutine();
-                _pathRoutine = FindPath(start, end, AStar.FindPath);
-                StartCoroutine(_pathRoutine);
+                FindPath(start, end, AStar.FindPath);
             }
             else if(Input.GetKeyDown(KeyCode.Alpha4))
             {
-                StopPathCoroutine();
-                _pathRoutine = FindPath(start, end, GreedyBestFirstSearch.FindPath);
-                StartCoroutine(_pathRoutine);
+                FindPath(start, end, GreedyBestFirstSearch.FindPath);
             }
             else if(Input.GetKeyDown(KeyCode.Escape))
             {
-                StopPathCoroutine();
                 ResetGrid();
                 start.SetColor(TileColor_Start);
                 end.SetColor(TileColor_End);
@@ -162,7 +191,7 @@ namespace PathFinding
             GetTile((int)endPosition.x, (int)endPosition.y)?.SetColor(TileColor_End);
         }
 
-        private IEnumerator FindPath(Tile start, Tile end, Func<TileGrid, Tile, Tile, List<IVisualStep>, List<Tile>> pathFindingFunc)
+        private void FindPath(Tile start, Tile end, Func<TileGrid, Tile, Tile, List<IVisualStep>, List<Tile>> pathFindingFunc)
         {
             ResetGrid();
 
@@ -172,9 +201,22 @@ namespace PathFinding
             foreach(var step in steps)
             {
                 step.Execute();
-                yield return new WaitForFixedUpdate();
             }
         }
+
+        //private IEnumerator FindPath(Tile start, Tile end, Func<TileGrid, Tile, Tile, List<IVisualStep>, List<Tile>> pathFindingFunc)
+        //{
+        //    ResetGrid();
+
+        //    List<IVisualStep> steps = new List<IVisualStep>();
+        //    pathFindingFunc(this, start, end, steps);
+
+        //    foreach(var step in steps)
+        //    {
+        //        step.Execute();
+        //        yield return new WaitForFixedUpdate();
+        //    }
+        //}
 
         public Tile GetTile(int row, int col)
         {
