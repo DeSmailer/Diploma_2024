@@ -1,12 +1,18 @@
 using System.Collections.Generic;
+using System.Diagnostics;
 using UnityEngine;
 
 namespace PathFinding
 {
     public class Dijkstra : MonoBehaviour
     {
-        public static List<Tile> FindPath(TileGrid grid, Tile start, Tile end, List<IVisualStep> outSteps)
+        public static List<Tile> FindPath(TileGrid grid, Tile start, Tile end, List<IVisualStep> outSteps, out long executionTime, out int nodesVisited, out int pathLength, out long memoryUsage)
         {
+            long memoryBefore = System.GC.GetTotalMemory(true);
+
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+
             outSteps.Add(new MarkStartTileStep(start));
             outSteps.Add(new MarkEndTileStep(end));
 
@@ -24,9 +30,12 @@ namespace PathFinding
 
             start.PrevTile = null;
 
+            nodesVisited = 0;
+
             while(frontier.Count > 0)
             {
                 Tile current = frontier.Remove();
+                nodesVisited++;
 
                 if(current != start && current != end)
                 {
@@ -67,6 +76,7 @@ namespace PathFinding
             }
 
             List<Tile> path = PathFinderUtilities.BacktrackToPath(end);
+            pathLength = path.Count;
 
             foreach(var tile in path)
             {
@@ -77,6 +87,12 @@ namespace PathFinding
 
                 outSteps.Add(new MarkPathTileStep(tile));
             }
+
+            stopwatch.Stop();
+            executionTime = stopwatch.ElapsedMilliseconds;
+
+            long memoryAfter = System.GC.GetTotalMemory(true);
+            memoryUsage = memoryAfter - memoryBefore;
 
             return path;
         }

@@ -3,9 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using System.IO;
+//using OfficeOpenXml;  // Додайте цей using для EPPlus
+//using OfficeOpenXml.Style;
 
 namespace PathFinding
 {
+    public delegate List<Tile> PathFindingFunc(TileGrid grid, Tile start, Tile end, List<IVisualStep> outSteps, out long executionTime, out int nodesVisited, out int pathLength, out long memoryUsage);
+   
     public class TileGrid : MonoBehaviour
     {
         public bool instantly = true;
@@ -87,129 +92,129 @@ namespace PathFinding
             }
         }
 
-        private void VisualizeInstantly()
-        {
-            Tile start = GetTile((int)startPosition.x, (int)startPosition.y);
-            Tile end = GetTile((int)endPosition.x, (int)endPosition.y);
+        //private void VisualizeInstantly()
+        //{
+        //    Tile start = GetTile((int)startPosition.x, (int)startPosition.y);
+        //    Tile end = GetTile((int)endPosition.x, (int)endPosition.y);
 
-            if(Input.GetKeyDown(KeyCode.Alpha1))
-            {
-                algorithmName.text = "Breadth First Search";
-                FindPathInstantly(start, end, BFS.FindPath);
-            }
-            else if(Input.GetKeyDown(KeyCode.Alpha2))
-            {
-                algorithmName.text = "Dijkstra";
-                FindPathInstantly(start, end, Dijkstra.FindPath);
-            }
-            else if(Input.GetKeyDown(KeyCode.Alpha3))
-            {
-                algorithmName.text = "AStar";
-                FindPathInstantly(start, end, AStar.FindPath);
-            }
-            else if(Input.GetKeyDown(KeyCode.Alpha4))
-            {
-                algorithmName.text = "Greedy Best First Search";
-                FindPathInstantly(start, end, GreedyBestFirstSearch.FindPath);
-            }
-            else if(Input.GetKeyDown(KeyCode.Alpha5))
-            {
-                algorithmName.text = "Depth First Search";
-                FindPathInstantly(start, end, DFS.FindPath);
-            }
-            else if(Input.GetKeyDown(KeyCode.Alpha6))
-            {
-                algorithmName.text = "Bidirectional Search";
-                FindPathInstantly(start, end, BidirectionalSearch.FindPath);
-            }
-            else if(Input.GetKeyDown(KeyCode.Alpha7))
-            {
-                algorithmName.text = "Lee Algorithm";
-                FindPathInstantly(start, end, LeeAlgorithm.FindPath);
-            }
-            else if(Input.GetKeyDown(KeyCode.Alpha8))
-            {
-                algorithmName.text = "Dynamic Programming Maze";
-                FindPathInstantly(start, end, DynamicProgrammingMaze.FindPath);
-            }
-            else if(Input.GetKeyDown(KeyCode.Escape))
-            {
-                ResetGrid();
-                start.SetColor(TileColor_Start);
-                end.SetColor(TileColor_End);
-            }
-        }
+        //    if(Input.GetKeyDown(KeyCode.Alpha1))
+        //    {
+        //        algorithmName.text = "Breadth First Search";
+        //        FindPathInstantly(start, end, BFS.FindPath, "Breadth First Search");
+        //    }
+        //    else if(Input.GetKeyDown(KeyCode.Alpha2))
+        //    {
+        //        algorithmName.text = "Dijkstra";
+        //        FindPathInstantly(start, end, Dijkstra.FindPath, "Dijkstra");
+        //    }
+        //    else if(Input.GetKeyDown(KeyCode.Alpha3))
+        //    {
+        //        algorithmName.text = "AStar";
+        //        FindPathInstantly(start, end, AStar.FindPath, "AStar");
+        //    }
+        //    else if(Input.GetKeyDown(KeyCode.Alpha4))
+        //    {
+        //        algorithmName.text = "Greedy Best First Search";
+        //        FindPathInstantly(start, end, GreedyBestFirstSearch.FindPath, "Greedy Best First Search");
+        //    }
+        //    else if(Input.GetKeyDown(KeyCode.Alpha5))
+        //    {
+        //        algorithmName.text = "Depth First Search";
+        //        FindPathInstantly(start, end, DFS.FindPath, "Depth First Search");
+        //    }
+        //    else if(Input.GetKeyDown(KeyCode.Alpha6))
+        //    {
+        //        algorithmName.text = "Bidirectional Search";
+        //        FindPathInstantly(start, end, BidirectionalSearch.FindPath, "Bidirectional Search");
+        //    }
+        //    else if(Input.GetKeyDown(KeyCode.Alpha7))
+        //    {
+        //        algorithmName.text = "Lee Algorithm";
+        //        FindPathInstantly(start, end, LeeAlgorithm.FindPath, "Lee Algorithm");
+        //    }
+        //    else if(Input.GetKeyDown(KeyCode.Alpha8))
+        //    {
+        //        algorithmName.text = "Dynamic Programming Maze";
+        //        FindPathInstantly(start, end, DynamicProgrammingMaze.FindPath(this, start, end, null), "Dynamic Programming Maze");
+        //    }
+        //    else if(Input.GetKeyDown(KeyCode.Escape))
+        //    {
+        //        ResetGrid();
+        //        start.SetColor(TileColor_Start);
+        //        end.SetColor(TileColor_End);
+        //    }
+        //}
 
-        private void VisualizeSmoothly()
-        {
-            Tile start = GetTile((int)startPosition.x, (int)startPosition.y);
-            Tile end = GetTile((int)endPosition.x, (int)endPosition.y);
+        //private void VisualizeSmoothly()
+        //{
+        //    Tile start = GetTile((int)startPosition.x, (int)startPosition.y);
+        //    Tile end = GetTile((int)endPosition.x, (int)endPosition.y);
 
-            if(Input.GetKeyDown(KeyCode.Alpha1))
-            {
-                algorithmName.text = "Breadth First Search";
-                StopPathCoroutine();
-                _pathRoutine = FindPathSmoothly(start, end, BFS.FindPath);
-                StartCoroutine(_pathRoutine);
-            }
-            else if(Input.GetKeyDown(KeyCode.Alpha2))
-            {
-                algorithmName.text = "Dijkstra";
-                StopPathCoroutine();
-                _pathRoutine = FindPathSmoothly(start, end, Dijkstra.FindPath);
-                StartCoroutine(_pathRoutine);
-            }
-            else if(Input.GetKeyDown(KeyCode.Alpha3))
-            {
-                algorithmName.text = "AStar";
-                StopPathCoroutine();
-                _pathRoutine = FindPathSmoothly(start, end, AStar.FindPath);
-                StartCoroutine(_pathRoutine);
-            }
-            else if(Input.GetKeyDown(KeyCode.Alpha4))
-            {
-                algorithmName.text = "Greedy Best First Search";
-                StopPathCoroutine();
-                _pathRoutine = FindPathSmoothly(start, end, GreedyBestFirstSearch.FindPath);
-                StartCoroutine(_pathRoutine);
-            }
-            else if(Input.GetKeyDown(KeyCode.Alpha5))
-            {
-                algorithmName.text = "Depth First Search";
-                StopPathCoroutine();
-                _pathRoutine = FindPathSmoothly(start, end, DFS.FindPath);
-                StartCoroutine(_pathRoutine);
-            }
-            else if(Input.GetKeyDown(KeyCode.Alpha6))
-            {
-                algorithmName.text = "Bidirectional Search";
-                StopPathCoroutine();
-                _pathRoutine = FindPathSmoothly(start, end, BidirectionalSearch.FindPath);
-                StartCoroutine(_pathRoutine);
-            }
-            else if(Input.GetKeyDown(KeyCode.Alpha7))
-            {
-                algorithmName.text = "Lee Algorithm";
-                StopPathCoroutine();
-                _pathRoutine = FindPathSmoothly(start, end, LeeAlgorithm.FindPath);
-                StartCoroutine(_pathRoutine);
-            }
-            else if(Input.GetKeyDown(KeyCode.Alpha8))
-            {
-                algorithmName.text = "Dynamic Programming Maze";
-                StopPathCoroutine();
-                _pathRoutine = FindPathSmoothly(start, end, DynamicProgrammingMaze.FindPath);
-                StartCoroutine(_pathRoutine);
-            }
+        //    if(Input.GetKeyDown(KeyCode.Alpha1))
+        //    {
+        //        algorithmName.text = "Breadth First Search";
+        //        StopPathCoroutine();
+        //        _pathRoutine = FindPathSmoothly(start, end, BFS.FindPath);
+        //        StartCoroutine(_pathRoutine);
+        //    }
+        //    else if(Input.GetKeyDown(KeyCode.Alpha2))
+        //    {
+        //        algorithmName.text = "Dijkstra";
+        //        StopPathCoroutine();
+        //        _pathRoutine = FindPathSmoothly(start, end, Dijkstra.FindPath);
+        //        StartCoroutine(_pathRoutine);
+        //    }
+        //    else if(Input.GetKeyDown(KeyCode.Alpha3))
+        //    {
+        //        algorithmName.text = "AStar";
+        //        StopPathCoroutine();
+        //        _pathRoutine = FindPathSmoothly(start, end, AStar.FindPath);
+        //        StartCoroutine(_pathRoutine);
+        //    }
+        //    else if(Input.GetKeyDown(KeyCode.Alpha4))
+        //    {
+        //        algorithmName.text = "Greedy Best First Search";
+        //        StopPathCoroutine();
+        //        _pathRoutine = FindPathSmoothly(start, end, GreedyBestFirstSearch.FindPath);
+        //        StartCoroutine(_pathRoutine);
+        //    }
+        //    else if(Input.GetKeyDown(KeyCode.Alpha5))
+        //    {
+        //        algorithmName.text = "Depth First Search";
+        //        StopPathCoroutine();
+        //        _pathRoutine = FindPathSmoothly(start, end, DFS.FindPath);
+        //        StartCoroutine(_pathRoutine);
+        //    }
+        //    else if(Input.GetKeyDown(KeyCode.Alpha6))
+        //    {
+        //        algorithmName.text = "Bidirectional Search";
+        //        StopPathCoroutine();
+        //        _pathRoutine = FindPathSmoothly(start, end, BidirectionalSearch.FindPath);
+        //        StartCoroutine(_pathRoutine);
+        //    }
+        //    else if(Input.GetKeyDown(KeyCode.Alpha7))
+        //    {
+        //        algorithmName.text = "Lee Algorithm";
+        //        StopPathCoroutine();
+        //        _pathRoutine = FindPathSmoothly(start, end, LeeAlgorithm.FindPath);
+        //        StartCoroutine(_pathRoutine);
+        //    }
+        //    else if(Input.GetKeyDown(KeyCode.Alpha8))
+        //    {
+        //        algorithmName.text = "Dynamic Programming Maze";
+        //        StopPathCoroutine();
+        //        _pathRoutine = FindPathSmoothly(start, end, DynamicProgrammingMaze.FindPath);
+        //        StartCoroutine(_pathRoutine);
+        //    }
 
-            else if(Input.GetKeyDown(KeyCode.Escape))
-            {
-                StopPathCoroutine();
-                ResetGrid();
-                start.SetColor(TileColor_Start);
-                end.SetColor(TileColor_End);
-            }
-        }
+        //    else if(Input.GetKeyDown(KeyCode.Escape))
+        //    {
+        //        StopPathCoroutine();
+        //        ResetGrid();
+        //        start.SetColor(TileColor_Start);
+        //        end.SetColor(TileColor_End);
+        //    }
+        //}
 
         private void StopPathCoroutine()
         {
@@ -366,6 +371,207 @@ namespace PathFinding
         private int GetTileIndex(int row, int col)
         {
             return row * Cols + col;
+        }
+
+
+        private void WriteResultsToExcel(string algorithmName, long executionTime, int nodesVisited, int pathLength, long memoryUsage, int rows, int cols, int seed, Vector2 startPosition, Vector2 endPosition)
+        {
+            string filePath = "PathfindingResults.xlsx";
+
+            FileInfo fileInfo = new FileInfo(filePath);
+
+            //using(ExcelPackage package = new ExcelPackage(fileInfo))
+            //{
+            //    ExcelWorksheet worksheet = package.Workbook.Worksheets.Count > 0 ? package.Workbook.Worksheets[0] : package.Workbook.Worksheets.Add("Results");
+
+            //    int row = worksheet.Dimension?.Rows + 1 ?? 1;
+
+            //    if(row == 1)
+            //    {
+            //        worksheet.Cells[row, 1].Value = "Algorithm";
+            //        worksheet.Cells[row, 2].Value = "Execution Time (ms)";
+            //        worksheet.Cells[row, 3].Value = "Nodes Visited";
+            //        worksheet.Cells[row, 4].Value = "Path Length";
+            //        worksheet.Cells[row, 5].Value = "Memory Usage (bytes)";
+            //        worksheet.Cells[row, 6].Value = "Grid Size";
+            //        worksheet.Cells[row, 7].Value = "Seed";
+            //        worksheet.Cells[row, 8].Value = "Start Position";
+            //        worksheet.Cells[row, 9].Value = "End Position";
+            //        row++;
+            //    }
+
+            //    worksheet.Cells[row, 1].Value = algorithmName;
+            //    worksheet.Cells[row, 2].Value = executionTime;
+            //    worksheet.Cells[row, 3].Value = nodesVisited;
+            //    worksheet.Cells[row, 4].Value = pathLength;
+            //    worksheet.Cells[row, 5].Value = memoryUsage;
+            //    worksheet.Cells[row, 6].Value = $"{rows}x{cols}";
+            //    worksheet.Cells[row, 7].Value = seed;
+            //    worksheet.Cells[row, 8].Value = $"{startPosition.x}, {startPosition.y}";
+            //    worksheet.Cells[row, 9].Value = $"{endPosition.x}, {endPosition.y}";
+
+            //    package.Save();
+            //}
+        }
+
+        private void FindPathInstantly(Tile start, Tile end, PathFindingFunc pathFindingFunc, string algorithmName)
+        {
+            ResetGrid();
+
+            List<IVisualStep> steps = new List<IVisualStep>();
+            long executionTime;
+            int nodesVisited;
+            int pathLength;
+            long memoryUsage;
+
+            pathFindingFunc(this, start, end, steps, out executionTime, out nodesVisited, out pathLength, out memoryUsage);
+
+            foreach(var step in steps)
+            {
+                step.Execute();
+            }
+
+            Debug.Log($"Execution Time: {executionTime} ms");
+            Debug.Log($"Nodes Visited: {nodesVisited}");
+            Debug.Log($"Path Length: {pathLength}");
+            Debug.Log($"Memory Usage: {memoryUsage} bytes");
+
+            WriteResultsToExcel(algorithmName, executionTime, nodesVisited, pathLength, memoryUsage, Rows, Cols, seed, startPosition, endPosition);
+        }
+
+        private void VisualizeInstantly()
+        {
+            Tile start = GetTile((int)startPosition.x, (int)startPosition.y);
+            Tile end = GetTile((int)endPosition.x, (int)endPosition.y);
+
+            if(Input.GetKeyDown(KeyCode.Alpha1))
+            {
+                algorithmName.text = "Breadth First Search";
+                FindPathInstantly(start, end, BFS.FindPath, "Breadth First Search");
+            }
+            else if(Input.GetKeyDown(KeyCode.Alpha2))
+            {
+                algorithmName.text = "Dijkstra";
+                FindPathInstantly(start, end, Dijkstra.FindPath, "Dijkstra");
+            }
+            else if(Input.GetKeyDown(KeyCode.Alpha3))
+            {
+                algorithmName.text = "AStar";
+                FindPathInstantly(start, end, AStar.FindPath, "AStar");
+            }
+            else if(Input.GetKeyDown(KeyCode.Alpha4))
+            {
+                algorithmName.text = "Greedy Best First Search";
+                FindPathInstantly(start, end, GreedyBestFirstSearch.FindPath, "Greedy Best First Search");
+            }
+            else if(Input.GetKeyDown(KeyCode.Alpha5))
+            {
+                algorithmName.text = "Depth First Search";
+                FindPathInstantly(start, end, DFS.FindPath, "Depth First Search");
+            }
+            //else if(Input.GetKeyDown(KeyCode.Alpha6))
+            //{
+            //    algorithmName.text = "Bidirectional Search";
+            //    FindPathInstantly(start, end, BidirectionalSearch.FindPath, "Bidirectional Search");
+            //}
+            //else if(Input.GetKeyDown(KeyCode.Alpha7))
+            //{
+            //    algorithmName.text = "Lee Algorithm";
+            //    FindPathInstantly(start, end, LeeAlgorithm.FindPath, "Lee Algorithm");
+            //}
+            //else if(Input.GetKeyDown(KeyCode.Alpha8))
+            //{
+            //    algorithmName.text = "Dynamic Programming Maze";
+            //    FindPathInstantly(start, end, DynamicProgrammingMaze.FindPath, "Dynamic Programming Maze");
+            //}
+            //else if(Input.GetKeyDown(KeyCode.Alpha9))
+            //{
+            //    algorithmName.text = "Jump Point Search";
+            //    FindPathInstantly(start, end, JumpPointSearch.FindPath, "Jump Point Search");
+            //}
+            else if(Input.GetKeyDown(KeyCode.Escape))
+            {
+                ResetGrid();
+                start.SetColor(TileColor_Start);
+                end.SetColor(TileColor_End);
+            }
+        }
+
+        private void VisualizeSmoothly()
+        {
+            Tile start = GetTile((int)startPosition.x, (int)startPosition.y);
+            Tile end = GetTile((int)endPosition.x, (int)endPosition.y);
+
+            //if(Input.GetKeyDown(KeyCode.Alpha1))
+            //{
+            //    algorithmName.text = "Breadth First Search";
+            //    StopPathCoroutine();
+            //    _pathRoutine = FindPathSmoothly(start, end, BFS.FindPath, "Breadth First Search");
+            //    StartCoroutine(_pathRoutine);
+            //}
+            //else if(Input.GetKeyDown(KeyCode.Alpha2))
+            //{
+            //    algorithmName.text = "Dijkstra";
+            //    StopPathCoroutine();
+            //    _pathRoutine = FindPathSmoothly(start, end, Dijkstra.FindPath, "Dijkstra");
+            //    StartCoroutine(_pathRoutine);
+            //}
+            //else if(Input.GetKeyDown(KeyCode.Alpha3))
+            //{
+            //    algorithmName.text = "AStar";
+            //    StopPathCoroutine();
+            //    _pathRoutine = FindPathSmoothly(start, end, AStar.FindPath, "AStar");
+            //    StartCoroutine(_pathRoutine);
+            //}
+            //else if(Input.GetKeyDown(KeyCode.Alpha4))
+            //{
+            //    algorithmName.text = "Greedy Best First Search";
+            //    StopPathCoroutine();
+            //    _pathRoutine = FindPathSmoothly(start, end, GreedyBestFirstSearch.FindPath, "Greedy Best First Search");
+            //    StartCoroutine(_pathRoutine);
+            //}
+            //else if(Input.GetKeyDown(KeyCode.Alpha5))
+            //{
+            //    algorithmName.text = "Depth First Search";
+            //    StopPathCoroutine();
+            //    _pathRoutine = FindPathSmoothly(start, end, DFS.FindPath, "Depth First Search");
+            //    StartCoroutine(_pathRoutine);
+            //}
+            //else if(Input.GetKeyDown(KeyCode.Alpha6))
+            //{
+            //    algorithmName.text = "Bidirectional Search";
+            //    StopPathCoroutine();
+            //    _pathRoutine = FindPathSmoothly(start, end, BidirectionalSearch.FindPath, "Bidirectional Search");
+            //    StartCoroutine(_pathRoutine);
+            //}
+            //else if(Input.GetKeyDown(KeyCode.Alpha7))
+            //{
+            //    algorithmName.text = "Lee Algorithm";
+            //    StopPathCoroutine();
+            //    _pathRoutine = FindPathSmoothly(start, end, LeeAlgorithm.FindPath, "Lee Algorithm");
+            //    StartCoroutine(_pathRoutine);
+            //}
+            //else if(Input.GetKeyDown(KeyCode.Alpha8))
+            //{
+            //    algorithmName.text = "Dynamic Programming Maze";
+            //    StopPathCoroutine();
+            //    _pathRoutine = FindPathSmoothly(start, end, DynamicProgrammingMaze.FindPath, "Dynamic Programming Maze");
+            //    StartCoroutine(_pathRoutine);
+            //}
+            //else if(Input.GetKeyDown(KeyCode.Alpha9))
+            //{
+            //    algorithmName.text = "Jump Point Search";
+            //    StopPathCoroutine();
+            //    _pathRoutine = FindPathSmoothly(start, end, JumpPointSearch.FindPath, "Jump Point Search");
+            //    StartCoroutine(_pathRoutine);
+            //}
+            //else if(Input.GetKeyDown(KeyCode.Escape))
+            //{
+            //    StopPathCoroutine();
+            //    ResetGrid();
+            //    start.SetColor(TileColor_Start);
+            //    end.SetColor(TileColor_End);
+            //}
         }
     }
 }

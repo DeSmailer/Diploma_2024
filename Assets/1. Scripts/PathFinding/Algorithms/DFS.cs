@@ -1,11 +1,18 @@
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace PathFinding
 {
     public static class DFS
     {
-        public static List<Tile> FindPath(TileGrid grid, Tile start, Tile end, List<IVisualStep> outSteps)
+        public static List<Tile> FindPath(TileGrid grid, Tile start, Tile end, List<IVisualStep> outSteps, out long executionTime, out int nodesVisited, out int pathLength, out long memoryUsage)
         {
+            long memoryBefore = GC.GetTotalMemory(true);
+
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+
             outSteps.Add(new MarkStartTileStep(start));
             outSteps.Add(new MarkEndTileStep(end));
 
@@ -14,10 +21,12 @@ namespace PathFinding
             stack.Push(start);
 
             start.PrevTile = null;
+            nodesVisited = 0;
 
             while(stack.Count > 0)
             {
                 Tile current = stack.Pop();
+                nodesVisited++;
 
                 if(current == end)
                 {
@@ -55,6 +64,7 @@ namespace PathFinding
             }
 
             List<Tile> path = PathFinderUtilities.BacktrackToPath(end);
+            pathLength = path.Count;
 
             foreach(var tile in path)
             {
@@ -65,6 +75,12 @@ namespace PathFinding
 
                 outSteps.Add(new MarkPathTileStep(tile));
             }
+
+            stopwatch.Stop();
+            executionTime = stopwatch.ElapsedMilliseconds;
+
+            long memoryAfter = GC.GetTotalMemory(true);
+            memoryUsage = memoryAfter - memoryBefore;
 
             return path;
         }
