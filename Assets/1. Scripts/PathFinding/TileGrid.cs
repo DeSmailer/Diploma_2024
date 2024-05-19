@@ -112,6 +112,16 @@ namespace PathFinding
                 algorithmName.text = "Depth First Search";
                 FindPathInstantly(start, end, DFS.FindPath);
             }
+            else if(Input.GetKeyDown(KeyCode.Alpha6))
+            {
+                algorithmName.text = "Bidirectional Search";
+                FindPathInstantly(start, end, BidirectionalSearch.FindPath);
+            }
+            else if(Input.GetKeyDown(KeyCode.Alpha7))
+            {
+                algorithmName.text = "Lee Algorithm";
+                FindPathInstantly(start, end, LeeAlgorithm.FindPath);
+            }
             else if(Input.GetKeyDown(KeyCode.Escape))
             {
                 ResetGrid();
@@ -158,7 +168,23 @@ namespace PathFinding
                 algorithmName.text = "Depth First Search";
                 StopPathCoroutine();
                 _pathRoutine = FindPathSmoothly(start, end, DFS.FindPath);
+                StartCoroutine(_pathRoutine);
             }
+            else if(Input.GetKeyDown(KeyCode.Alpha6))
+            {
+                algorithmName.text = "Bidirectional Search";
+                StopPathCoroutine();
+                _pathRoutine = FindPathSmoothly(start, end, BidirectionalSearch.FindPath);
+                StartCoroutine(_pathRoutine);
+            }
+            else if(Input.GetKeyDown(KeyCode.Alpha7))
+            {
+                algorithmName.text = "Lee Algorithm";
+                StopPathCoroutine();
+                _pathRoutine = FindPathSmoothly(start, end, LeeAlgorithm.FindPath);
+                StartCoroutine(_pathRoutine);
+            }
+
             else if(Input.GetKeyDown(KeyCode.Escape))
             {
                 StopPathCoroutine();

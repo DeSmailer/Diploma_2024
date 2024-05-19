@@ -11,6 +11,7 @@ namespace PathFinding
         public int Weight { get; set; }
         public int Cost { get; set; }
         public Tile PrevTile { get; set; }
+        public Tile NextTile { get; set; }
 
         private GameObject _gameObject;
         private SpriteRenderer _spriteRenderer;
