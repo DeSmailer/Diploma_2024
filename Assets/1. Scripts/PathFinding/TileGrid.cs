@@ -12,15 +12,20 @@ namespace PathFinding
     public class TileGrid : MonoBehaviour
     {
         public bool instantly = true;
-        public TMP_Text algorithmName;
+        public bool visualize = true;
+        public TMP_Text algorithmNameText;
+        public TMP_Text executionTimeText;
+        public TMP_Text nodesVisitedText;
+        public TMP_Text pathLengthText;
+        public TMP_Text memoryUsageText;
 
         public int Rows;
         public int Cols;
         public int seed;
         public int numberOfObstacles;
         public int numberOfExpensiveTiles;
-        public Vector2 startPosition;
-        public Vector2 endPosition;
+        private Vector2 startPosition;
+        private Vector2 endPosition;
 
         public GameObject TilePrefab;
 
@@ -34,6 +39,8 @@ namespace PathFinding
         public Color TileColor_Frontier = new Color(0.4f, 0.53f, 0.8f);
 
         public Tile[] Tiles { get; private set; }
+
+        private int[] gridSizes = { 5, 10, 25, 50, 75, /*100, 200*/ };
 
         private IEnumerator _pathRoutine;
 
@@ -55,7 +62,10 @@ namespace PathFinding
                 for(int c = 0; c < Cols; c++)
                 {
                     Tile tile = new Tile(this, r, c, TileWeights.Default);
-                    tile.InitGameObject(transform, TilePrefab);
+                    if(visualize)
+                    {
+                        tile.InitGameObject(transform, TilePrefab);
+                    }
 
                     int index = GetTileIndex(r, c);
                     Tiles[index] = tile;
@@ -186,32 +196,32 @@ namespace PathFinding
             GetTile((int)endPosition.x, (int)endPosition.y)?.SetColor(TileColor_End);
         }
 
-        private void FindPathInstantly(Tile start, Tile end, Func<TileGrid, Tile, Tile, List<IVisualStep>, List<Tile>> pathFindingFunc)
-        {
-            ResetGrid();
+        //private void FindPathInstantly(Tile start, Tile end, Func<TileGrid, Tile, Tile, List<IVisualStep>, List<Tile>> pathFindingFunc)
+        //{
+        //    ResetGrid();
 
-            List<IVisualStep> steps = new List<IVisualStep>();
-            pathFindingFunc(this, start, end, steps);
+        //    List<IVisualStep> steps = new List<IVisualStep>();
+        //    pathFindingFunc(this, start, end, steps);
 
-            foreach(var step in steps)
-            {
-                step.Execute();
-            }
-        }
+        //    foreach(var step in steps)
+        //    {
+        //        step.Execute();
+        //    }
+        //}
 
-        private IEnumerator FindPathSmoothly(Tile start, Tile end, Func<TileGrid, Tile, Tile, List<IVisualStep>, List<Tile>> pathFindingFunc)
-        {
-            ResetGrid();
+        //private IEnumerator FindPathSmoothly(Tile start, Tile end, Func<TileGrid, Tile, Tile, List<IVisualStep>, List<Tile>> pathFindingFunc)
+        //{
+        //    ResetGrid();
 
-            List<IVisualStep> steps = new List<IVisualStep>();
-            pathFindingFunc(this, start, end, steps);
+        //    List<IVisualStep> steps = new List<IVisualStep>();
+        //    pathFindingFunc(this, start, end, steps);
 
-            foreach(var step in steps)
-            {
-                step.Execute();
-                yield return new WaitForFixedUpdate();
-            }
-        }
+        //    foreach(var step in steps)
+        //    {
+        //        step.Execute();
+        //        yield return new WaitForFixedUpdate();
+        //    }
+        //}
 
         public Tile GetTile(int row, int col)
         {
@@ -291,15 +301,16 @@ namespace PathFinding
 
             pathFindingFunc(this, start, end, steps, out executionTime, out nodesVisited, out pathLength, out memoryUsage);
 
-            foreach(var step in steps)
+            if(visualize)
             {
-                step.Execute();
+                foreach(var step in steps)
+                {
+                    step.Execute();
+                }
             }
 
-            Debug.Log($"Execution Time: {executionTime} ms");
-            Debug.Log($"Nodes Visited: {nodesVisited}");
-            Debug.Log($"Path Length: {pathLength}");
-            Debug.Log($"Memory Usage: {memoryUsage} bytes");
+
+            ShowInfo(algorithmName, executionTime, nodesVisited, pathLength, memoryUsage);
 
             WriteResultsToExcel(algorithmName, executionTime, nodesVisited, pathLength, memoryUsage, Rows, Cols, seed, startPosition, endPosition);
         }
@@ -311,42 +322,34 @@ namespace PathFinding
 
             if(Input.GetKeyDown(KeyCode.Alpha1))
             {
-                algorithmName.text = "Breadth First Search";
                 FindPathInstantly(start, end, BFS.FindPath, "Breadth First Search");
             }
             else if(Input.GetKeyDown(KeyCode.Alpha2))
             {
-                algorithmName.text = "Dijkstra";
                 FindPathInstantly(start, end, Dijkstra.FindPath, "Dijkstra");
             }
             else if(Input.GetKeyDown(KeyCode.Alpha3))
             {
-                algorithmName.text = "AStar";
                 FindPathInstantly(start, end, AStar.FindPath, "AStar");
             }
             else if(Input.GetKeyDown(KeyCode.Alpha4))
             {
-                algorithmName.text = "Greedy Best First Search";
                 FindPathInstantly(start, end, GreedyBestFirstSearch.FindPath, "Greedy Best First Search");
             }
             else if(Input.GetKeyDown(KeyCode.Alpha5))
             {
-                algorithmName.text = "Depth First Search";
                 FindPathInstantly(start, end, DFS.FindPath, "Depth First Search");
             }
             else if(Input.GetKeyDown(KeyCode.Alpha6))
             {
-                algorithmName.text = "Bidirectional Search";
                 FindPathInstantly(start, end, BidirectionalSearch.FindPath, "Bidirectional Search");
             }
             else if(Input.GetKeyDown(KeyCode.Alpha7))
             {
-                algorithmName.text = "Lee Algorithm";
                 FindPathInstantly(start, end, LeeAlgorithm.FindPath, "Lee Algorithm");
             }
             else if(Input.GetKeyDown(KeyCode.Alpha8))
             {
-                algorithmName.text = "Dynamic Programming Maze";
                 FindPathInstantly(start, end, DynamicProgrammingMaze.FindPath, "Dynamic Programming Maze");
             }
 
@@ -370,18 +373,34 @@ namespace PathFinding
 
             pathFindingFunc(this, start, end, steps, out executionTime, out nodesVisited, out pathLength, out memoryUsage);
 
-            foreach(var step in steps)
+            if(visualize)
             {
-                step.Execute();
-                yield return new WaitForFixedUpdate();
+                foreach(var step in steps)
+                {
+                    step.Execute();
+                    yield return new WaitForFixedUpdate();
+                }
             }
 
+
+            ShowInfo(algorithmName, executionTime, nodesVisited, pathLength, memoryUsage);
+
+            WriteResultsToExcel(algorithmName, executionTime, nodesVisited, pathLength, memoryUsage, Rows, Cols, seed, startPosition, endPosition);
+        }
+
+        private void ShowInfo(string algorithmName, long executionTime, int nodesVisited, int pathLength, long memoryUsage)
+        {
+            algorithmNameText.text = $"Algorithm: {algorithmName}";
+            executionTimeText.text = $"Execution Time: {executionTime} ms";
+            nodesVisitedText.text = $"Nodes Visited: {nodesVisited}";
+            pathLengthText.text = $"Path Length: {pathLength}";
+            memoryUsageText.text = $"Memory Usage: {memoryUsage} bytes";
+
+            Debug.Log($"Algorithm: {algorithmName}");
             Debug.Log($"Execution Time: {executionTime} ms");
             Debug.Log($"Nodes Visited: {nodesVisited}");
             Debug.Log($"Path Length: {pathLength}");
             Debug.Log($"Memory Usage: {memoryUsage} bytes");
-
-            WriteResultsToExcel(algorithmName, executionTime, nodesVisited, pathLength, memoryUsage, Rows, Cols, seed, startPosition, endPosition);
         }
 
         private void VisualizeSmoothly()
@@ -391,56 +410,48 @@ namespace PathFinding
 
             if(Input.GetKeyDown(KeyCode.Alpha1))
             {
-                algorithmName.text = "Breadth First Search";
                 StopPathCoroutine();
                 _pathRoutine = FindPathSmoothly(start, end, BFS.FindPath, "Breadth First Search");
                 StartCoroutine(_pathRoutine);
             }
             else if(Input.GetKeyDown(KeyCode.Alpha2))
             {
-                algorithmName.text = "Dijkstra";
                 StopPathCoroutine();
                 _pathRoutine = FindPathSmoothly(start, end, Dijkstra.FindPath, "Dijkstra");
                 StartCoroutine(_pathRoutine);
             }
             else if(Input.GetKeyDown(KeyCode.Alpha3))
             {
-                algorithmName.text = "AStar";
                 StopPathCoroutine();
                 _pathRoutine = FindPathSmoothly(start, end, AStar.FindPath, "AStar");
                 StartCoroutine(_pathRoutine);
             }
             else if(Input.GetKeyDown(KeyCode.Alpha4))
             {
-                algorithmName.text = "Greedy Best First Search";
                 StopPathCoroutine();
                 _pathRoutine = FindPathSmoothly(start, end, GreedyBestFirstSearch.FindPath, "Greedy Best First Search");
                 StartCoroutine(_pathRoutine);
             }
             else if(Input.GetKeyDown(KeyCode.Alpha5))
             {
-                algorithmName.text = "Depth First Search";
                 StopPathCoroutine();
                 _pathRoutine = FindPathSmoothly(start, end, DFS.FindPath, "Depth First Search");
                 StartCoroutine(_pathRoutine);
             }
             else if(Input.GetKeyDown(KeyCode.Alpha6))
             {
-                algorithmName.text = "Bidirectional Search";
                 StopPathCoroutine();
                 _pathRoutine = FindPathSmoothly(start, end, BidirectionalSearch.FindPath, "Bidirectional Search");
                 StartCoroutine(_pathRoutine);
             }
             else if(Input.GetKeyDown(KeyCode.Alpha7))
             {
-                algorithmName.text = "Lee Algorithm";
                 StopPathCoroutine();
                 _pathRoutine = FindPathSmoothly(start, end, LeeAlgorithm.FindPath, "Lee Algorithm");
                 StartCoroutine(_pathRoutine);
             }
             else if(Input.GetKeyDown(KeyCode.Alpha8))
             {
-                algorithmName.text = "Dynamic Programming Maze";
                 StopPathCoroutine();
                 _pathRoutine = FindPathSmoothly(start, end, DynamicProgrammingMaze.FindPath, "Dynamic Programming Maze");
                 StartCoroutine(_pathRoutine);
@@ -457,21 +468,16 @@ namespace PathFinding
 
         private int CalculateNumberOfObstacles(int seed, int rows, int cols)
         {
-            // Here, you can define your logic to calculate the number of obstacles based on the seed, rows, and cols.
-            // For example:
             return (int)(0.1 * rows * cols) + (seed % 10);
         }
 
         private int CalculateNumberOfExpensiveTiles(int seed, int rows, int cols)
         {
-            // Here, you can define your logic to calculate the number of expensive tiles based on the seed, rows, and cols.
-            // For example:
             return (int)(0.05 * rows * cols) + (seed % 5);
         }
 
         public IEnumerator RunAllAlgorithmsCoroutine()
         {
-            int[] gridSizes = { 5, 10, 25, 50, 75/*, 100, 200 */};
             PathFindingFunc[] algorithms = {
                 BFS.FindPath,
                 Dijkstra.FindPath,
@@ -516,7 +522,6 @@ namespace PathFinding
 
         public void RunAllAlgorithms()
         {
-            int[] gridSizes = { 5, 10, 25, 50, 75/*, 100, 200 */};
             PathFindingFunc[] algorithms = {
                 BFS.FindPath,
                 Dijkstra.FindPath,

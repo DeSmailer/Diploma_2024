@@ -38,12 +38,18 @@ namespace PathFinding
 
         public void SetColor(Color color)
         {
-            _spriteRenderer.color = color;
+            if(_spriteRenderer != null)
+            {
+                _spriteRenderer.color = color;
+            }
         }
 
         public void SetText(string text)
         {
-            _textComponent.text = text;
+            if(_textComponent != null)
+            {
+                _textComponent.text = text;
+            }
         }
 
         public Vector2 ToVector2()

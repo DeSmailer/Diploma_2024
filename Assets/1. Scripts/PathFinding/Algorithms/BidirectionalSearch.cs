@@ -6,6 +6,7 @@ namespace PathFinding
 {
     public static class BidirectionalSearch
     {
+        private static int visited = 0;
         public static List<Tile> FindPath(TileGrid grid, Tile start, Tile end, List<IVisualStep> outSteps, out long executionTime, out int nodesVisited, out int pathLength, out long memoryUsage)
         {
             long memoryBefore = GC.GetTotalMemory(true);
@@ -29,7 +30,7 @@ namespace PathFinding
             end.PrevTile = null;
 
             Tile meetingPoint = null;
-            nodesVisited = 0;
+            visited = 0;
 
             while(frontierFromStart.Count > 0 && frontierFromEnd.Count > 0)
             {
@@ -43,6 +44,7 @@ namespace PathFinding
 
                     List<Tile> path = BuildPath(start, end, meetingPoint, outSteps, true);
                     pathLength = path.Count;
+                    nodesVisited = visited;
                     return path;
                 }
 
@@ -56,6 +58,7 @@ namespace PathFinding
 
                     List<Tile> path = BuildPath(start, end, meetingPoint, outSteps, false);
                     pathLength = path.Count;
+                    nodesVisited = visited;
                     return path;
                 }
             }
@@ -67,6 +70,7 @@ namespace PathFinding
             memoryUsage = memoryAfterFinal - memoryBefore;
 
             pathLength = 0;
+            nodesVisited = visited;
             return new List<Tile>(); // Return empty path if no path is found
         }
 
@@ -98,6 +102,7 @@ namespace PathFinding
                         neighbor.NextTile = current;
                     }
                     visitedFromThisSide.Add(neighbor);
+                    visited++;
                     frontier.Enqueue(neighbor);
 
                     outSteps.Add(new VisitTileStep(current));
