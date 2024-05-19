@@ -102,7 +102,6 @@ namespace PathFinding
 
             if (_comparer.Compare(_arr[childIndex], _arr[parentIndex]) < 0)
             {
-                // swap the parent and the child
                 T temp = _arr[childIndex];
                 _arr[childIndex] = _arr[parentIndex];
                 _arr[parentIndex] = temp;
@@ -115,7 +114,7 @@ namespace PathFinding
         {
             int leftChildIndex = index * 2 + 1;
             int rightChildIndex = index * 2 + 2;
-            int smallestItemIndex = index; // The index of the parent
+            int smallestItemIndex = index; 
 
             if (leftChildIndex <= _lastItemIndex &&
                 _comparer.Compare(_arr[leftChildIndex], _arr[smallestItemIndex]) < 0)
@@ -131,7 +130,6 @@ namespace PathFinding
 
             if (smallestItemIndex != index)
             {
-                // swap the parent with the smallest of the child items
                 T temp = _arr[index];
                 _arr[index] = _arr[smallestItemIndex];
                 _arr[smallestItemIndex] = temp;

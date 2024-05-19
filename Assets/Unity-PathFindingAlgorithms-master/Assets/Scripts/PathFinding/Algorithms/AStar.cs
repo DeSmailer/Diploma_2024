@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -30,8 +29,7 @@ namespace PathFinding
             MinHeap<Tile> frontier = new MinHeap<Tile>(heuristicComparison);
             frontier.Add(start);
 
-            HashSet<Tile> visited = new HashSet<Tile>();
-            visited.Add(start);
+            HashSet<Tile> visited = new HashSet<Tile>() { start };
 
             start.PrevTile = null;
 
@@ -39,12 +37,10 @@ namespace PathFinding
             {
                 Tile current = frontier.Remove();
 
-                // Visual stuff
                 if(current != start && current != end)
                 {
                     outSteps.Add(new VisitTileStep(current));
                 }
-                // ~Visual stuff
 
                 if(current == end)
                 {
@@ -65,19 +61,16 @@ namespace PathFinding
                         frontier.Add(neighbor);
                         visited.Add(neighbor);
 
-                        // Visual stuff
                         if(neighbor != end)
                         {
                             outSteps.Add(new PushTileInFrontierStep(neighbor, neighbor.Cost));
                         }
-                        // ~Visual stuff
                     }
                 }
             }
 
             List<Tile> path = PathFinderUtilities.BacktrackToPath(end);
 
-            // Visual stuff
             foreach(var tile in path)
             {
                 if(tile == start || tile == end)
@@ -87,7 +80,6 @@ namespace PathFinding
 
                 outSteps.Add(new MarkPathTileStep(tile));
             }
-            // ~Visual stuff
 
             return path;
         }
