@@ -468,13 +468,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   instantly: 1
-  useMazeGeneration: 0
   algorithmName: {fileID: 339789936}
-  Rows: 50
-  Cols: 50
-  seed: 1233323
-  numberOfObstacles: 500
-  numberOfExpensiveTiles: 200
+  Rows: 7
+  Cols: 7
+  seed: 1
+  numberOfObstacles: 1
+  numberOfExpensiveTiles: 1
   startPosition: {x: 1, y: 1}
   endPosition: {x: 29, y: 29}
   TilePrefab: {fileID: 1071294905292167477, guid: a90baa0e399bfa644b5044ab31ca835e,
