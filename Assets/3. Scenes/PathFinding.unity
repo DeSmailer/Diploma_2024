@@ -467,10 +467,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6185285157f3d3f4f813f419ba2cbf28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  instantly: 1
+  useMazeGeneration: 0
   algorithmName: {fileID: 339789936}
-  Rows: 50
-  Cols: 50
-  seed: 1
+  Rows: 101
+  Cols: 101
+  seed: 1233323
   numberOfObstacles: 500
   numberOfExpensiveTiles: 200
   startPosition: {x: 1, y: 1}
