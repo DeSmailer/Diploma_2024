@@ -8,6 +8,7 @@ namespace PathFinding
 {
     public class TileGrid : MonoBehaviour
     {
+        public bool instantly = true;
         public TMP_Text algorithmName;
 
         public int Rows;
@@ -71,31 +72,96 @@ namespace PathFinding
 
         private void Update()
         {
+            if(instantly)
+            {
+                VisualizeInstantly();
+            }
+            else
+            {
+                VisualizeSmoothly();
+            }
+        }
+
+        private void VisualizeInstantly()
+        {
             Tile start = GetTile((int)startPosition.x, (int)startPosition.y);
             Tile end = GetTile((int)endPosition.x, (int)endPosition.y);
 
             if(Input.GetKeyDown(KeyCode.Alpha1))
             {
                 algorithmName.text = "Breadth First Search";
-                FindPath(start, end, BFS.FindPath);
+                FindPathInstantly(start, end, BFS.FindPath);
             }
             else if(Input.GetKeyDown(KeyCode.Alpha2))
             {
                 algorithmName.text = "Dijkstra";
-                FindPath(start, end, Dijkstra.FindPath);
+                FindPathInstantly(start, end, Dijkstra.FindPath);
             }
             else if(Input.GetKeyDown(KeyCode.Alpha3))
             {
                 algorithmName.text = "AStar";
-                FindPath(start, end, AStar.FindPath);
+                FindPathInstantly(start, end, AStar.FindPath);
             }
             else if(Input.GetKeyDown(KeyCode.Alpha4))
             {
                 algorithmName.text = "Greedy Best First Search";
-                FindPath(start, end, GreedyBestFirstSearch.FindPath);
+                FindPathInstantly(start, end, GreedyBestFirstSearch.FindPath);
+            }
+            else if(Input.GetKeyDown(KeyCode.Alpha5))
+            {
+                algorithmName.text = "Depth First Search";
+                FindPathInstantly(start, end, DFS.FindPath);
             }
             else if(Input.GetKeyDown(KeyCode.Escape))
             {
+                ResetGrid();
+                start.SetColor(TileColor_Start);
+                end.SetColor(TileColor_End);
+            }
+        }
+
+        private void VisualizeSmoothly()
+        {
+            Tile start = GetTile((int)startPosition.x, (int)startPosition.y);
+            Tile end = GetTile((int)endPosition.x, (int)endPosition.y);
+
+            if(Input.GetKeyDown(KeyCode.Alpha1))
+            {
+                algorithmName.text = "Breadth First Search";
+                StopPathCoroutine();
+                _pathRoutine = FindPathSmoothly(start, end, BFS.FindPath);
+                StartCoroutine(_pathRoutine);
+            }
+            else if(Input.GetKeyDown(KeyCode.Alpha2))
+            {
+                algorithmName.text = "Dijkstra";
+                StopPathCoroutine();
+                _pathRoutine = FindPathSmoothly(start, end, Dijkstra.FindPath);
+                StartCoroutine(_pathRoutine);
+            }
+            else if(Input.GetKeyDown(KeyCode.Alpha3))
+            {
+                algorithmName.text = "AStar";
+                StopPathCoroutine();
+                _pathRoutine = FindPathSmoothly(start, end, AStar.FindPath);
+                StartCoroutine(_pathRoutine);
+            }
+            else if(Input.GetKeyDown(KeyCode.Alpha4))
+            {
+                algorithmName.text = "Greedy Best First Search";
+                StopPathCoroutine();
+                _pathRoutine = FindPathSmoothly(start, end, GreedyBestFirstSearch.FindPath);
+                StartCoroutine(_pathRoutine);
+            }
+            else if(Input.GetKeyDown(KeyCode.Alpha5))
+            {
+                algorithmName.text = "Depth First Search";
+                StopPathCoroutine();
+                _pathRoutine = FindPathSmoothly(start, end, DFS.FindPath);
+            }
+            else if(Input.GetKeyDown(KeyCode.Escape))
+            {
+                StopPathCoroutine();
                 ResetGrid();
                 start.SetColor(TileColor_Start);
                 end.SetColor(TileColor_End);
@@ -172,7 +238,7 @@ namespace PathFinding
             GetTile((int)endPosition.x, (int)endPosition.y)?.SetColor(TileColor_End);
         }
 
-        private void FindPath(Tile start, Tile end, Func<TileGrid, Tile, Tile, List<IVisualStep>, List<Tile>> pathFindingFunc)
+        private void FindPathInstantly(Tile start, Tile end, Func<TileGrid, Tile, Tile, List<IVisualStep>, List<Tile>> pathFindingFunc)
         {
             ResetGrid();
 
@@ -182,6 +248,20 @@ namespace PathFinding
             foreach(var step in steps)
             {
                 step.Execute();
+            }
+        }
+
+        private IEnumerator FindPathSmoothly(Tile start, Tile end, Func<TileGrid, Tile, Tile, List<IVisualStep>, List<Tile>> pathFindingFunc)
+        {
+            ResetGrid();
+
+            List<IVisualStep> steps = new List<IVisualStep>();
+            pathFindingFunc(this, start, end, steps);
+
+            foreach(var step in steps)
+            {
+                step.Execute();
+                yield return new WaitForFixedUpdate();
             }
         }
 
