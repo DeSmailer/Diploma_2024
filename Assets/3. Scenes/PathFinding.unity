@@ -470,8 +470,8 @@ MonoBehaviour:
   instantly: 1
   useMazeGeneration: 0
   algorithmName: {fileID: 339789936}
-  Rows: 101
-  Cols: 101
+  Rows: 50
+  Cols: 50
   seed: 1233323
   numberOfObstacles: 500
   numberOfExpensiveTiles: 200

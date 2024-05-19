@@ -9,7 +9,6 @@ namespace PathFinding
     public class TileGrid : MonoBehaviour
     {
         public bool instantly = true;
-        public bool useMazeGeneration = false;  // New boolean variable
         public TMP_Text algorithmName;
 
         public int Rows;
@@ -37,10 +36,10 @@ namespace PathFinding
 
         private void Awake()
         {
-            CreateMap();
+            CreatMap();
         }
 
-        public void CreateMap()
+        public void CreatMap()
         {
             // Initialize random generator with seed
             System.Random random = new System.Random(seed);
@@ -59,119 +58,22 @@ namespace PathFinding
                 }
             }
 
-            if(useMazeGeneration)
+            // Generate start and end positions
+            startPosition = GenerateRandomPosition(random);
+            endPosition = GenerateRandomPosition(random);
+
+            // Ensure the start and end positions are not the same
+            while(startPosition == endPosition)
             {
-                GenerateMaze(random);
-                // Ensure start and end positions are on walkable tiles
-                startPosition = GenerateValidRandomPosition(random);
-                endPosition = GenerateValidRandomPosition(random);
-            }
-            else
-            {
-                // Generate start and end positions
-                startPosition = GenerateRandomPosition(random);
                 endPosition = GenerateRandomPosition(random);
-
-                // Ensure the start and end positions are not the same
-                while(startPosition == endPosition)
-                {
-                    endPosition = GenerateRandomPosition(random);
-                }
-
-                // Generate obstacles and expensive tiles
-                CreateObstacles(random, numberOfObstacles);
-                CreateExpensiveTiles(random, numberOfExpensiveTiles);
             }
+
+            // Generate obstacles and expensive tiles
+            CreateObstacles(random, numberOfObstacles); // Adjust the number of obstacles as needed
+            CreateExpensiveTiles(random, numberOfExpensiveTiles); // Adjust the number of expensive tiles as needed
 
             ResetGrid();
         }
-
-        private void GenerateMaze(System.Random random)
-        {
-            // Initialize the maze with all walls
-            for(int r = 0; r < Rows; r++)
-            {
-                for(int c = 0; c < Cols; c++)
-                {
-                    Tile tile = GetTile(r, c);
-                    tile.Weight = TileWeights.Infinity;
-                }
-            }
-
-            // Randomized Prim's algorithm for maze generation
-            Stack<Tile> stack = new Stack<Tile>();
-            Tile start = GetTile(random.Next(Rows), random.Next(Cols));
-            start.Weight = TileWeights.Default;
-            stack.Push(start);
-
-            while(stack.Count > 0)
-            {
-                Tile current = stack.Peek();
-                List<Tile> neighbors = GetUnvisitedNeighbors(current);
-
-                if(neighbors.Count > 0)
-                {
-                    Tile neighbor = neighbors[random.Next(neighbors.Count)];
-                    Tile wall = GetWallTileBetween(current, neighbor);
-                    if(wall != null)
-                    {
-                        wall.Weight = TileWeights.Default;
-                    }
-                    neighbor.Weight = TileWeights.Default;
-                    stack.Push(neighbor);
-                }
-                else
-                {
-                    stack.Pop();
-                }
-            }
-        }
-
-        private List<Tile> GetUnvisitedNeighbors(Tile tile)
-        {
-            List<Tile> unvisitedNeighbors = new List<Tile>();
-
-            if(IsInBounds(tile.Row - 2, tile.Col) && GetTile(tile.Row - 2, tile.Col).Weight == TileWeights.Infinity)
-            {
-                unvisitedNeighbors.Add(GetTile(tile.Row - 2, tile.Col));
-            }
-            if(IsInBounds(tile.Row + 2, tile.Col) && GetTile(tile.Row + 2, tile.Col).Weight == TileWeights.Infinity)
-            {
-                unvisitedNeighbors.Add(GetTile(tile.Row + 2, tile.Col));
-            }
-            if(IsInBounds(tile.Row, tile.Col - 2) && GetTile(tile.Row, tile.Col - 2).Weight == TileWeights.Infinity)
-            {
-                unvisitedNeighbors.Add(GetTile(tile.Row, tile.Col - 2));
-            }
-            if(IsInBounds(tile.Row, tile.Col + 2) && GetTile(tile.Row, tile.Col + 2).Weight == TileWeights.Infinity)
-            {
-                unvisitedNeighbors.Add(GetTile(tile.Row, tile.Col + 2));
-            }
-
-            return unvisitedNeighbors;
-        }
-
-        private Tile GetWallTileBetween(Tile a, Tile b)
-        {
-            int row = (a.Row + b.Row) / 2;
-            int col = (a.Col + b.Col) / 2;
-            return GetTile(row, col);
-        }
-
-        private Vector2 GenerateValidRandomPosition(System.Random random)
-        {
-            Vector2 position;
-            Tile tile;
-
-            do
-            {
-                position = GenerateRandomPosition(random);
-                tile = GetTile((int)position.y, (int)position.x);
-            } while(tile.Weight == TileWeights.Infinity);
-
-            return position;
-        }
-
 
         private void Update()
         {
@@ -230,7 +132,6 @@ namespace PathFinding
                 algorithmName.text = "Dynamic Programming Maze";
                 FindPathInstantly(start, end, DynamicProgrammingMaze.FindPath);
             }
-
             else if(Input.GetKeyDown(KeyCode.Escape))
             {
                 ResetGrid();
@@ -335,7 +236,7 @@ namespace PathFinding
             for(int i = 0; i < obstacleCount; i++)
             {
                 Vector2 position = GenerateRandomPosition(random);
-                Tile tile = GetTile((int)position.y, (int)position.x);
+                Tile tile = GetTile((int)position.x, (int)position.y);
 
                 if(tile != null && position != startPosition && position != endPosition)
                 {
@@ -349,7 +250,7 @@ namespace PathFinding
             for(int i = 0; i < expensiveTileCount; i++)
             {
                 Vector2 position = GenerateRandomPosition(random);
-                Tile tile = GetTile((int)position.y, (int)position.x);
+                Tile tile = GetTile((int)position.x, (int)position.y);
 
                 if(tile != null && tile.Weight != TileWeights.Infinity && position != startPosition && position != endPosition)
                 {
@@ -387,8 +288,8 @@ namespace PathFinding
                 }
             }
 
-            GetTile((int)startPosition.y, (int)startPosition.x)?.SetColor(TileColor_Start);
-            GetTile((int)endPosition.y, (int)endPosition.x)?.SetColor(TileColor_End);
+            GetTile((int)startPosition.x, (int)startPosition.y)?.SetColor(TileColor_Start);
+            GetTile((int)endPosition.x, (int)endPosition.y)?.SetColor(TileColor_End);
         }
 
         private void FindPathInstantly(Tile start, Tile end, Func<TileGrid, Tile, Tile, List<IVisualStep>, List<Tile>> pathFindingFunc)
