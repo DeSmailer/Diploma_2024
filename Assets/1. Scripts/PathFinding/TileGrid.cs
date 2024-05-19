@@ -14,6 +14,7 @@ namespace PathFinding
         public int Rows;
         public int Cols;
         public int seed;
+        public int numberOfObstacles;
         public Vector2 startPosition;
         public Vector2 endPosition;
 
@@ -34,6 +35,10 @@ namespace PathFinding
 
         private void Awake()
         {
+            // Initialize random generator with seed
+            System.Random random = new System.Random(seed);
+
+            // Initialize the tile grid
             Tiles = new Tile[Rows * Cols];
             for(int r = 0; r < Rows; r++)
             {
@@ -47,9 +52,19 @@ namespace PathFinding
                 }
             }
 
+            // Generate start and end positions
+            startPosition = GenerateRandomPosition(random);
+            endPosition = GenerateRandomPosition(random);
 
-            CreateExpensiveArea(3, 3, 9, 1, TileWeight_Expensive);
-            CreateExpensiveArea(3, 11, 1, 9, TileWeight_Expensive);
+            // Ensure the start and end positions are not the same
+            while(startPosition == endPosition)
+            {
+                endPosition = GenerateRandomPosition(random);
+            }
+
+            // Generate obstacles
+            CreateObstacles(random, numberOfObstacles); // Adjust the number of obstacles as needed
+
             ResetGrid();
         }
 
@@ -100,19 +115,25 @@ namespace PathFinding
             }
         }
 
-        private void CreateExpensiveArea(int row, int col, int width, int height, int weight)
+        private void CreateObstacles(System.Random random, int obstacleCount)
         {
-            for(int r = row; r < row + height; r++)
+            for(int i = 0; i < obstacleCount; i++)
             {
-                for(int c = col; c < col + width; c++)
+                Vector2 position = GenerateRandomPosition(random);
+                Tile tile = GetTile((int)position.x, (int)position.y);
+
+                if(tile != null && position != startPosition && position != endPosition)
                 {
-                    Tile tile = GetTile(r, c);
-                    if(tile != null)
-                    {
-                        tile.Weight = weight;
-                    }
+                    tile.Weight = TileWeight_Infinity;
                 }
             }
+        }
+
+        private Vector2 GenerateRandomPosition(System.Random random)
+        {
+            int row = random.Next(0, Rows);
+            int col = random.Next(0, Cols);
+            return new Vector2(col, row);
         }
 
         private void ResetGrid()
@@ -136,6 +157,9 @@ namespace PathFinding
                         break;
                 }
             }
+
+            GetTile((int)startPosition.x, (int)startPosition.y)?.SetColor(TileColor_Start);
+            GetTile((int)endPosition.x, (int)endPosition.y)?.SetColor(TileColor_End);
         }
 
         private IEnumerator FindPath(Tile start, Tile end, Func<TileGrid, Tile, Tile, List<IVisualStep>, List<Tile>> pathFindingFunc)
