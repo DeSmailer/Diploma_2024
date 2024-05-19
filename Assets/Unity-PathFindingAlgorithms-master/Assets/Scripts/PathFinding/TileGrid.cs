@@ -13,6 +13,10 @@ namespace PathFinding
 
         public int Rows;
         public int Cols;
+        public int seed;
+        public Vector2 startPosition;
+        public Vector2 endPosition;
+
         public GameObject TilePrefab;
 
         public Color TileColor_Default = new Color(0.86f, 0.83f, 0.83f);
@@ -31,9 +35,9 @@ namespace PathFinding
         private void Awake()
         {
             Tiles = new Tile[Rows * Cols];
-            for (int r = 0; r < Rows; r++)
+            for(int r = 0; r < Rows; r++)
             {
-                for (int c = 0; c < Cols; c++)
+                for(int c = 0; c < Cols; c++)
                 {
                     Tile tile = new Tile(this, r, c, TileWeight_Default);
                     tile.InitGameObject(transform, TilePrefab);
@@ -51,34 +55,34 @@ namespace PathFinding
 
         private void Update()
         {
-            Tile start = GetTile(9, 2);
-            Tile end = GetTile(7, 14);
+            Tile start = GetTile((int)startPosition.x, (int)startPosition.y);
+            Tile end = GetTile((int)endPosition.x, (int)endPosition.y);
 
-            if (Input.GetKeyDown(KeyCode.Alpha1))
+            if(Input.GetKeyDown(KeyCode.Alpha1))
             {
                 StopPathCoroutine();
-                _pathRoutine = FindPath(start, end, PathFinder.FindPath_BFS);
+                _pathRoutine = FindPath(start, end, BFS.FindPath);
                 StartCoroutine(_pathRoutine);
             }
-            else if (Input.GetKeyDown(KeyCode.Alpha2))
+            else if(Input.GetKeyDown(KeyCode.Alpha2))
             {
                 StopPathCoroutine();
-                _pathRoutine = FindPath(start, end, PathFinder.FindPath_Dijkstra);
+                _pathRoutine = FindPath(start, end, Dijkstra.FindPath);
                 StartCoroutine(_pathRoutine);
             }
-            else if (Input.GetKeyDown(KeyCode.Alpha3))
+            else if(Input.GetKeyDown(KeyCode.Alpha3))
             {
                 StopPathCoroutine();
-                _pathRoutine = FindPath(start, end, PathFinder.FindPath_AStar);
+                _pathRoutine = FindPath(start, end, AStar.FindPath);
                 StartCoroutine(_pathRoutine);
             }
-            else if (Input.GetKeyDown(KeyCode.Alpha4))
+            else if(Input.GetKeyDown(KeyCode.Alpha4))
             {
                 StopPathCoroutine();
-                _pathRoutine = FindPath(start, end, PathFinder.FindPath_GreedyBestFirstSearch);
+                _pathRoutine = FindPath(start, end, GreedyBestFirstSearch.FindPath);
                 StartCoroutine(_pathRoutine);
             }
-            else if (Input.GetKeyDown(KeyCode.Escape))
+            else if(Input.GetKeyDown(KeyCode.Escape))
             {
                 StopPathCoroutine();
                 ResetGrid();
@@ -89,7 +93,7 @@ namespace PathFinding
 
         private void StopPathCoroutine()
         {
-            if (_pathRoutine != null)
+            if(_pathRoutine != null)
             {
                 StopCoroutine(_pathRoutine);
                 _pathRoutine = null;
@@ -98,12 +102,12 @@ namespace PathFinding
 
         private void CreateExpensiveArea(int row, int col, int width, int height, int weight)
         {
-            for (int r = row; r < row + height; r++)
+            for(int r = row; r < row + height; r++)
             {
-                for (int c = col; c < col + width; c++)
+                for(int c = col; c < col + width; c++)
                 {
                     Tile tile = GetTile(r, c);
-                    if (tile != null)
+                    if(tile != null)
                     {
                         tile.Weight = weight;
                     }
@@ -113,13 +117,13 @@ namespace PathFinding
 
         private void ResetGrid()
         {
-            foreach (var tile in Tiles)
+            foreach(var tile in Tiles)
             {
                 tile.Cost = 0;
                 tile.PrevTile = null;
                 tile.SetText("");
 
-                switch (tile.Weight)
+                switch(tile.Weight)
                 {
                     case TileWeight_Default:
                         tile.SetColor(TileColor_Default);
@@ -141,7 +145,7 @@ namespace PathFinding
             List<IVisualStep> steps = new List<IVisualStep>();
             pathFindingFunc(this, start, end, steps);
 
-            foreach (var step in steps)
+            foreach(var step in steps)
             {
                 step.Execute();
                 yield return new WaitForFixedUpdate();
@@ -150,7 +154,7 @@ namespace PathFinding
 
         public Tile GetTile(int row, int col)
         {
-            if (!IsInBounds(row, col))
+            if(!IsInBounds(row, col))
             {
                 return null;
             }
@@ -161,25 +165,25 @@ namespace PathFinding
         public IEnumerable<Tile> GetNeighbors(Tile tile)
         {
             Tile right = GetTile(tile.Row, tile.Col + 1);
-            if (right != null)
+            if(right != null)
             {
                 yield return right;
             }
 
             Tile up = GetTile(tile.Row - 1, tile.Col);
-            if (up != null)
+            if(up != null)
             {
                 yield return up;
             }
 
             Tile left = GetTile(tile.Row, tile.Col - 1);
-            if (left != null)
+            if(left != null)
             {
                 yield return left;
             }
 
             Tile down = GetTile(tile.Row + 1, tile.Col);
-            if (down != null)
+            if(down != null)
             {
                 yield return down;
             }
