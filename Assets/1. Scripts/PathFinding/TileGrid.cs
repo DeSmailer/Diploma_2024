@@ -1,16 +1,15 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using TMPro;
 using UnityEngine;
-using System.IO;
-//using OfficeOpenXml;  // Додайте цей using для EPPlus
-//using OfficeOpenXml.Style;
+
 
 namespace PathFinding
 {
     public delegate List<Tile> PathFindingFunc(TileGrid grid, Tile start, Tile end, List<IVisualStep> outSteps, out long executionTime, out int nodesVisited, out int pathLength, out long memoryUsage);
-   
+
     public class TileGrid : MonoBehaviour
     {
         public bool instantly = true;
@@ -373,45 +372,21 @@ namespace PathFinding
             return row * Cols + col;
         }
 
-
         private void WriteResultsToExcel(string algorithmName, long executionTime, int nodesVisited, int pathLength, long memoryUsage, int rows, int cols, int seed, Vector2 startPosition, Vector2 endPosition)
         {
-            string filePath = "PathfindingResults.xlsx";
+            string filePath = "PathfindingResults.csv";
 
-            FileInfo fileInfo = new FileInfo(filePath);
+            bool fileExists = File.Exists(filePath);
 
-            //using(ExcelPackage package = new ExcelPackage(fileInfo))
-            //{
-            //    ExcelWorksheet worksheet = package.Workbook.Worksheets.Count > 0 ? package.Workbook.Worksheets[0] : package.Workbook.Worksheets.Add("Results");
+            using(StreamWriter writer = new StreamWriter(filePath, true))
+            {
+                if(!fileExists)
+                {
+                    writer.WriteLine("Algorithm,Execution Time (ms),Nodes Visited,Path Length,Memory Usage (bytes),Grid Size,Seed,Start Position,End Position");
+                }
 
-            //    int row = worksheet.Dimension?.Rows + 1 ?? 1;
-
-            //    if(row == 1)
-            //    {
-            //        worksheet.Cells[row, 1].Value = "Algorithm";
-            //        worksheet.Cells[row, 2].Value = "Execution Time (ms)";
-            //        worksheet.Cells[row, 3].Value = "Nodes Visited";
-            //        worksheet.Cells[row, 4].Value = "Path Length";
-            //        worksheet.Cells[row, 5].Value = "Memory Usage (bytes)";
-            //        worksheet.Cells[row, 6].Value = "Grid Size";
-            //        worksheet.Cells[row, 7].Value = "Seed";
-            //        worksheet.Cells[row, 8].Value = "Start Position";
-            //        worksheet.Cells[row, 9].Value = "End Position";
-            //        row++;
-            //    }
-
-            //    worksheet.Cells[row, 1].Value = algorithmName;
-            //    worksheet.Cells[row, 2].Value = executionTime;
-            //    worksheet.Cells[row, 3].Value = nodesVisited;
-            //    worksheet.Cells[row, 4].Value = pathLength;
-            //    worksheet.Cells[row, 5].Value = memoryUsage;
-            //    worksheet.Cells[row, 6].Value = $"{rows}x{cols}";
-            //    worksheet.Cells[row, 7].Value = seed;
-            //    worksheet.Cells[row, 8].Value = $"{startPosition.x}, {startPosition.y}";
-            //    worksheet.Cells[row, 9].Value = $"{endPosition.x}, {endPosition.y}";
-
-            //    package.Save();
-            //}
+                writer.WriteLine($"{algorithmName},{executionTime},{nodesVisited},{pathLength},{memoryUsage},{rows}x{cols},{seed},{startPosition.x},{startPosition.y},{endPosition.x},{endPosition.y}");
+            }
         }
 
         private void FindPathInstantly(Tile start, Tile end, PathFindingFunc pathFindingFunc, string algorithmName)
@@ -580,7 +555,7 @@ namespace PathFinding
                 _pathRoutine = FindPathSmoothly(start, end, DynamicProgrammingMaze.FindPath, "Dynamic Programming Maze");
                 StartCoroutine(_pathRoutine);
             }
-           
+
             else if(Input.GetKeyDown(KeyCode.Escape))
             {
                 StopPathCoroutine();
