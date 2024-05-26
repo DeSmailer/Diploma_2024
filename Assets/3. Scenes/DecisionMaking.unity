@@ -1167,7 +1167,7 @@ PrefabInstance:
     - target: {fileID: 3485845045888821810, guid: 08e3294d339d57d41a27ea46417ee5c3,
         type: 3}
       propertyPath: m_Name
-      value: NPC (4)
+      value: State Mashine NPC (4)
       objectReference: {fileID: 0}
     - target: {fileID: 3485845045888821810, guid: 08e3294d339d57d41a27ea46417ee5c3,
         type: 3}
@@ -1337,7 +1337,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &87444082
 RectTransform:
   m_ObjectHideFlags: 0
@@ -14585,7 +14585,7 @@ PrefabInstance:
     - target: {fileID: 3485845045888821810, guid: 08e3294d339d57d41a27ea46417ee5c3,
         type: 3}
       propertyPath: m_Name
-      value: NPC (3)
+      value: State Mashine NPC (3)
       objectReference: {fileID: 0}
     - target: {fileID: 3485845045888821810, guid: 08e3294d339d57d41a27ea46417ee5c3,
         type: 3}
@@ -16393,7 +16393,7 @@ PrefabInstance:
     - target: {fileID: 3485845045888821810, guid: 08e3294d339d57d41a27ea46417ee5c3,
         type: 3}
       propertyPath: m_Name
-      value: NPC (2)
+      value: State Mashine NPC (2)
       objectReference: {fileID: 0}
     - target: {fileID: 3485845045888821810, guid: 08e3294d339d57d41a27ea46417ee5c3,
         type: 3}
@@ -21447,7 +21447,7 @@ PrefabInstance:
     - target: {fileID: 3485845045888821810, guid: 08e3294d339d57d41a27ea46417ee5c3,
         type: 3}
       propertyPath: m_Name
-      value: NPC (1)
+      value: State Mashine NPC (1)
       objectReference: {fileID: 0}
     - target: {fileID: 7925470109869404712, guid: 08e3294d339d57d41a27ea46417ee5c3,
         type: 3}

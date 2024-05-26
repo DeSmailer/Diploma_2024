@@ -1241,7 +1241,7 @@ GameObject:
   - component: {fileID: 7812207456483351133}
   - component: {fileID: 3761696908534516257}
   m_Layer: 8
-  m_Name: NPC (1)
+  m_Name: State Mashine NPC (1)
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2230,7 +2230,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f323cced30244554986ee5e9f5dd8b67, type: 2}
+  - {fileID: 2100000, guid: a50d0f1b4274d8d44b10c6ea33a42396, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
