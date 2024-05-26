@@ -16,7 +16,6 @@ namespace DecisionMaking.BehaviorTree
 
         }
 
-
         void Update()
         {
             stunTimer.Tick(Time.deltaTime);
@@ -41,4 +40,6 @@ namespace DecisionMaking.BehaviorTree
             Gizmos.DrawWireSphere(transform.position, kamikazeRadius);
         }
     }
+
+
 }
