@@ -1,9 +1,10 @@
 ﻿using UnityEngine;
 using UnityUtils;
 
-namespace DecisionMaking {
+namespace DecisionMaking.StateMashine
+{
   public class NPCBaseState : IState {
-    protected NPC npc;
+    protected NPCStateMashine npc;
     protected Animator animator;
 
     protected static readonly int idleHash = Animator.StringToHash("Idle");
@@ -13,7 +14,7 @@ namespace DecisionMaking {
 
     protected const float crossFadeDuration = 0.1f;
 
-    protected NPCBaseState(NPC npc, Animator animator) {
+    protected NPCBaseState(NPCStateMashine npc, Animator animator) {
       this.npc = npc;
       this.animator = animator;
     }

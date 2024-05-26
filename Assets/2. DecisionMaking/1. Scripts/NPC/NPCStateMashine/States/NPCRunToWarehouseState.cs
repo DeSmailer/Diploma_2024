@@ -2,14 +2,15 @@
 using UnityEngine;
 using UnityEngine.AI;
 
-namespace DecisionMaking {
+namespace DecisionMaking.StateMashine
+{
   public class NPCRunToWarehouseState : NPCBaseState {
     NavMeshAgent agent;
     RivalsWarehouse warehouse;
 
     public bool IsComplete { get; private set; }
 
-    public NPCRunToWarehouseState(NPC npc, Animator animator, NavMeshAgent agent, RivalsWarehouse warehouse) : base(npc, animator) {
+    public NPCRunToWarehouseState(NPCStateMashine npc, Animator animator, NavMeshAgent agent, RivalsWarehouse warehouse) : base(npc, animator) {
       this.agent = agent;
       this.warehouse = warehouse;
     }

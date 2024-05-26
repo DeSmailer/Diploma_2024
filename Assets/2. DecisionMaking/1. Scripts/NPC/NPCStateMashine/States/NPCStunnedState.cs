@@ -1,9 +1,10 @@
 using UnityEngine;
 
-namespace DecisionMaking {
+namespace DecisionMaking.StateMashine
+{
   public class NPCStunnedState : NPCBaseState {
 
-    public NPCStunnedState(NPC npc, Animator animator) : base(npc, animator) { }
+    public NPCStunnedState(NPCStateMashine npc, Animator animator) : base(npc, animator) { }
 
     public override void OnEnter() {
       animator.CrossFade(stunnedHash, crossFadeDuration);

@@ -3,14 +3,15 @@ using DecisionMaking.Utils;
 using UnityEngine;
 using UnityEngine.AI;
 
-namespace DecisionMaking {
+namespace DecisionMaking.StateMashine
+{
   public class NPCRunToFarmState : NPCBaseState {
     NavMeshAgent agent;
     Farm[] farms;
 
     public bool IsComplete { get; private set; }
 
-    public NPCRunToFarmState(NPC npc, Animator animator, NavMeshAgent agent, Farm[] farms) : base(npc, animator) {
+    public NPCRunToFarmState(NPCStateMashine npc, Animator animator, NavMeshAgent agent, Farm[] farms) : base(npc, animator) {
       this.agent = agent;
       this.farms = farms;
     }

@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using static UnityEngine.GraphicsBuffer;
 
-namespace DecisionMaking
+namespace DecisionMaking.StateMashine
 {
     public class NPCKamikazeState : NPCBaseState
     {
@@ -18,7 +18,7 @@ namespace DecisionMaking
 
         float oldStoppingDistance;
 
-        public NPCKamikazeState(NPC npc, Animator animator, List<ICharacter> characters, NavMeshAgent agent, Transform transform, float kamikazeRadius) : base(npc, animator)
+        public NPCKamikazeState(NPCStateMashine npc, Animator animator, List<ICharacter> characters, NavMeshAgent agent, Transform transform, float kamikazeRadius) : base(npc, animator)
         {
             this.characters = characters;
             this.agent = agent;

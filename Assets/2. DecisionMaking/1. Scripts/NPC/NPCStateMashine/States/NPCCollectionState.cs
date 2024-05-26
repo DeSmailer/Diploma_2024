@@ -1,9 +1,10 @@
 ﻿using Unity.VisualScripting;
 using UnityEngine;
 
-namespace DecisionMaking {
+namespace DecisionMaking.StateMashine
+{
   public class NPCCollectionState : NPCBaseState {
-    public NPCCollectionState(NPC npc, Animator animator) : base(npc, animator) { }
+    public NPCCollectionState(NPCStateMashine npc, Animator animator) : base(npc, animator) { }
 
     public bool IsComplete { get; private set; }
 

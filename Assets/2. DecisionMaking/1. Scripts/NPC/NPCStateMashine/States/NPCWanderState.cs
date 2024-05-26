@@ -1,9 +1,9 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-namespace DecisionMaking {
+namespace DecisionMaking.StateMashine
+{
   public class NPCWanderState : NPCBaseState {
     readonly NavMeshAgent agent;
     readonly Vector3 startPoint;
@@ -11,7 +11,7 @@ namespace DecisionMaking {
 
     public bool IsComplete { get; private set; }
 
-    public NPCWanderState(NPC npc, Animator animator, NavMeshAgent agent, float wanderRadius) : base(npc, animator) {
+    public NPCWanderState(NPCStateMashine npc, Animator animator, NavMeshAgent agent, float wanderRadius) : base(npc, animator) {
       this.agent = agent;
       this.startPoint = npc.transform.position;
       this.wanderRadius = wanderRadius;

@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
 
-namespace DecisionMaking
+namespace DecisionMaking.StateMashine
 {
     public class NPCGiveAwayResourcesState : NPCBaseState
     {
-        public NPCGiveAwayResourcesState(NPC npc, Animator animator) : base(npc, animator) { }
+        public NPCGiveAwayResourcesState(NPCStateMashine npc, Animator animator) : base(npc, animator) { }
 
         public bool IsComplete { get; private set; }
 
