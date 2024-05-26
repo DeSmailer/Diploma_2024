@@ -16,7 +16,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8475676611492191101
 Transform:
   m_ObjectHideFlags: 0
@@ -359,8 +359,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9060812274472692993}
-  - component: {fileID: 8934153459772720688}
-  - component: {fileID: 3641495547271534919}
   m_Layer: 0
   m_Name: Warehouse
   m_TagString: Untagged
@@ -388,69 +386,6 @@ Transform:
   - {fileID: 5237295443047137583}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8934153459772720688
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3901585047437020558}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0ad5e2e11a3ec604a8c453d231174a9f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  locatorOfCollectedResources: {fileID: 350364394029616580}
-  OnResourceAdded:
-    m_PersistentCalls:
-      m_Calls: []
-  OnResourceRemoved:
-    m_PersistentCalls:
-      m_Calls: []
-  OnResourcesAdded:
-    m_PersistentCalls:
-      m_Calls: []
-  OnResourcesRemoved:
-    m_PersistentCalls:
-      m_Calls: []
-  OnResourcesAmountChanged:
-    m_PersistentCalls:
-      m_Calls: []
---- !u!114 &3641495547271534919
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3901585047437020558}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 17a506eff9e3cb241a8280d55cc5052a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  farmBuyers:
-  - buyable: {fileID: 0}
-    CostData: {fileID: 11400000, guid: d8fad811ca848c94e9c984a3780c85c2, type: 2}
-  - buyable: {fileID: 0}
-    CostData: {fileID: 11400000, guid: ca4cd2354b34e9c4f9586c22723aa079, type: 2}
-  - buyable: {fileID: 0}
-    CostData: {fileID: 11400000, guid: 51f7bb4410f10a8458ff3924d952c738, type: 2}
-  - buyable: {fileID: 0}
-    CostData: {fileID: 11400000, guid: 5cbd7fd2b5984c6458bc7a14b5a649a4, type: 2}
-  - buyable: {fileID: 0}
-    CostData: {fileID: 11400000, guid: 55b05a2231acc7e4dbf7c42e767a2816, type: 2}
-  - buyable: {fileID: 0}
-    CostData: {fileID: 11400000, guid: 3a9bf9182cbd4724f9e3f4ccae7dc696, type: 2}
-  - buyable: {fileID: 0}
-    CostData: {fileID: 11400000, guid: c5e3b8c0b4c8a9849a76c9656d1de023, type: 2}
-  - buyable: {fileID: 0}
-    CostData: {fileID: 11400000, guid: d38d97572500e0d4fbe3e1971344b881, type: 2}
-  - buyable: {fileID: 0}
-    CostData: {fileID: 11400000, guid: c50b570f2875abd429e266c3b33810f4, type: 2}
-  warehouse: {fileID: 8934153459772720688}
-  OnPurchasing:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1 &4746149824056855934
 GameObject:
   m_ObjectHideFlags: 0
@@ -461,7 +396,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2493784394464341700}
   - component: {fileID: 2176527052210939799}
-  - component: {fileID: 69407756518033576}
   m_Layer: 0
   m_Name: GiveAwayZone (1)
   m_TagString: Untagged
@@ -506,19 +440,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 2.905985, z: 0.9999998}
   m_Center: {x: 0, y: 0.9529921, z: 0}
---- !u!114 &69407756518033576
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4746149824056855934}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1b1a9cf0313843c4581f0feda5c08f2c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  warehouse: {fileID: 8934153459772720688}
 --- !u!1 &5228388412207488342
 GameObject:
   m_ObjectHideFlags: 0
@@ -685,7 +606,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a995432b09e13134085534acae0c9ff2, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -867,7 +788,6 @@ GameObject:
   m_Component:
   - component: {fileID: 7245856948804010564}
   - component: {fileID: 1469130721138967490}
-  - component: {fileID: 9054302869097018862}
   m_Layer: 0
   m_Name: GiveAwayZone
   m_TagString: Untagged
@@ -912,19 +832,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 2.905985, z: 0.9999998}
   m_Center: {x: 0, y: 0.9529921, z: 0}
---- !u!114 &9054302869097018862
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8253428125376370725}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1b1a9cf0313843c4581f0feda5c08f2c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  warehouse: {fileID: 8934153459772720688}
 --- !u!1001 &6651985585144454943
 PrefabInstance:
   m_ObjectHideFlags: 0
