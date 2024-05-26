@@ -1234,7 +1234,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7925470109869404712}
-  - component: {fileID: 1780125406077637845}
+  - component: {fileID: 3214670703995576260}
   - component: {fileID: 5330711161858559262}
   - component: {fileID: 7471620576694942209}
   - component: {fileID: 3661510564471045151}
@@ -1264,7 +1264,7 @@ Transform:
   - {fileID: 8589684298260550174}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1780125406077637845
+--- !u!114 &3214670703995576260
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1273,7 +1273,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3485845045888821810}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ce8265e77bcbace4391611eefbc3df35, type: 3}
+  m_Script: {fileID: 11500000, guid: 861c26acea2bec14b88ae59c442d7078, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   agent: {fileID: 3661510564471045151}
@@ -1286,8 +1286,8 @@ MonoBehaviour:
   stoppingDistance: 0.25
   stunDuration: 1.5
   delayBeforeNewCollision: 0.5
-  viewingRadius: 10
-  kamikazeRadius: 13.99
+  viewingRadius: 13
+  kamikazeRadius: 10
   pushForce: 3
   characterInfo: {fileID: 11400000, guid: 7100396cb040abf479f72dda64d8e6e4, type: 2}
   OnStunned:
