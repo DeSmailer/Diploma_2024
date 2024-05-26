@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace FarmRunner {
+namespace DecisionMaking {
   public class RivalsGiveAwayZone : Zone {
 
     [SerializeField] RivalsWarehouse warehouse;

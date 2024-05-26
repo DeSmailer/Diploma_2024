@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace FarmRunner {
+namespace DecisionMaking {
 
   public abstract class LocatorOfCollectedResources : MonoBehaviour {
 

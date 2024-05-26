@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace FarmRunner {
+namespace DecisionMaking {
   [CreateAssetMenu(fileName = "ResourceData", menuName = "SO/ResourceData")]
   public class ResourceData : EntityData {
     [SerializeField] ResourceName resourceName;

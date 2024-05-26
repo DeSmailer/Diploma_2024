@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace FarmRunner {
+namespace DecisionMaking {
   public class PointLocator : LocatorOfCollectedResources {
 
     public override Vector3 GetPosition(int index) {

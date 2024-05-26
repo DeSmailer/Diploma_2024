@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace FarmRunner {
+namespace DecisionMaking {
   [Serializable]
   public struct CostInResources {
     public ResourceData Resource;

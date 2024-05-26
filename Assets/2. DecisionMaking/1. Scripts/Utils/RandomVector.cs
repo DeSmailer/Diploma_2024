@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace FarmRunner.Utils {
+namespace DecisionMaking.Utils {
   public static class RandomVector {
     public static Vector3 GetRandomVector3(float minX, float maxX, float minY, float maxy, float minZ, float maxZ) {
       float x = Random.Range(minX, maxX);

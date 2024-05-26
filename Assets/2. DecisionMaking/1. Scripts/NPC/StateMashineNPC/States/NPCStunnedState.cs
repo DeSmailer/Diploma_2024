@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace FarmRunner {
+namespace DecisionMaking {
   public class NPCStunnedState : NPCBaseState {
 
     public NPCStunnedState(NPC npc, Animator animator) : base(npc, animator) { }

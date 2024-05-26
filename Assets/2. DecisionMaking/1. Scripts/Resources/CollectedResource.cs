@@ -1,9 +1,9 @@
 using System.Collections;
-using FarmRunner.Utils;
+using DecisionMaking.Utils;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace FarmRunner {
+namespace DecisionMaking {
   public class CollectedResource : MonoBehaviour {
 
     [SerializeField] AnimationCurve flySpeedToInventoryCurve;

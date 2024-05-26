@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
-using FarmRunner.Utils;
+using DecisionMaking.Utils;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace FarmRunner
+namespace DecisionMaking
 {
 
     public class Inventory : ResourcesStorage

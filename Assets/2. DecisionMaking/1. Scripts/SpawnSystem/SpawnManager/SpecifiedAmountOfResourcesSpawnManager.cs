@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityUtils;
 
-namespace FarmRunner {
+namespace DecisionMaking {
   public class SpecifiedAmountOfResourcesSpawnManager : EntitySpawnerManager {
 
     [SerializeField] float spawnInterval = 1f;

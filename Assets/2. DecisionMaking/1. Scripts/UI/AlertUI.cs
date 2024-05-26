@@ -3,7 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityUtils;
 
-namespace FarmRunner {
+namespace DecisionMaking {
   public class AlertUI : Singleton<AlertUI> {
     [SerializeField] GameObject messageBox;
     [SerializeField] TMP_Text text;

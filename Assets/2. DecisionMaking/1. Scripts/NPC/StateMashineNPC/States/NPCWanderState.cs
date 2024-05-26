@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-namespace FarmRunner {
+namespace DecisionMaking {
   public class NPCWanderState : NPCBaseState {
     readonly NavMeshAgent agent;
     readonly Vector3 startPoint;

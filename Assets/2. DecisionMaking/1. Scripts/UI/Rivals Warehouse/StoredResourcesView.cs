@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace FarmRunner
+namespace DecisionMaking
 {
     public class StoredResourcesView : MonoBehaviour
     {

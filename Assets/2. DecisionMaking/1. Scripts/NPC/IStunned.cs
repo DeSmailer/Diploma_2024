@@ -1,4 +1,4 @@
-namespace FarmRunner {
+namespace DecisionMaking {
   public interface IStunned {
     public void Stun(float duration);
 

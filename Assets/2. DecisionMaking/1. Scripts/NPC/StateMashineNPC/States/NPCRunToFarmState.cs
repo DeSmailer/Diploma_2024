@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
-using FarmRunner.Utils;
+using DecisionMaking.Utils;
 using UnityEngine;
 using UnityEngine.AI;
 
-namespace FarmRunner {
+namespace DecisionMaking {
   public class NPCRunToFarmState : NPCBaseState {
     NavMeshAgent agent;
     Farm[] farms;

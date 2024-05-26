@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace FarmRunner {
+namespace DecisionMaking {
   [CreateAssetMenu(fileName = "CostData", menuName = "SO/CostData")]
   public class CostInResourcesData : ScriptableObject {
     [SerializeField] List<CostInResources> costInResources;

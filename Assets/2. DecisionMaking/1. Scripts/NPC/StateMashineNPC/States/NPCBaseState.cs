@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityUtils;
 
-namespace FarmRunner {
+namespace DecisionMaking {
   public class NPCBaseState : IState {
     protected NPC npc;
     protected Animator animator;

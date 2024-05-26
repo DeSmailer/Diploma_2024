@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace FarmRunner
+namespace DecisionMaking
 {
     public class RivalsWarehouseView : MonoBehaviour
     {

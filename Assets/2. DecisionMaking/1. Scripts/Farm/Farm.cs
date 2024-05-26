@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace FarmRunner {
+namespace DecisionMaking {
   public class Farm : MonoBehaviour {
     [SerializeField] ResourceData resourceData;
     [SerializeField] SpecifiedAmountOfResourcesSpawnManager resourceSpawnManager;

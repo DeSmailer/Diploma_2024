@@ -1,7 +1,7 @@
 ﻿using Unity.VisualScripting;
 using UnityEngine;
 
-namespace FarmRunner {
+namespace DecisionMaking {
   public class NPCCollectionState : NPCBaseState {
     public NPCCollectionState(NPC npc, Animator animator) : base(npc, animator) { }
 

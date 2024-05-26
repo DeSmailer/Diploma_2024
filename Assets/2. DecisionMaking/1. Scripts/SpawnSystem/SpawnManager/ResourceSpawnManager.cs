@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityUtils;
 
-namespace FarmRunner {
+namespace DecisionMaking {
   public class ResourceSpawnManager : EntitySpawnerManager {
     [SerializeField] float spawnInterval = 1f;
 

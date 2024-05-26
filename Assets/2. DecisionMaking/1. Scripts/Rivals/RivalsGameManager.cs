@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace FarmRunner
+namespace DecisionMaking
 {
     public class RivalsGameManager : MonoBehaviour
     {

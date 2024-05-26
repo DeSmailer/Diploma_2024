@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace FarmRunner {
+namespace DecisionMaking {
   public class ResourceInStack {
     public ResourceData resource;
     public GameObject resourceObject;

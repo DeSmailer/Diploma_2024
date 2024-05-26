@@ -1,4 +1,4 @@
-namespace FarmRunner.Utils {
+namespace DecisionMaking.Utils {
   public static class GlobalConstants {
     public const float heightOfPeakPositionOfParabola = 5.0f;
     public const float heightOfPeakPositionOfParabolaOfDroppOfDropOnGround = 0.5f;

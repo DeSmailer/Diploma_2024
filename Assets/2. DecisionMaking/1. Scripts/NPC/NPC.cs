@@ -6,7 +6,7 @@ using UnityEngine.AI;
 using UnityEngine.Events;
 using UnityUtils;
 
-namespace FarmRunner
+namespace DecisionMaking
 {
     public class NPC : MonoBehaviour, IStunned, ICharacter
     {

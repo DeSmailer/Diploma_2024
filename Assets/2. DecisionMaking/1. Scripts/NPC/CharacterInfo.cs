@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace FarmRunner {
+namespace DecisionMaking {
   [CreateAssetMenu(fileName = "CharacterInfo", menuName = "SO/CharacterInfo", order = 0)]
   public class CharacterInfo : ScriptableObject {
     [SerializeField] private string _name;

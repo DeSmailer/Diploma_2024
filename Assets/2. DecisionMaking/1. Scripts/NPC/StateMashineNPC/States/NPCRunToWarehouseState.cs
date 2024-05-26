@@ -1,8 +1,8 @@
-﻿using FarmRunner.Utils;
+﻿using DecisionMaking.Utils;
 using UnityEngine;
 using UnityEngine.AI;
 
-namespace FarmRunner {
+namespace DecisionMaking {
   public class NPCRunToWarehouseState : NPCBaseState {
     NavMeshAgent agent;
     RivalsWarehouse warehouse;

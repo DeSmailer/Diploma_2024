@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using static UnityEngine.GraphicsBuffer;
 
-namespace FarmRunner
+namespace DecisionMaking
 {
     public class NPCKamikazeState : NPCBaseState
     {

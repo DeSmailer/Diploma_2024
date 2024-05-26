@@ -3,7 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace FarmRunner
+namespace DecisionMaking
 {
     public class StoredResourcesByCharacterView : MonoBehaviour
     {

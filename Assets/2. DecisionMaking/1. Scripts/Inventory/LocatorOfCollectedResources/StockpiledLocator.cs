@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace FarmRunner {
+namespace DecisionMaking {
   public class StockpiledLocator : LocatorOfCollectedResources {
     [SerializeField] protected int xColumnsNumber = 3;
     [SerializeField] protected int zColumnsNumber = 3;

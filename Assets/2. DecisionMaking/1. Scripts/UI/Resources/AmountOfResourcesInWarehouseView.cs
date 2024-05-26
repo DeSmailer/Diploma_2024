@@ -1,3 +1,3 @@
-namespace FarmRunner {
+namespace DecisionMaking {
   public class AmountOfResourcesInWarehouseView : AmountOfResourcesView { }
 }

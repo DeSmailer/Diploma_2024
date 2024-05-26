@@ -2,7 +2,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace FarmRunner {
+namespace DecisionMaking {
   public abstract class AmountOfResourcesView : MonoBehaviour {
     [SerializeField] protected Image image;
     [SerializeField] protected TMP_Text text;
