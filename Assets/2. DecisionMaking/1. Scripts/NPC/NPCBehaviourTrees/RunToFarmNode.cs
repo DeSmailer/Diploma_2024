@@ -21,13 +21,16 @@ namespace DecisionMaking.BehaviorTree
 
         public override NodeState Evaluate()
         {
+            Debug.Log("RunToFarmNode");
             if(agent.remainingDistance < agent.stoppingDistance)
             {
+                Debug.Log("RunToFarmNode SUCCESS");
                 return NodeState.SUCCESS;
             }
 
             if(!agent.hasPath)
             {
+                Debug.Log("RunToFarmNode !agent.hasPath");
                 Vector3 vector3 = SelectFarm();
                 agent.SetDestination(vector3);
             }
