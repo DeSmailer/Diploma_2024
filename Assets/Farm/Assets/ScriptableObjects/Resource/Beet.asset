@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46248663170b7764ea84efc3ffcce32e, type: 3}
+  m_Name: Beet
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 1085355834118144961, guid: 95a277d0542f66d4a855af7dede9a1ae, type: 3}
+  resourceName: 3
+  icon: {fileID: 21300000, guid: 7277c6fbf68515a43952328a710bcb81, type: 3}
+  collectedPrefab: {fileID: 3756050966457631647, guid: 63a9f62025024944cb0f88bc2a188ce3,
+    type: 3}
+  respawnTime: 3

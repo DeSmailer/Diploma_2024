@@ -1,0 +1,20 @@
+{
+    "name": "UnityUtils",
+    "rootNamespace": "UnityUtils",
+    "references": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": true,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [
+        {
+            "name": "com.unity.textmeshpro",
+            "expression": "",
+            "define": ""
+        }
+    ],
+    "noEngineReferences": false
+}

@@ -1,0 +1,19 @@
+{
+  "name": "com.amakaseev.unityutils",
+  "displayName": "Unity Utils",
+  "description": "This is an unity utils package",
+  "version": "1.0.0",
+  "keywords": [
+    "extension",
+    "attribute",
+    "inspector",
+    "editor"
+  ],
+  "category": "editor extensions",
+  "dependencies": {},
+  "author": {
+    "name": "Aleksey Makaseev",
+    "url": "https://github.com/amakaseev"
+  },
+  "documentationUrl": "https://github.com/amakaseev/UnityUtils/README.md"
+}

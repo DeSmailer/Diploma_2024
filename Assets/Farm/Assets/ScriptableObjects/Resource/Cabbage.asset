@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46248663170b7764ea84efc3ffcce32e, type: 3}
+  m_Name: Cabbage
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 3673101152268976013, guid: 5a313490c40a5ab4b9a950c2f291982b, type: 3}
+  resourceName: 2
+  icon: {fileID: 21300000, guid: 3835e50d2187066458ae023acaf6aa15, type: 3}
+  collectedPrefab: {fileID: 8473080298126079164, guid: 27967ab348c02da45aab9e75a8b1f56e,
+    type: 3}
+  respawnTime: 3
