@@ -1588,7 +1588,6 @@ GameObject:
   m_Component:
   - component: {fileID: 7654083291913344598}
   - component: {fileID: 6162071919037562923}
-  - component: {fileID: 6804416588453511387}
   - component: {fileID: 6213097103810476946}
   - component: {fileID: 7838066273515087908}
   - component: {fileID: 7684471824940790148}
@@ -1644,35 +1643,6 @@ MonoBehaviour:
   kamikazeRadius: 10
   pushForce: 3
   characterInfo: {fileID: 11400000, guid: 6b7ef8d03b8f5a945b73060ed9705ed8, type: 2}
-  OnStunned:
-    m_PersistentCalls:
-      m_Calls: []
---- !u!114 &6804416588453511387
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5755538665187785130}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 861c26acea2bec14b88ae59c442d7078, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  agent: {fileID: 7684471824940790148}
-  rb: {fileID: 8877598883885289836}
-  animator: {fileID: 811719810512172392}
-  collisionDetector: {fileID: 6213097103810476946}
-  inventory: {fileID: 7838066273515087908}
-  speed: 3.5
-  angularSpeed: 120
-  stoppingDistance: 0.25
-  stunDuration: 1.5
-  delayBeforeNewCollision: 0.5
-  viewingRadius: 13
-  kamikazeRadius: 10
-  pushForce: 3
-  characterInfo: {fileID: 11400000, guid: 7100396cb040abf479f72dda64d8e6e4, type: 2}
   OnStunned:
     m_PersistentCalls:
       m_Calls: []
