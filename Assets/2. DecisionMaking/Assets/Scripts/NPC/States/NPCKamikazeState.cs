@@ -8,6 +8,8 @@ namespace FarmRunner
 {
     public class NPCKamikazeState : NPCBaseState
     {
+        public bool TargetNotFound;
+
         List<ICharacter> characters;
         NavMeshAgent agent;
         Transform target;
@@ -29,6 +31,7 @@ namespace FarmRunner
 
         public override void OnEnter()
         {
+            TargetNotFound = false;
             animator.CrossFade(KamikazeHash, crossFadeDuration);
             target = SelectTarget();
         }
@@ -43,6 +46,7 @@ namespace FarmRunner
             base.OnExit();
             npc.StopAllForces();
             agent.stoppingDistance = oldStoppingDistance;
+            TargetNotFound = false;
         }
 
         private Transform SelectTarget()
@@ -51,9 +55,13 @@ namespace FarmRunner
             {
                 if(Vector3.Distance(character.Transform.position, transform.position) < kamikazeRadius)
                 {
-                    return character.Transform;
+                    if(character.Inventory.FillPercentage > 0.5f)
+                    {
+                        return character.Transform;
+                    }
                 }
             }
+            TargetNotFound = true;
             return characters.First().Transform;
         }
     }

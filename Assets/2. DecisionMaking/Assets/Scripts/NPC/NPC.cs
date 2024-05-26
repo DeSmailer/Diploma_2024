@@ -112,7 +112,7 @@ namespace FarmRunner
             stunnedState = new NPCStunnedState(this, animator);
 
 
-
+            stateMachine.AddTransition(kamikazeState, runToFarmState, new FuncPredicate(() => kamikazeState.TargetNotFound));
             stateMachine.AddTransition(giveAwayResourcesState, kamikazeState, new FuncPredicate(() => runToWarehouseState.IsComplete && CharactersInRadius()));
             stateMachine.AddTransition(giveAwayResourcesState, runToFarmState, new FuncPredicate(() => runToWarehouseState.IsComplete && !CharactersInRadius()));
             stateMachine.AddTransition(runToWarehouseState, giveAwayResourcesState, new FuncPredicate(() => runToWarehouseState.IsComplete));

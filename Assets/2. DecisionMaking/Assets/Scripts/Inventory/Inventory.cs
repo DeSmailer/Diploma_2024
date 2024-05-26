@@ -5,177 +5,211 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace FarmRunner {
+namespace FarmRunner
+{
 
-  public class Inventory : ResourcesStorage {
+    public class Inventory : ResourcesStorage
+    {
 
-    [SerializeField] List<CollectedResource> flyingResources = new List<CollectedResource>();
-    [SerializeField] List<CollectedResource> flownResources = new List<CollectedResource>();
+        [SerializeField] List<CollectedResource> flyingResources = new List<CollectedResource>();
+        [SerializeField] List<CollectedResource> flownResources = new List<CollectedResource>();
 
-    [SerializeField] LocatorOfCollectedResources locatorOfCollectedResources;
-    [SerializeField] int maxCapacity = 100;
+        [SerializeField] LocatorOfCollectedResources locatorOfCollectedResources;
+        [SerializeField] int maxCapacity = 100;
 
-    [SerializeField] LayerMask groundLayer;
+        [SerializeField] LayerMask groundLayer;
 
-    [SerializeField] float innerScatterRadius = 5f;
-    [SerializeField] float outerScatterRadius = 5f;
+        [SerializeField] float innerScatterRadius = 5f;
+        [SerializeField] float outerScatterRadius = 5f;
 
-    float lastCollectionTime = 0;
+        float lastCollectionTime = 0;
 
-    public List<CollectedResource> Resources {
-      get {
-        List<CollectedResource> result = new List<CollectedResource>(flownResources);
-        result.AddRange(flyingResources);
-        return result;
-      }
-    }
-    public override int ResourcesCount {
-      get {
-        return flownResources.Count + flyingResources.Count;
-      }
-    }
-    public int MaxCapacity => maxCapacity;
-    public int FreeSlots => MaxCapacity - ResourcesCount;
-    public float FillPercentage => (float)ResourcesCount / MaxCapacity;
-    public bool CanGetResources => FreeSlots > 0;
-    public override LocatorOfCollectedResources LocatorOfCollectedResources => locatorOfCollectedResources;
-
-    public UnityEvent OnInventoryFull;
-    public UnityEvent OnInventoryEmpty;
-
-    public UnityEvent OnResourcesCountChanged;
-
-    public void CollectResources(List<CollectedResource> resources) {
-      float timeDifference = Time.time - lastCollectionTime;
-      lastCollectionTime = Time.time;
-
-      float delay = GlobalConstants.delayBetweenCollectToInventory * (flyingResources.Count - 1) - timeDifference;
-      if (delay < 0) {
-        delay = 0;
-      }
-
-      bool startCanGetResources = CanGetResources;
-
-      foreach (var item in resources) {
-        if (CanGetResources) {
-          flyingResources.Add(item);
-          delay += GlobalConstants.delayBetweenCollectToInventory;
-          item.AddToInventory(this, delay);
-          item.OnInventoryMovementEnded.AddListener(OnInventoryMovementEnded);
-        } else {
-          item.Disappear();
+        public List<CollectedResource> Resources
+        {
+            get
+            {
+                List<CollectedResource> result = new List<CollectedResource>(flownResources);
+                result.AddRange(flyingResources);
+                return result;
+            }
         }
-      }
-      if (startCanGetResources != CanGetResources) {
-        OnInventoryFull?.Invoke();
-      }
+        public override int ResourcesCount
+        {
+            get
+            {
+                return flownResources.Count + flyingResources.Count;
+            }
+        }
+        public int MaxCapacity => maxCapacity;
+        public int FreeSlots => MaxCapacity - ResourcesCount;
+        /// <summary>
+        /// [0,1]
+        /// </summary>
+        public float FillPercentage => (float)ResourcesCount / MaxCapacity;
+        public bool CanGetResources => FreeSlots > 0;
+        public override LocatorOfCollectedResources LocatorOfCollectedResources => locatorOfCollectedResources;
 
-      OnResourcesCountChanged?.Invoke();
-    }
+        public UnityEvent OnInventoryFull;
+        public UnityEvent OnInventoryEmpty;
 
-    private void OnInventoryMovementEnded(CollectedResource resource) {
-      flownResources.Add(resource);
-      flyingResources.Remove(resource);
-      resource.OnInventoryMovementEnded.RemoveListener(OnInventoryMovementEnded);
-    }
+        public UnityEvent OnResourcesCountChanged;
 
-    public List<CollectedResource> GiveAllResources() {
-      List<CollectedResource> result = new List<CollectedResource>(Resources);
-      foreach (CollectedResource item in flyingResources) {
-        item.OnInventoryMovementEnded.RemoveListener(OnInventoryMovementEnded);
-      }
-      flyingResources.Clear();
-      flownResources.Clear();
-      result.Reverse();
+        public void CollectResources(List<CollectedResource> resources)
+        {
+            float timeDifference = Time.time - lastCollectionTime;
+            lastCollectionTime = Time.time;
 
-      if (ResourcesCount == 0) {
-        OnInventoryEmpty?.Invoke();
-      }
+            float delay = GlobalConstants.delayBetweenCollectToInventory * (flyingResources.Count - 1) - timeDifference;
+            if(delay < 0)
+            {
+                delay = 0;
+            }
 
-      OnResourcesCountChanged?.Invoke();
-      return result;
-    }
+            bool startCanGetResources = CanGetResources;
 
-    public void DropOnGround(float dropPercent = 0.5f) {
-      if (Physics.Raycast(locatorOfCollectedResources.InventoryPosition.position, Vector3.down, out RaycastHit hit, Mathf.Infinity, groundLayer)) {
+            foreach(var item in resources)
+            {
+                if(CanGetResources)
+                {
+                    flyingResources.Add(item);
+                    delay += GlobalConstants.delayBetweenCollectToInventory;
+                    item.AddToInventory(this, delay);
+                    item.OnInventoryMovementEnded.AddListener(OnInventoryMovementEnded);
+                }
+                else
+                {
+                    item.Disappear();
+                }
+            }
+            if(startCanGetResources != CanGetResources)
+            {
+                OnInventoryFull?.Invoke();
+            }
 
-        float y = hit.point.y;
-
-        List<CollectedResource> resourcesForDrop = new List<CollectedResource>(flownResources);
-        resourcesForDrop.Reverse();
-
-        int count = (int)(resourcesForDrop.Count * dropPercent);
-
-        if (count == 0 && resourcesForDrop.Count > 0) {
-          count = 1;
+            OnResourcesCountChanged?.Invoke();
         }
 
-        for (int i = 0; i < count; i++) {
-          CollectedResource item = resourcesForDrop[i];
-          Vector3 center = new Vector3(transform.position.x, 0, transform.position.z);
-          Vector3 randomPosition = RandomVector.GetRandomPointInRing(center, innerScatterRadius, outerScatterRadius);
-          randomPosition = new Vector3(randomPosition.x, y, randomPosition.z);
-
-          float degree180 = 180f;
-          Vector3 randomRotation = RandomVector.GetRandomVector3(-degree180, degree180, -degree180, degree180, -degree180, degree180);
-
-          item.DropOnGround(randomPosition, randomRotation, 0.02f * 1);
-          RemoveCollectedResource(item);
+        private void OnInventoryMovementEnded(CollectedResource resource)
+        {
+            flownResources.Add(resource);
+            flyingResources.Remove(resource);
+            resource.OnInventoryMovementEnded.RemoveListener(OnInventoryMovementEnded);
         }
 
-        for (int i = 0; i < Resources.Count; i++) {
-          Resources[i].Reindex(i);
+        public List<CollectedResource> GiveAllResources()
+        {
+            List<CollectedResource> result = new List<CollectedResource>(Resources);
+            foreach(CollectedResource item in flyingResources)
+            {
+                item.OnInventoryMovementEnded.RemoveListener(OnInventoryMovementEnded);
+            }
+            flyingResources.Clear();
+            flownResources.Clear();
+            result.Reverse();
+
+            if(ResourcesCount == 0)
+            {
+                OnInventoryEmpty?.Invoke();
+            }
+
+            OnResourcesCountChanged?.Invoke();
+            return result;
         }
 
-        if (ResourcesCount == 0) {
-          OnInventoryEmpty?.Invoke();
+        public void DropOnGround(float dropPercent = 0.5f)
+        {
+            if(Physics.Raycast(locatorOfCollectedResources.InventoryPosition.position, Vector3.down, out RaycastHit hit, Mathf.Infinity, groundLayer))
+            {
+
+                float y = hit.point.y;
+
+                List<CollectedResource> resourcesForDrop = new List<CollectedResource>(flownResources);
+                resourcesForDrop.Reverse();
+
+                int count = (int)(resourcesForDrop.Count * dropPercent);
+
+                if(count == 0 && resourcesForDrop.Count > 0)
+                {
+                    count = 1;
+                }
+
+                for(int i = 0; i < count; i++)
+                {
+                    CollectedResource item = resourcesForDrop[i];
+                    Vector3 center = new Vector3(transform.position.x, 0, transform.position.z);
+                    Vector3 randomPosition = RandomVector.GetRandomPointInRing(center, innerScatterRadius, outerScatterRadius);
+                    randomPosition = new Vector3(randomPosition.x, y, randomPosition.z);
+
+                    float degree180 = 180f;
+                    Vector3 randomRotation = RandomVector.GetRandomVector3(-degree180, degree180, -degree180, degree180, -degree180, degree180);
+
+                    item.DropOnGround(randomPosition, randomRotation, 0.02f * 1);
+                    RemoveCollectedResource(item);
+                }
+
+                for(int i = 0; i < Resources.Count; i++)
+                {
+                    Resources[i].Reindex(i);
+                }
+
+                if(ResourcesCount == 0)
+                {
+                    OnInventoryEmpty?.Invoke();
+                }
+                OnResourcesCountChanged?.Invoke();
+            }
         }
-        OnResourcesCountChanged?.Invoke();
-      }
+
+        private void RemoveCollectedResource(CollectedResource item)
+        {
+            if(flownResources.Contains(item))
+            {
+                flownResources.Remove(item);
+            }
+            else if(flyingResources.Contains(item))
+            {
+                item.OnInventoryMovementEnded.RemoveListener(OnInventoryMovementEnded);
+                flyingResources.Remove(item);
+            }
+
+            if(ResourcesCount == 0)
+            {
+                OnInventoryEmpty?.Invoke();
+            }
+            OnResourcesCountChanged?.Invoke();
+        }
+
+        private void OnDrawGizmosSelected()
+        {
+            Vector3 center = new Vector3(transform.position.x, 0, transform.position.z);
+            int segments = 64;
+            Gizmos.color = Color.yellow;
+            DrawRingGizmos(center, innerScatterRadius, outerScatterRadius, segments);
+        }
+
+        void DrawRingGizmos(Vector3 center, float innerRadius, float outerRadius, int segments)
+        {
+            float angleStep = 360f / segments;
+
+            for(int i = 0; i < segments; i++)
+            {
+                float angle1 = Mathf.Deg2Rad * i * angleStep;
+                float angle2 = Mathf.Deg2Rad * (i + 1) * angleStep;
+
+                Vector3 innerPoint1 = new Vector3(center.x + innerRadius * Mathf.Cos(angle1), center.y, center.z + innerRadius * Mathf.Sin(angle1));
+                Vector3 innerPoint2 = new Vector3(center.x + innerRadius * Mathf.Cos(angle2), center.y, center.z + innerRadius * Mathf.Sin(angle2));
+
+                Vector3 outerPoint1 = new Vector3(center.x + outerRadius * Mathf.Cos(angle1), center.y, center.z + outerRadius * Mathf.Sin(angle1));
+                Vector3 outerPoint2 = new Vector3(center.x + outerRadius * Mathf.Cos(angle2), center.y, center.z + outerRadius * Mathf.Sin(angle2));
+
+                Gizmos.DrawLine(innerPoint1, innerPoint2);
+                Gizmos.DrawLine(outerPoint1, outerPoint2);
+
+                Gizmos.DrawLine(innerPoint1, outerPoint1);
+                Gizmos.DrawLine(innerPoint2, outerPoint2);
+            }
+        }
     }
-
-    private void RemoveCollectedResource(CollectedResource item) {
-      if (flownResources.Contains(item)) {
-        flownResources.Remove(item);
-      } else if (flyingResources.Contains(item)) {
-        item.OnInventoryMovementEnded.RemoveListener(OnInventoryMovementEnded);
-        flyingResources.Remove(item);
-      }
-
-      if (ResourcesCount == 0) {
-        OnInventoryEmpty?.Invoke();
-      }
-      OnResourcesCountChanged?.Invoke();
-    }
-
-    private void OnDrawGizmosSelected() {
-      Vector3 center = new Vector3(transform.position.x, 0, transform.position.z);
-      int segments = 64;
-      Gizmos.color = Color.yellow;
-      DrawRingGizmos(center, innerScatterRadius, outerScatterRadius, segments);
-    }
-
-    void DrawRingGizmos(Vector3 center, float innerRadius, float outerRadius, int segments) {
-      float angleStep = 360f / segments;
-
-      for (int i = 0; i < segments; i++) {
-        float angle1 = Mathf.Deg2Rad * i * angleStep;
-        float angle2 = Mathf.Deg2Rad * (i + 1) * angleStep;
-
-        Vector3 innerPoint1 = new Vector3(center.x + innerRadius * Mathf.Cos(angle1), center.y, center.z + innerRadius * Mathf.Sin(angle1));
-        Vector3 innerPoint2 = new Vector3(center.x + innerRadius * Mathf.Cos(angle2), center.y, center.z + innerRadius * Mathf.Sin(angle2));
-
-        Vector3 outerPoint1 = new Vector3(center.x + outerRadius * Mathf.Cos(angle1), center.y, center.z + outerRadius * Mathf.Sin(angle1));
-        Vector3 outerPoint2 = new Vector3(center.x + outerRadius * Mathf.Cos(angle2), center.y, center.z + outerRadius * Mathf.Sin(angle2));
-
-        Gizmos.DrawLine(innerPoint1, innerPoint2);
-        Gizmos.DrawLine(outerPoint1, outerPoint2);
-
-        Gizmos.DrawLine(innerPoint1, outerPoint1);
-        Gizmos.DrawLine(innerPoint2, outerPoint2);
-      }
-    }
-  }
 }
 
 //public bool RemoveResources(ResourceData resource, int count = 1) {
