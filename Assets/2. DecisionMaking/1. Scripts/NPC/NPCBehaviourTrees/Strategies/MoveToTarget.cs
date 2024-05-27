@@ -40,7 +40,7 @@ namespace DecisionMaking.BehaviorTree
 
         public void Reset()
         {
-                Debug.Log(" MoveToTarget Reset ");
+            Debug.Log(" MoveToTarget Reset ");
             isPathCalculated = true;
         }
     }
