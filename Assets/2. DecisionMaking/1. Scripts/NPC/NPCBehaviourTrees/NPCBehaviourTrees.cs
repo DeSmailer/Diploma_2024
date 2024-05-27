@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityUtils;
 
@@ -51,7 +50,7 @@ namespace DecisionMaking.BehaviorTree
 
         void SetupBehaviourTree()
         {
-            tree = new BehaviourTree("Hero");
+            tree = new BehaviourTree("NPC");
 
             PrioritySelector actions = new PrioritySelector("Agent Logic");
 
