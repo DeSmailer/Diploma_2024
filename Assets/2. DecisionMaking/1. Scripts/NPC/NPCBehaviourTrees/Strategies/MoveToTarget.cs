@@ -7,10 +7,10 @@ namespace DecisionMaking.BehaviorTree
     {
         readonly Transform entity;
         readonly NavMeshAgent agent;
-        readonly Transform points;
+        readonly Vector3 points;
         bool isPathCalculated;
 
-        public MoveToTarget(Transform entity, NavMeshAgent agent, Transform points)
+        public MoveToTarget(Transform entity, NavMeshAgent agent, Vector3 points)
         {
             Debug.Log(" MoveToTarget ");
             this.entity = entity;
@@ -20,8 +20,7 @@ namespace DecisionMaking.BehaviorTree
 
         public Node.Status Process()
         {
-            agent.SetDestination(points.position);
-            entity.LookAt(points);
+            agent.SetDestination(points);
 
             if(isPathCalculated && agent.remainingDistance < 0.1f)
             {

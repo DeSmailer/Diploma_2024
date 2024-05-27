@@ -84,15 +84,20 @@ namespace DecisionMaking.BehaviorTree
                 return false;
             };
 
+            //Sequence wander = new Sequence("wander");
+            //wander.AddChild(new Leaf("CanCollect?", new Condition(() => !CanHarvest())));
+            //wander.AddChild(new Leaf("GoWander", new Wander(transform, agent, viewingRadius)));
+
+            //actions.AddChild(wander);
+
             Sequence goToFarm = new Sequence("GoToFarm");
             goToFarm.AddChild(new Leaf("CanCollect?", new Condition(() => inventory.FillPercentage < 0.5f && CanHarvest())));
             goToFarm.AddChild(new Leaf("GoToFarm", new MoveToFarm(transform, agent, farms)));
-            //goToFarm.AddChild(new Leaf("PickUpTreasure1", new ActionStrategy(() => treasure.SetActive(false))));
             actions.AddChild(goToFarm);
 
             Sequence goToWarehouse = new Sequence("GoToWarehouse");
-            goToFarm.AddChild(new Leaf("canGiveAway?", new Condition(() => inventory.FillPercentage >= 0.5f || !CanHarvest())));
-            goToFarm.AddChild(new Leaf("GoWarehouse", new MoveToTarget(transform, agent, rivalsWarehouse.transform)));
+            goToFarm.AddChild(new Leaf("canGiveAway?", new Condition(() => /*inventory.FillPercentage >= 0.5f ||*/ !CanHarvest())));
+            goToFarm.AddChild(new Leaf("GoWarehouse", new MoveToTarget(transform, agent, rivalsWarehouse.Position)));
             actions.AddChild(goToWarehouse);
 
             tree.AddChild(actions);

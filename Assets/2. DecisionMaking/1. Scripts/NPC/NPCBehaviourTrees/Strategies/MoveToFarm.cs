@@ -36,6 +36,7 @@ namespace DecisionMaking.BehaviorTree
             if(agent.pathPending)
             {
                 isPathCalculated = true;
+                SelectFarm();   
             }
 
             return Node.Status.Running;
@@ -63,7 +64,7 @@ namespace DecisionMaking.BehaviorTree
         public void Reset()
         {
             Debug.Log(" MoveToTarget Reset ");
-            SelectFarm();
+            //SelectFarm();
             isPathCalculated = true;
         }
     }
