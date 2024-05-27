@@ -12,6 +12,7 @@ namespace DecisionMaking.BehaviorTree
 
         public MoveToTarget(Transform entity, NavMeshAgent agent, Transform points)
         {
+            Debug.Log(" MoveToTarget ");
             this.entity = entity;
             this.agent = agent;
             this.points = points;
@@ -25,6 +26,7 @@ namespace DecisionMaking.BehaviorTree
             if(isPathCalculated && agent.remainingDistance < 0.1f)
             {
                 isPathCalculated = false;
+                Debug.Log(" Node.Status.Success " + Node.Status.Success);
                 return Node.Status.Success;
             }
 
@@ -38,6 +40,7 @@ namespace DecisionMaking.BehaviorTree
 
         public void Reset()
         {
+                Debug.Log(" MoveToTarget Reset ");
             isPathCalculated = true;
         }
     }
