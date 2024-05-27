@@ -15,6 +15,7 @@
                 }
                 currentChild++;
             }
+            Reset();
             return Status.Success;
         }
     }

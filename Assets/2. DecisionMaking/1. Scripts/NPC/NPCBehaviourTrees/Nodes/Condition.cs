@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEngine;
 
 namespace DecisionMaking.BehaviorTree
 {
@@ -15,7 +16,7 @@ namespace DecisionMaking.BehaviorTree
 
         public void Reset()
         {
-            
+            Debug.Log("Condition Reset");
         }
     }
 

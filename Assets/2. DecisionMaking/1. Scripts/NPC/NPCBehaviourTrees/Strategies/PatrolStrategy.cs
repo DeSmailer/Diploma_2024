@@ -23,7 +23,7 @@ namespace DecisionMaking.BehaviorTree
 
         public Node.Status Process()
         {
-            if(currentIndex >= patrolPoints.Count) 
+            if(currentIndex >= patrolPoints.Count)
                 return Node.Status.Success;
 
             var target = patrolPoints[currentIndex];
@@ -44,6 +44,10 @@ namespace DecisionMaking.BehaviorTree
             return Node.Status.Running;
         }
 
-        public void Reset() => currentIndex = 0;
+        public void Reset()
+        {
+            Debug.Log("PatrolStrategy Reset");
+            currentIndex = 0;
+        }
     }
 }
