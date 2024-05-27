@@ -2339,12 +2339,23 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5755538665187785130, guid: 27d435c4945f9574bbae69ab37c310f6,
         type: 3}
+      propertyPath: m_Icon
+      value: 
+      objectReference: {fileID: 3306451490063965843, guid: 0000000000000000d000000000000000,
+        type: 0}
+    - target: {fileID: 5755538665187785130, guid: 27d435c4945f9574bbae69ab37c310f6,
+        type: 3}
       propertyPath: m_Name
       value: Behaviour Trees NPC (4)
       objectReference: {fileID: 0}
     - target: {fileID: 5755538665187785130, guid: 27d435c4945f9574bbae69ab37c310f6,
         type: 3}
       propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6162071919037562923, guid: 27d435c4945f9574bbae69ab37c310f6,
+        type: 3}
+      propertyPath: isSafe
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6162071919037562923, guid: 27d435c4945f9574bbae69ab37c310f6,
@@ -4024,7 +4035,7 @@ GameObject:
   m_Layer: 0
   m_Name: GameObject (4)
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: -5442936267250999957, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -4037,7 +4048,7 @@ Transform:
   m_GameObject: {fileID: 324058194}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 9.74, y: 0, z: -11.62}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4523,7 +4534,7 @@ GameObject:
   m_Layer: 0
   m_Name: GameObject (5)
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: -5442936267250999957, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -6374,7 +6385,7 @@ GameObject:
   m_Layer: 0
   m_Name: GameObject (7)
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: -5442936267250999957, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -6387,7 +6398,7 @@ Transform:
   m_GameObject: {fileID: 503239246}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -3.94, y: 0, z: -24.77}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -8001,7 +8012,7 @@ Transform:
   m_GameObject: {fileID: 685836773}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -9.991195, y: -2.7001173, z: 3.5102136}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -8337,12 +8348,23 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5755538665187785130, guid: 27d435c4945f9574bbae69ab37c310f6,
         type: 3}
+      propertyPath: m_Icon
+      value: 
+      objectReference: {fileID: 3306451490063965843, guid: 0000000000000000d000000000000000,
+        type: 0}
+    - target: {fileID: 5755538665187785130, guid: 27d435c4945f9574bbae69ab37c310f6,
+        type: 3}
       propertyPath: m_Name
       value: Behaviour Trees NPC (2)
       objectReference: {fileID: 0}
     - target: {fileID: 5755538665187785130, guid: 27d435c4945f9574bbae69ab37c310f6,
         type: 3}
       propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6162071919037562923, guid: 27d435c4945f9574bbae69ab37c310f6,
+        type: 3}
+      propertyPath: isSafe
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6162071919037562923, guid: 27d435c4945f9574bbae69ab37c310f6,
@@ -8757,7 +8779,7 @@ GameObject:
   m_Layer: 0
   m_Name: GameObject (1)
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 3306451490063965843, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -8770,7 +8792,7 @@ Transform:
   m_GameObject: {fileID: 742813346}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -3.71, y: 0, z: 6.33}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -9122,10 +9144,10 @@ GameObject:
   m_Layer: 0
   m_Name: GameObject (2)
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 3443629218296621865, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &783349582
 Transform:
   m_ObjectHideFlags: 0
@@ -9135,7 +9157,7 @@ Transform:
   m_GameObject: {fileID: 783349581}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -11.2, y: 0, z: -4.8}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -10374,7 +10396,7 @@ GameObject:
   m_Layer: 0
   m_Name: GameObject (8)
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: -5442936267250999957, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -10387,7 +10409,7 @@ Transform:
   m_GameObject: {fileID: 884363847}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -4.42, y: 0, z: -6.19}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -10509,7 +10531,7 @@ GameObject:
   m_Layer: 0
   m_Name: GameObject (6)
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: -5442936267250999957, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -10522,7 +10544,7 @@ Transform:
   m_GameObject: {fileID: 897350058}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 13.43, y: 0, z: -20.7}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -17859,12 +17881,23 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5755538665187785130, guid: 27d435c4945f9574bbae69ab37c310f6,
         type: 3}
+      propertyPath: m_Icon
+      value: 
+      objectReference: {fileID: 3306451490063965843, guid: 0000000000000000d000000000000000,
+        type: 0}
+    - target: {fileID: 5755538665187785130, guid: 27d435c4945f9574bbae69ab37c310f6,
+        type: 3}
       propertyPath: m_Name
       value: Behaviour Trees NPC (3)
       objectReference: {fileID: 0}
     - target: {fileID: 5755538665187785130, guid: 27d435c4945f9574bbae69ab37c310f6,
         type: 3}
       propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6162071919037562923, guid: 27d435c4945f9574bbae69ab37c310f6,
+        type: 3}
+      propertyPath: isSafe
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6162071919037562923, guid: 27d435c4945f9574bbae69ab37c310f6,
@@ -20142,10 +20175,10 @@ GameObject:
   m_Layer: 0
   m_Name: GameObject (3)
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 3443629218296621865, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2027380949
 Transform:
   m_ObjectHideFlags: 0
@@ -20155,7 +20188,7 @@ Transform:
   m_GameObject: {fileID: 2027380948}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0.32, y: 0, z: -5.44}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -21506,12 +21539,23 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5755538665187785130, guid: 27d435c4945f9574bbae69ab37c310f6,
         type: 3}
+      propertyPath: m_Icon
+      value: 
+      objectReference: {fileID: 3306451490063965843, guid: 0000000000000000d000000000000000,
+        type: 0}
+    - target: {fileID: 5755538665187785130, guid: 27d435c4945f9574bbae69ab37c310f6,
+        type: 3}
       propertyPath: m_Name
       value: Behaviour Trees NPC (1)
       objectReference: {fileID: 0}
     - target: {fileID: 5755538665187785130, guid: 27d435c4945f9574bbae69ab37c310f6,
         type: 3}
       propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6162071919037562923, guid: 27d435c4945f9574bbae69ab37c310f6,
+        type: 3}
+      propertyPath: isSafe
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6162071919037562923, guid: 27d435c4945f9574bbae69ab37c310f6,
