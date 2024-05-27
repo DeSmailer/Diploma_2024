@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace UnityUtils {
+namespace UnityUtils2 {
 
   public static class Vector3Extensions {
     static public Vector2 WorldToCanvas(Vector3 worldPosition, RectTransform canvasRect, Camera camera) {

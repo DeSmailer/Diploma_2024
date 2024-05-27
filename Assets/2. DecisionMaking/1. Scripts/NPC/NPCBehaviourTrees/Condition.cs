@@ -15,7 +15,8 @@ namespace DecisionMaking.BehaviorTree
 
         public void Reset()
         {
-            throw new NotImplementedException();
+            
         }
     }
+
 }
