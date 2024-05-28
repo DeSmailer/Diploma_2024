@@ -6,10 +6,10 @@ namespace DecisionMaking
 {
     public class RivalsGameManager : MonoBehaviour
     {
-        List<NPC> NPSs;
-        Farm[] farms;
-        RivalsWarehouse warehouse;
-        RivalsWarehouseView rivalsWarehouseView;
+        [SerializeField] List<NPC> NPSs;
+        [SerializeField] Farm[] farms;
+        [SerializeField] RivalsWarehouse warehouse;
+        [SerializeField] RivalsWarehouseView rivalsWarehouseView;
 
         [SerializeField] CostInResourcesData necessaryResourcesForVictory;
 

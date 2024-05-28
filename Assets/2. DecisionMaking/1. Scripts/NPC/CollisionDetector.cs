@@ -34,8 +34,6 @@ namespace DecisionMaking
 
         private void OnCollisionEnter(Collision collision)
         {
-            Debug.Log("CollisionDetector.OnCollisionEnter1 " + collision.gameObject.name);
-
             if(!collision.gameObject.CompareTag(groundTag))
             {
                 if(collision.contacts.Length > 0)
@@ -46,7 +44,6 @@ namespace DecisionMaking
                     pushDirection = pushDirection.normalized;
                     PushDirection = pushDirection;
 
-                    Debug.Log("IsDetected " + collision.gameObject.name);
                     IsDetected = true;
                 }
             }
