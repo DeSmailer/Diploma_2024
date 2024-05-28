@@ -1,8 +1,6 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-
-using BehaviorTree;
+using DecisionMaking.BehaviorTree;
 
 public class CheckEnemyInAttackRange : Node
 {
@@ -18,14 +16,14 @@ public class CheckEnemyInAttackRange : Node
     public override NodeState Evaluate()
     {
         object t = GetData("target");
-        if (t == null)
+        if(t == null)
         {
             state = NodeState.FAILURE;
             return state;
         }
 
         Transform target = (Transform)t;
-        if (Vector3.Distance(_transform.position, target.position) <= GuardBT.attackRange)
+        if(Vector3.Distance(_transform.position, target.position) <= GuardBT.attackRange)
         {
             _animator.SetBool("Attacking", true);
             _animator.SetBool("Walking", false);
@@ -37,5 +35,4 @@ public class CheckEnemyInAttackRange : Node
         state = NodeState.FAILURE;
         return state;
     }
-
 }

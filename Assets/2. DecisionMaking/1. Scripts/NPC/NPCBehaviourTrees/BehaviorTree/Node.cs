@@ -1,7 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 
-namespace BehaviorTree
+namespace DecisionMaking.BehaviorTree
 {
     public enum NodeState
     {
@@ -12,6 +13,11 @@ namespace BehaviorTree
 
     public class Node
     {
+        protected static readonly int idleHash = Animator.StringToHash("Idle");
+        protected static readonly int locomotionHash = Animator.StringToHash("Locomotion");
+        protected static readonly int stunnedHash = Animator.StringToHash("Stunned");
+        protected static readonly int KamikazeHash = Animator.StringToHash("Kamikaze");
+
         protected NodeState state;
 
         public Node parent;

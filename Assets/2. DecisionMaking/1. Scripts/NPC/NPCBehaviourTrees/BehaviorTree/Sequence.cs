@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace BehaviorTree
+namespace DecisionMaking.BehaviorTree
 {
     public class Sequence : Node
     {

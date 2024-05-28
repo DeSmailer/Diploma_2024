@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using BehaviorTree;
+using DecisionMaking.BehaviorTree;
 
 public class GuardBT : Tree
 {

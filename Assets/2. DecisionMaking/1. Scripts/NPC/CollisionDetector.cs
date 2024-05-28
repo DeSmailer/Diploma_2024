@@ -1,10 +1,10 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace DecisionMaking
 {
     public class CollisionDetector : MonoBehaviour
     {
-
         bool isDetected;
         private const string groundTag = "Ground";
 
@@ -29,6 +29,8 @@ namespace DecisionMaking
         }
 
         public Vector3 PushDirection { get; private set; }
+
+        public UnityEvent OnDetected;
 
         private void OnCollisionEnter(Collision collision)
         {
