@@ -36,7 +36,7 @@ namespace DecisionMaking.BehaviorTree
             {
                 new Sequence(new List<Node>
                 {
-                    new CheckStun(collisionDetector),
+                    new CheckStun(collisionDetector, stunTimer),
                     new Stun(this, animator,  stunTimer),
                 }),
                 new Sequence(new List<Node>

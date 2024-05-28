@@ -7,10 +7,12 @@ namespace DecisionMaking.BehaviorTree
     public class CheckStun : Node
     {
         private CollisionDetector collisionDetector;
+        private CountdownTimer stunTimer;
 
-        public CheckStun(CollisionDetector collisionDetector)
+        public CheckStun(CollisionDetector collisionDetector, CountdownTimer stunTimer)
         {
             this.collisionDetector = collisionDetector;
+            this.stunTimer = stunTimer;
         }
 
         public override NodeState Evaluate()
@@ -18,7 +20,12 @@ namespace DecisionMaking.BehaviorTree
             Debug.Log("CheckStun 1");
             if(collisionDetector.IsDetected)
             {
-            Debug.Log("CheckStun 2");
+                Debug.Log("CheckStun 2");
+                state = NodeState.SUCCESS;
+                return state;
+            }
+            else if(stunTimer.IsRunning)
+            {
                 state = NodeState.SUCCESS;
                 return state;
             }
@@ -50,6 +57,7 @@ namespace DecisionMaking.BehaviorTree
             }
 
             Debug.Log("Stun 2");
+            animator.Play(stunnedHash);
             state = NodeState.RUNNING;
 
 
@@ -62,6 +70,7 @@ namespace DecisionMaking.BehaviorTree
             Debug.Log("Stun 4");
             return state;
         }
+
         public void Enter()
         {
             Debug.Log("Stun 1");
