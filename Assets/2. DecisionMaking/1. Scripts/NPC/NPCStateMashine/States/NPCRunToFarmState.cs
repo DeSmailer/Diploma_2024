@@ -5,51 +5,63 @@ using UnityEngine.AI;
 
 namespace DecisionMaking.StateMashine
 {
-  public class NPCRunToFarmState : NPCBaseState {
-    NavMeshAgent agent;
-    Farm[] farms;
+    public class NPCRunToFarmState : NPCBaseState
+    {
+        NavMeshAgent agent;
+        Farm[] farms;
+        Farm selectedFarm;
+        RivalsWarehouse rivalsWarehouse;
 
-    public bool IsComplete { get; private set; }
+        public bool IsComplete { get; private set; }
 
-    public NPCRunToFarmState(NPCStateMashine npc, Animator animator, NavMeshAgent agent, Farm[] farms) : base(npc, animator) {
-      this.agent = agent;
-      this.farms = farms;
+        public NPCRunToFarmState(NPCStateMashine npc, Animator animator, NavMeshAgent agent, Farm[] farms, RivalsWarehouse rivalsWarehouse) : base(npc, animator)
+        {
+            this.agent = agent;
+            this.farms = farms;
+            this.rivalsWarehouse = rivalsWarehouse;
+        }
+
+        public override void OnEnter()
+        {
+            IsComplete = false;
+            animator.CrossFade(locomotionHash, crossFadeDuration);
+            SelectFarm();
+        }
+
+        public override void OnUpdate()
+        {
+            if(HasReachedDestination())
+            {
+                IsComplete = true;
+            }
+            if(!selectedFarm.CanHarvest)
+            {
+                IsComplete = true;
+                //SelectFarm();
+            }
+        }
+
+        bool HasReachedDestination()
+        {
+            return !agent.pathPending
+                   && agent.remainingDistance <= agent.stoppingDistance
+                   && (!agent.hasPath || agent.velocity.sqrMagnitude == 0f);
+        }
+
+        void SelectFarm()
+        {
+            IFarmSelector farmSelector = new RequiredResourceFarmSelector(farms, npc, npc.transform, rivalsWarehouse);
+            //IFarmSelector farmSelector = new RandomFromClosestFarmSelector(farms, npc.transform, 3);
+            selectedFarm = farmSelector.SelectFarm();
+            Vector3 result = GetPositionInRadius(selectedFarm.transform);
+
+            agent.SetDestination(result);
+        }
+
+        public Vector3 GetPositionInRadius(Transform center, float innerRadius = 0.1f, float outerRadius = 2f)
+        {
+            Vector3 result = RandomVector.GetRandomPointInRing(center.position, innerRadius, outerRadius);
+            return result;
+        }
     }
-
-    public override void OnEnter() {
-      IsComplete = false;
-      animator.CrossFade(locomotionHash, crossFadeDuration);
-      SelectFarm();
-    }
-
-    public override void OnUpdate() {
-      if (HasReachedDestination()) {
-        IsComplete = true;
-        //SelectFarm();
-      }
-    }
-
-    bool HasReachedDestination() {
-      return !agent.pathPending
-             && agent.remainingDistance <= agent.stoppingDistance
-             && (!agent.hasPath || agent.velocity.sqrMagnitude == 0f);
-    }
-
-    void SelectFarm() {
-      var selectedFarms = new List<Farm>(farms);
-      selectedFarms.RemoveAll(farm => !farm.CanHarvest);
-
-      selectedFarms.Sort((a, b) =>
-       Vector3.Distance(a.transform.position, npc.transform.position)
-       .CompareTo(Vector3.Distance(b.transform.position, npc.transform.position)));
-
-      selectedFarms = selectedFarms.GetRange(0, Mathf.Min(selectedFarms.Count, 3));
-
-      var randomFarm = selectedFarms[Random.Range(0, selectedFarms.Count)];
-      Vector3 result = randomFarm.Position;
-      result = RandomVector.GetRandomPointInRing(result, 0.7f, 3f);
-
-      agent.SetDestination(result);
-    }
-  }
 }

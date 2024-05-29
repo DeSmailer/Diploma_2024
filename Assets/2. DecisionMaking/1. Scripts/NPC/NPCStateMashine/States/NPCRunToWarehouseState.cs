@@ -16,7 +16,6 @@ namespace DecisionMaking.StateMashine
     }
 
     public override void OnEnter() {
-      Debug.Log("NPCRunToWarehouseState");
       IsComplete = false;
       animator.CrossFade(locomotionHash, crossFadeDuration);
       SelectNewDestination();
