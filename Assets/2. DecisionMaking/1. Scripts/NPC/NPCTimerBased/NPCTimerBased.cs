@@ -1,11 +1,13 @@
 using DecisionMaking.StateMashine;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityUtils;
 
 namespace DecisionMaking.TimerBased
-{//сделать состояния для єой машнины конкретно для єтой. бежать к складу, феме, в стане, блуждать, камикадзе.
- //всем сделать бул исКомплит, и для рандома свтотреть когда комплит и давать новый стейт, а для тайма всеравно
+{//СЃРґРµР»Р°С‚СЊ СЃРѕСЃС‚РѕСЏРЅРёСЏ РґР»СЏ С”РѕР№ РјР°С€РЅРёРЅС‹ РєРѕРЅРєСЂРµС‚РЅРѕ РґР»СЏ С”С‚РѕР№. Р±РµР¶Р°С‚СЊ Рє СЃРєР»Р°РґСѓ, С„РµРјРµ, РІ СЃС‚Р°РЅРµ, Р±Р»СѓР¶РґР°С‚СЊ, РєР°РјРёРєР°РґР·Рµ.
+ //РІСЃРµРј СЃРґРµР»Р°С‚СЊ Р±СѓР» РёСЃРљРѕРјРїР»РёС‚, Рё РґР»СЏ СЂР°РЅРґРѕРјР° СЃРІС‚РѕС‚СЂРµС‚СЊ РєРѕРіРґР° РєРѕРјРїР»РёС‚ Рё РґР°РІР°С‚СЊ РЅРѕРІС‹Р№ СЃС‚РµР№С‚, Р° РґР»СЏ С‚Р°Р№РјР° РІСЃРµСЂР°РІРЅРѕ
     public class NPCTimerBased : NPC
     {
         protected StateMachine stateMachine = new();
@@ -13,15 +15,28 @@ namespace DecisionMaking.TimerBased
         protected NPCRunToFarmState runToFarmState;
         //protected NPCRunToWarehouseState runToWarehouseState;
         //protected NPCKamikazeState kamikazeState;
-        //protected NPCWanderState wanderState;
-        //protected NPCStunnedState stunnedState;
+        protected NPCWanderState wanderState;
+        protected NPCStunnedState stunnedState;
+
+        List<NPCBaseState> npcBaseStates = new List<NPCBaseState>();
+
+        float changeStateInterval = 4f;
+        CountdownTimer changeStateTimer;
 
         public override void Initialize(RivalsWarehouse rivalsWarehouse, Farm[] farms, List<ICharacter> characters)
         {
+            collisionDetector.OnDetected.AddListener(ToStunState);
+
             SetupVariables(rivalsWarehouse, farms, characters);
             SetupTimers();
             SetupNavMeshAgent();
             SetupStateMashine();
+        }
+
+        protected override void SetupTimers()
+        {
+            base.SetupTimers();
+            changeStateTimer = new CountdownTimer(changeStateInterval);
         }
 
         protected virtual void SetupStateMashine()
@@ -29,7 +44,11 @@ namespace DecisionMaking.TimerBased
             stateMachine = new StateMachine();
 
             runToFarmState = new NPCRunToFarmState(this, animator, agent, farms, rivalsWarehouse);
+            stunnedState = new NPCStunnedState(this, animator, stunTimer);
+            wanderState = new NPCWanderState(this, animator, agent, viewingRadius);
 
+            npcBaseStates.Add(runToFarmState);
+            npcBaseStates.Add(wanderState);
             //runToWarehouseState = new StateMashine. NPCRunToWarehouseState(this, animator, agent, rivalsWarehouse);
 
             //kamikazeState = new StateMashine. NPCKamikazeState(this, animator, otherCharacters, agent, transform, kamikazeRadius);
@@ -54,15 +73,47 @@ namespace DecisionMaking.TimerBased
             //   new FuncPredicate(() => collisionDetector.IsDetected && lastCollisionStopwatchTimer.GetTime() > delayBeforeNewCollision));
 
 
-            stateMachine.SetState(runToFarmState);
+            stateMachine.SetState(wanderState);
         }
 
         void Update()
         {
             stateMachine.Update();
             stunTimer.Tick(Time.deltaTime);
+            changeStateTimer.Tick(Time.deltaTime);
             lastCollisionStopwatchTimer.Tick(Time.deltaTime);
             UpdadeteAnimator();
+
+            if(stateMachine.CurrentState == stunnedState)
+            {
+                if(stunnedState.IsComplete)
+                {
+                    stateMachine.SetState(SelectNewState());
+                }
+            }
+            else
+            {
+                if(changeStateTimer.IsFinished)
+                {
+                    stateMachine.SetState(SelectNewState());
+                }
+            }
+        }
+
+        NPCBaseState SelectNewState()
+        {
+            Debug.Log("SelectNewState");
+            changeStateTimer.Start();
+            return npcBaseStates[UnityEngine.Random.Range(0, npcBaseStates.Count)];
+        }
+
+        private void ToStunState()
+        {
+            if(collisionDetector.IsDetected && lastCollisionStopwatchTimer.GetTime() > delayBeforeNewCollision)
+            {
+                changeStateTimer.Pause();
+                stateMachine.SetState(stunnedState);
+            }
         }
 
         void FixedUpdate()
@@ -81,10 +132,18 @@ namespace DecisionMaking.TimerBased
 
         public class NPCStunnedState : NPCBaseState
         {
-            public NPCStunnedState(NPCTimerBased npc, Animator animator) : base(npc, animator) { }
+            CountdownTimer stunTimer;
+
+            public NPCStunnedState(NPCTimerBased npc, Animator animator, CountdownTimer stunTimer) : base(npc, animator)
+            {
+                this.stunTimer = stunTimer;
+                this.stunTimer.OnTimerStop += () => IsComplete = true;
+            }
 
             public override void OnEnter()
             {
+                Debug.Log("NPCStunnedState");
+                IsComplete = false;
                 animator.CrossFade(stunnedHash, crossFadeDuration);
                 npc.Stun();
                 npc.StopMovement();
@@ -92,9 +151,67 @@ namespace DecisionMaking.TimerBased
 
             public override void OnExit()
             {
+                IsComplete = true;
                 base.OnExit();
                 npc.ResumeMovement();
                 npc.StopAllForces();
+            }
+        }
+
+        public class NPCWanderState : NPCBaseState
+        {
+            readonly NavMeshAgent agent;
+            readonly Vector3 startPoint;
+            readonly float wanderRadius;
+
+            public NPCWanderState(NPCTimerBased npc, Animator animator, NavMeshAgent agent, float wanderRadius) : base(npc, animator)
+            {
+                Debug.Log("NPCWanderState");
+                this.agent = agent;
+                this.startPoint = npc.transform.position;
+                this.wanderRadius = wanderRadius;
+            }
+
+            public override void OnEnter()
+            {
+                IsComplete = false;
+
+                animator.CrossFade(locomotionHash, crossFadeDuration);
+                //npc.ResumeMovement();
+                SelectNewDestination();
+            }
+
+            public override void OnUpdate()
+            {
+                if(HasReachedDestination())
+                {
+                    IsComplete = true;
+                    SelectNewDestination();
+                }
+            }
+
+            bool HasReachedDestination()
+            {
+                return !agent.pathPending
+                       && agent.remainingDistance <= agent.stoppingDistance
+                       && (!agent.hasPath || agent.velocity.sqrMagnitude == 0f);
+            }
+
+            void SelectNewDestination()
+            {
+                IsComplete = false;
+                var randomDirection = UnityEngine.Random.insideUnitSphere * wanderRadius;
+                randomDirection += startPoint;
+                NavMeshHit hit;
+                NavMesh.SamplePosition(randomDirection, out hit, wanderRadius, 1);
+                var finalPosition = hit.position;
+
+                agent.SetDestination(finalPosition);
+            }
+
+            public override void OnExit()
+            {
+                IsComplete = false;
             }
         }
     }

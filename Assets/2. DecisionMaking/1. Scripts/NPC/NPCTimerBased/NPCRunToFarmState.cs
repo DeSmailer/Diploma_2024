@@ -20,6 +20,7 @@ namespace DecisionMaking.TimerBased
 
         public override void OnEnter()
         {
+            Debug.Log("NPCRunToFarmState");
             IsComplete = false;
             animator.CrossFade(locomotionHash, crossFadeDuration);
             SelectFarm();
