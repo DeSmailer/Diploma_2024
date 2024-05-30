@@ -25,7 +25,7 @@ namespace DecisionMaking.RandomSelectBased {
 
     public override void OnEnter() {
       animator.CrossFade(KamikazeHash, crossFadeDuration);
-      target = SelectTarget();
+      target = SelectTarget(); 
     }
 
     public override void OnUpdate() {
