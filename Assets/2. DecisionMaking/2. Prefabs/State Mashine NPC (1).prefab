@@ -1281,8 +1281,8 @@ MonoBehaviour:
   animator: {fileID: 2534242645417761402}
   collisionDetector: {fileID: 5330711161858559262}
   inventory: {fileID: 7471620576694942209}
-  speed: 3.5
-  angularSpeed: 120
+  speed: 7
+  angularSpeed: 360
   stoppingDistance: 0.25
   stunDuration: 1.5
   delayBeforeNewCollision: 0.5
@@ -1305,6 +1305,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 838da7e334359d24d8bf1fd747ffe96a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OnDetected:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &7471620576694942209
 MonoBehaviour:
   m_ObjectHideFlags: 0

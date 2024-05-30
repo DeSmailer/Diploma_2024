@@ -1596,7 +1596,7 @@ GameObject:
   m_Layer: 8
   m_Name: Behaviour Trees NPC (1)
   m_TagString: Player
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 3306451490063965843, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -1634,8 +1634,8 @@ MonoBehaviour:
   animator: {fileID: 811719810512172392}
   collisionDetector: {fileID: 6213097103810476946}
   inventory: {fileID: 7838066273515087908}
-  speed: 3.5
-  angularSpeed: 120
+  speed: 7
+  angularSpeed: 360
   stoppingDistance: 0.2
   stunDuration: 1.5
   delayBeforeNewCollision: 0.5
@@ -1658,6 +1658,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 838da7e334359d24d8bf1fd747ffe96a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OnDetected:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &7838066273515087908
 MonoBehaviour:
   m_ObjectHideFlags: 0

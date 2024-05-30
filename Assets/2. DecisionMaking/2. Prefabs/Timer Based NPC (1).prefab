@@ -1941,8 +1941,8 @@ MonoBehaviour:
   animator: {fileID: 2894560077437137924}
   collisionDetector: {fileID: 1048877855810497593}
   inventory: {fileID: 4456992610742565532}
-  speed: 3.5
-  angularSpeed: 120
+  speed: 7
+  angularSpeed: 360
   stoppingDistance: 0.2
   stunDuration: 1.5
   delayBeforeNewCollision: 0.5
