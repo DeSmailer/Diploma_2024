@@ -7,10 +7,6 @@ namespace DecisionMaking.BehaviorTree
 {
     public class NPCBehaviourTrees : NPC
     {
-        [SerializeField] GameObject safeSpot;
-        [SerializeField] GameObject treasure;
-        [SerializeField] GameObject treasure2;
-
         Node tree;
 
         public CountdownTimer StunTimer => stunTimer;

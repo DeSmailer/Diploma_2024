@@ -45,6 +45,7 @@ namespace DecisionMaking
                     PushDirection = pushDirection;
 
                     IsDetected = true;
+                    OnDetected?.Invoke();
                 }
             }
         }

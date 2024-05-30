@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0641e14cb5dcaa24c8c22253ead253e5, type: 3}
   m_Name: BT NPS Info 2
   m_EditorClassIdentifier: 
-  _name: BehaviourTrees
+  _name: Behaviour Trees
   sprite: {fileID: 21300000, guid: 796c7fb4588fbe645bb6bfe52aab12f6, type: 3}

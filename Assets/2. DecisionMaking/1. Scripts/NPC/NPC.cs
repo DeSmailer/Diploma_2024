@@ -25,8 +25,8 @@ namespace DecisionMaking
         [SerializeField] protected float stunDuration = 1.5f;
         [SerializeField] protected float delayBeforeNewCollision = 0.5f;
 
-        [SerializeField] protected float viewingRadius = 10f;
-        [SerializeField] protected float kamikazeRadius = 5f;
+        [SerializeField] protected float viewingRadius = 13f;
+        [SerializeField] protected float kamikazeRadius = 10f;
 
         protected CountdownTimer stunTimer;
         protected StopwatchTimer lastCollisionStopwatchTimer;
