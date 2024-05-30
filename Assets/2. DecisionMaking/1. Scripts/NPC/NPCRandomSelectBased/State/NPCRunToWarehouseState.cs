@@ -21,7 +21,6 @@ namespace DecisionMaking.RandomSelectBased {
     public override void OnUpdate() {
       if (HasReachedDestination()) {
         IsComplete = true;
-        SelectNewDestination();
       }
     }
 
@@ -33,7 +32,7 @@ namespace DecisionMaking.RandomSelectBased {
 
     void SelectNewDestination() {
       Vector3 result = warehouse.Position;
-      result = RandomVector.GetRandomPointInRing(result, 0.7f, 3f);
+      result = RandomVector.GetRandomPointInRing(result, 0.1f, 2f);
       agent.SetDestination(result);
     }
 

@@ -24,14 +24,15 @@ namespace DecisionMaking.RandomSelectBased {
     }
 
     public override void OnEnter() {
+      IsComplete = false;
       animator.CrossFade(KamikazeHash, crossFadeDuration);
-      target = SelectTarget(); 
+      target = SelectTarget();
     }
 
     public override void OnUpdate() {
       agent.SetDestination(target.position);
       if (HasReachedDestination()) {
-        target = SelectTarget();
+        IsComplete = true;
       }
     }
     bool HasReachedDestination() {
@@ -42,6 +43,7 @@ namespace DecisionMaking.RandomSelectBased {
 
     public override void OnExit() {
       base.OnExit();
+      IsComplete = false;
       npc.StopAllForces();
       agent.stoppingDistance = oldStoppingDistance;
     }

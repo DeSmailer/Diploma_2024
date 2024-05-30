@@ -24,7 +24,6 @@ namespace DecisionMaking.RandomSelectBased {
     public override void OnUpdate() {
       if (HasReachedDestination()) {
         IsComplete = true;
-        SelectNewDestination();
       }
     }
 
@@ -47,7 +46,6 @@ namespace DecisionMaking.RandomSelectBased {
 
     public override void OnExit() {
       IsComplete = false;
-
     }
   }
 }

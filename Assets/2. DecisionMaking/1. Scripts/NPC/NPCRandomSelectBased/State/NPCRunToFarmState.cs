@@ -28,7 +28,6 @@ namespace DecisionMaking.RandomSelectBased {
       }
       if (!selectedFarm.CanHarvest) {
         IsComplete = true;
-        SelectFarm();
       }
     }
 
