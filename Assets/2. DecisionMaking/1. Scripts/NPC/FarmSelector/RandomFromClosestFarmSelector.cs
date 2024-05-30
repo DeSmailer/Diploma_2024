@@ -60,18 +60,18 @@ namespace DecisionMaking {
                                                  .ToDictionary(kv => kv.Key, kv => kv.Value);
 
       foreach (var item in leftCollectResources) {
-        Debug.Log(character.Transform.gameObject.name + " " + item.Key.ToString() + " " + item.Value.ToString());
+        //Debug.Log(character.Transform.gameObject.name + " " + item.Key.ToString() + " " + item.Value.ToString());
       }
 
       foreach (var item in leftCollectResources) {
-        Debug.Log("Required resource: " + item.Key.ToString());
+        //Debug.Log("Required resource: " + item.Key.ToString());
         var farmsWithRequiredResource = FarmsWithRequiredResource(item.Key);
         if (farmsWithRequiredResource.Count > 0) {
-          Debug.Log("if");
+          //Debug.Log("if");
           farmsWithRequiredResource.Sort((a, b) =>
             Vector3.Distance(a.transform.position, player.position)
                   .CompareTo(Vector3.Distance(b.transform.position, player.position)));
-          Debug.Log("Selected farm with required resource: " + farmsWithRequiredResource[0].name);
+          //Debug.Log("Selected farm with required resource: " + farmsWithRequiredResource[0].name);
           return farmsWithRequiredResource[0];
         }
       }
