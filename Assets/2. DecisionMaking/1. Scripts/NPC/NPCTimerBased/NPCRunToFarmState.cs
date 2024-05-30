@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.AI;
 
-namespace DecisionMaking.TimerBased {//сделать состояния для єой машнины конкретно для єтой. бежать к складу, феме, в стане, блуждать, камикадзе.
+namespace DecisionMaking.TimerBased {
   public class NPCRunToFarmState : NPCBaseState {
     NavMeshAgent agent;
     Farm[] farms;
