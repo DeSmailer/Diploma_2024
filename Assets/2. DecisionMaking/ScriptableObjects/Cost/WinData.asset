@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   costInResources:
   - Resource: {fileID: 11400000, guid: 6419d261cf38a75419599329dbff9171, type: 2}
-    Amount: 1
+    Amount: 13
   - Resource: {fileID: 11400000, guid: 2a9a8a7a11ebbe84db511c1c5741b26c, type: 2}
-    Amount: 1
+    Amount: 13
   - Resource: {fileID: 11400000, guid: 7421952e840667a47a0c130f1dcf66b3, type: 2}
-    Amount: 1
+    Amount: 13
   - Resource: {fileID: 11400000, guid: d903a5d0c86ae6c4dbb99a3fc2c1d707, type: 2}
-    Amount: 1
+    Amount: 13
