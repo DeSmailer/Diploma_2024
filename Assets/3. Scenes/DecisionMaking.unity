@@ -8754,6 +8754,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Behaviour Trees NPC (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 6162071919037562923, guid: 27d435c4945f9574bbae69ab37c310f6,
+        type: 3}
+      propertyPath: speed
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 7654083291913344598, guid: 27d435c4945f9574bbae69ab37c310f6,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -9220,6 +9225,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Timer Based NPC (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 6675788350019885556, guid: 5e2dcb80cf9010c428c837c78b011022,
+        type: 3}
+      propertyPath: speed
+      value: 12
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -9372,6 +9382,11 @@ PrefabInstance:
         type: 3}
       propertyPath: maxCapacity
       value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 2884764767927006584, guid: 6f2fbf316391868468a47c5cb2d24938,
+        type: 3}
+      propertyPath: speed
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 6452433521073080218, guid: 6f2fbf316391868468a47c5cb2d24938,
         type: 3}
@@ -9571,6 +9586,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 39059396}
     m_Modifications:
+    - target: {fileID: 3214670703995576260, guid: 08e3294d339d57d41a27ea46417ee5c3,
+        type: 3}
+      propertyPath: speed
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 3485845045888821810, guid: 08e3294d339d57d41a27ea46417ee5c3,
         type: 3}
       propertyPath: m_Name
