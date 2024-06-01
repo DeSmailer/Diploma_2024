@@ -169,7 +169,7 @@ namespace DecisionMaking
 
                 foreach(var kvp in sortedKeyValuePairs)
                 {
-                    string str = $"Character: {kvp.Key.CharacterInfo.Name}, Count: {kvp.Value} ";
+                    string str = $"Character: {kvp.Key.CharacterInfo.Name}, Count: {kvp.Value} \n";
                     message += str;
                     Debug.Log(str);
                 }

@@ -41,6 +41,33 @@ namespace DecisionMaking.BehaviorTree
         }
     }
 
+    public class CheckNoStun : Node
+    {
+        private CollisionDetector collisionDetector;
+        private CountdownTimer stunTimer;
+
+        public CheckNoStun(CollisionDetector collisionDetector, CountdownTimer stunTimer)
+        {
+            this.collisionDetector = collisionDetector;
+            this.stunTimer = stunTimer;
+        }
+
+        public override NodeState Evaluate()
+        {
+            Debug.Log("CheckNoStun 1");
+
+            if(!stunTimer.IsRunning)
+            {
+                state = NodeState.SUCCESS;
+                return state;
+            }
+
+            Debug.Log("CheckNoStun 2");
+            state = NodeState.RUNNING;
+            return state;
+        }
+    }
+
     public class Stun : Node
     {
         private NPCBehaviourTrees npc;
@@ -59,7 +86,7 @@ namespace DecisionMaking.BehaviorTree
             Debug.Log("Stun");
             if(!stunTimer.IsRunning)
             {
-                Enter();
+                EnterToStan();
             }
 
             Debug.Log("Stun 2");
@@ -70,14 +97,13 @@ namespace DecisionMaking.BehaviorTree
             return state;
         }
 
-        public void Enter()
+        public void EnterToStan()
         {
             Debug.Log("Stun 1");
             animator.Play(stunnedHash);
             npc.Stun();
             npc.StopMovement();
         }
-
     }
 
     public class GoToTarget : Node
@@ -178,7 +204,7 @@ namespace DecisionMaking.BehaviorTree
         public override NodeState Evaluate()
         {
             Debug.Log("GoToFarm");
-            Resume();
+            //Resume();
 
             //Debug.Log("GoToFarm 2 " + targetFarm);
             //Debug.Log("GoToFarm 2 " + targetFarm.CanHarvest);
@@ -195,13 +221,6 @@ namespace DecisionMaking.BehaviorTree
 
             state = NodeState.RUNNING;
             return state;
-        }
-
-        public void Resume()
-        {
-            Debug.Log("GoToFarm 3");
-            npc.ResumeMovement();
-            npc.StopAllForces();
         }
 
         Farm SelectFarm()

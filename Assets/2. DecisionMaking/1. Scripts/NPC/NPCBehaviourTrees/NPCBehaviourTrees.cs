@@ -21,9 +21,26 @@ namespace DecisionMaking.BehaviorTree
             SetupTree();
         }
 
+        protected override void SetupTimers()
+        {
+            base.SetupTimers();
+            stunTimer.OnTimerStop += () =>
+            {
+                Debug.Log("Stun-----");
+                Debug.Log("GoToFarm 3");
+                ResumeMovement();
+                StopAllForces();
+            };
+        }
+
         private void Stun()
         {
-            Stun(1f);
+            Debug.Log("Stun++++");
+            stunTimer.Start();
+            inventory.DropOnGround();
+            StopMovement();
+            rb.AddForce(collisionDetector.PushDirection * pushForce, ForceMode.Impulse);
+            OnStunned?.Invoke();
         }
 
         void SetupTree()
