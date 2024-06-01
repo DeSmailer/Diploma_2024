@@ -1012,8 +1012,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6185285157f3d3f4f813f419ba2cbf28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  instantly: 1
-  visualize: 0
+  instantly: 0
+  visualize: 1
   algorithmNameText: {fileID: 515409208}
   executionTimeText: {fileID: 912138598}
   nodesVisitedText: {fileID: 1421847908}
@@ -1024,11 +1024,12 @@ MonoBehaviour:
   colsText: {fileID: 18126196}
   obstaclesText: {fileID: 1939148324}
   expensiveText: {fileID: 1175207369}
-  Rows: 150
-  Cols: 150
+  Rows: 20
+  Cols: 20
   seed: 1
   numberOfObstacles: 1
   numberOfExpensiveTiles: 1
+  numberOfIterations: 40
   TilePrefab: {fileID: 1071294905292167477, guid: a90baa0e399bfa644b5044ab31ca835e,
     type: 3}
   TileColor_Default: {r: 0.86, g: 0.83, b: 0.83, a: 1}

@@ -23,7 +23,6 @@ namespace PathFinding
         public TMP_Text obstaclesText;
         public TMP_Text expensiveText;
 
-
         public int Rows;
         public int Cols;
         public int seed;
@@ -32,7 +31,7 @@ namespace PathFinding
         private Vector2 startPosition;
         private Vector2 endPosition;
 
-        public int numberOfIterations = 20;
+        public int numberOfIterations = 30;
 
         public GameObject TilePrefab;
 
@@ -47,9 +46,11 @@ namespace PathFinding
 
         public Tile[] Tiles { get; private set; }
 
-        //private int[] gridSizes = { 5, 10, 25, 50, 75,};
+        //private int[] gridSizes = { 5 };
+        private int[] gridSizes = { 5, 10, 25, };
+        //private int[] gridSizes = { 5, 10, 25, 50, 75, };
         //private int[] gridSizes = { 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000 };
-        private int[] gridSizes = { 100, 300, 700, 1000, 1500, 2500 };
+        //private int[] gridSizes = { 10, 100, 300, 700, 1000, 1500, 2000, 2500 };
 
         private IEnumerator _pathRoutine;
 
@@ -513,7 +514,7 @@ namespace PathFinding
                 "Dynamic Programming Maze"
             };
 
-            for(int seed = 0; seed <= 15; seed++)
+            for(int seed = 0; seed <= numberOfIterations; seed++)
             {
                 for(int i = 0; i < gridSizes.Length; i++)
                 {
