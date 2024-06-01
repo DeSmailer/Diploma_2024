@@ -8,7 +8,6 @@ namespace DecisionMaking.RandomSelectBased {
     readonly float wanderRadius;
 
     public NPCWanderState(NPCRandomSelectBased npc, Animator animator, NavMeshAgent agent, float wanderRadius) : base(npc, animator) {
-      Debug.Log("NPCWanderState");
       this.agent = agent;
       this.startPoint = npc.transform.position;
       this.wanderRadius = wanderRadius;

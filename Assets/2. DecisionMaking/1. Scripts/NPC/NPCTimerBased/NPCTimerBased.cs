@@ -81,12 +81,9 @@ namespace DecisionMaking.TimerBased
 
         NPCBaseState SelectNewState()
         {
-            Debug.Log("SelectNewState");
             changeStateTimer.Start();
             int i = index % npcBaseStates.Count;
-            Debug.Log(i);
             NPCBaseState state = npcBaseStates[i];
-            Debug.Log(state.GetType().Name);
             index++;
             return state;
             //return npcBaseStates[UnityEngine.Random.Range(0, npcBaseStates.Count)];

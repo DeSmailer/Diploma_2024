@@ -26,8 +26,6 @@ namespace DecisionMaking.BehaviorTree
             base.SetupTimers();
             stunTimer.OnTimerStop += () =>
             {
-                Debug.Log("Stun-----");
-                Debug.Log("GoToFarm 3");
                 ResumeMovement();
                 StopAllForces();
             };
@@ -35,7 +33,6 @@ namespace DecisionMaking.BehaviorTree
 
         private void Stun()
         {
-            Debug.Log("Stun++++");
             stunTimer.Start();
             inventory.DropOnGround();
             StopMovement();

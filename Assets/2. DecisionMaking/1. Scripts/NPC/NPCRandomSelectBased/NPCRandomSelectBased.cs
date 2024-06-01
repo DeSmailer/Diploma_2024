@@ -68,7 +68,6 @@ namespace DecisionMaking.RandomSelectBased {
     }
 
     NPCBaseState SelectNewState() {
-      Debug.Log("SelectNewState");
       NPCBaseState baseState = npcBaseStates[Random.Range(0, npcBaseStates.Count)];
       current = baseState;
       return baseState;

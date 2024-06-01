@@ -16,7 +16,6 @@ namespace DecisionMaking.RandomSelectBased {
     }
 
     public override void OnEnter() {
-      Debug.Log("NPCRunToFarmState");
       IsComplete = false;
       animator.CrossFade(locomotionHash, crossFadeDuration);
       SelectFarm();
@@ -39,7 +38,6 @@ namespace DecisionMaking.RandomSelectBased {
 
     void SelectFarm() {
       IFarmSelector farmSelector = new RequiredResourceFarmSelector(farms, npc, npc.transform, rivalsWarehouse);
-      //IFarmSelector farmSelector = new RandomFromClosestFarmSelector(farms, npc.transform, 3);
       selectedFarm = farmSelector.SelectFarm();
       Vector3 result = GetPositionInRadius(selectedFarm.transform);
 

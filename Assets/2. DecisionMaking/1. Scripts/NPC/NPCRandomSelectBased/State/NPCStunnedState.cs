@@ -11,7 +11,6 @@ namespace DecisionMaking.RandomSelectBased {
     }
 
     public override void OnEnter() {
-      Debug.Log("NPCStunnedState");
       IsComplete = false;
       animator.CrossFade(stunnedHash, crossFadeDuration);
       npc.Stun();
