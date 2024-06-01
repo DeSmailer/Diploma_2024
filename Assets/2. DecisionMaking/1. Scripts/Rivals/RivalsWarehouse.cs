@@ -164,13 +164,17 @@ namespace DecisionMaking
             if(victory)
             {
                 var sortedKeyValuePairs = keyValuePairs.OrderBy(kvp => kvp.Value).ToList();
+                string strLine = $"-------------------------------------------------------- \n";
 
-                string message = "Victory!";
+                string message = "Results: \n";
+                message += strLine;
 
-                foreach(var kvp in sortedKeyValuePairs)
+                for(int i = 0; i< sortedKeyValuePairs.Count; i++)
                 {
-                    string str = $"Character: {kvp.Key.CharacterInfo.Name}, Count: {kvp.Value} \n";
+                    var kvp = sortedKeyValuePairs[i];
+                    string str = $"Place: {i + 1}, Character: {kvp.Key.CharacterInfo.Name}, Remains to be assembled: {kvp.Value} \n";
                     message += str;
+                    message += strLine;
                     Debug.Log(str);
                 }
 
