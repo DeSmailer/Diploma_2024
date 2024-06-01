@@ -17,6 +17,12 @@ namespace PathFinding
         public TMP_Text nodesVisitedText;
         public TMP_Text pathLengthText;
         public TMP_Text memoryUsageText;
+        public TMP_Text seedText;
+        public TMP_Text rowsText;
+        public TMP_Text colsText;
+        public TMP_Text obstaclesText;
+        public TMP_Text expensiveText;
+
 
         public int Rows;
         public int Cols;
@@ -25,6 +31,8 @@ namespace PathFinding
         public int numberOfExpensiveTiles;
         private Vector2 startPosition;
         private Vector2 endPosition;
+
+        public int numberOfIterations = 20;
 
         public GameObject TilePrefab;
 
@@ -39,7 +47,9 @@ namespace PathFinding
 
         public Tile[] Tiles { get; private set; }
 
-        private int[] gridSizes = { 5, 10, 25, 50, 75, /*100, 200*/ };
+        //private int[] gridSizes = { 5, 10, 25, 50, 75,};
+        //private int[] gridSizes = { 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000 };
+        private int[] gridSizes = { 100, 300, 700, 1000, 1500, 2500 };
 
         private IEnumerator _pathRoutine;
 
@@ -394,6 +404,11 @@ namespace PathFinding
             nodesVisitedText.text = $"Nodes Visited: {nodesVisited}";
             pathLengthText.text = $"Path Length: {pathLength}";
             memoryUsageText.text = $"Memory Usage: {memoryUsage} bytes";
+            seedText.text = $"Seed: {seed}";
+            obstaclesText.text = $"Obstacles: {numberOfObstacles}";
+            expensiveText.text = $"Expensive Tiles: {numberOfExpensiveTiles}";
+            rowsText.text = $"Rows: {Rows}";
+            colsText.text = $"Cols: {Cols}";
 
             Debug.Log($"Algorithm: {algorithmName}");
             Debug.Log($"Execution Time: {executionTime} ms");
@@ -542,7 +557,7 @@ namespace PathFinding
                 "Dynamic Programming Maze"
             };
 
-            for(int seed = 0; seed <= 15; seed++)
+            for(int seed = 0; seed <= numberOfIterations; seed++)
             {
                 for(int i = 0; i < gridSizes.Length; i++)
                 {

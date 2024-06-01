@@ -14,3 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _name: State Mashine
   sprite: {fileID: 21300000, guid: 2f0762750958bb04ea93488e0fbac68c, type: 3}
+  algoritmType: 1

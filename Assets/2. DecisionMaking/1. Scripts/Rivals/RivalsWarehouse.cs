@@ -43,6 +43,7 @@ namespace DecisionMaking
 
         public void Initialize(CostInResourcesData necessaryResourcesForVictory, List<ICharacter> characters)
         {
+            CurrentLevel = 1;
             this.necessaryResourcesForVictory = necessaryResourcesForVictory;
             characterResources = new Dictionary<ICharacter, Dictionary<ResourceData, int>>();
 
