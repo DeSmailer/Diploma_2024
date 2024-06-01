@@ -1,6 +1,6 @@
 using DecisionMaking.Utils;
-using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
@@ -9,6 +9,21 @@ namespace DecisionMaking
 {
     public class RivalsWarehouse : ResourcesStorage
     {
+        private const string LevelKey = "CurrentLevel";
+
+        public int CurrentLevel
+        {
+            get
+            {
+                return PlayerPrefs.GetInt(LevelKey, 1);
+            }
+            set
+            {
+                PlayerPrefs.SetInt(LevelKey, value);
+                PlayerPrefs.Save();
+            }
+        }
+
         [SerializeField] Transform position;
         [SerializeField] LocatorOfCollectedResources locatorOfCollectedResources;
 
@@ -16,23 +31,12 @@ namespace DecisionMaking
 
         Dictionary<ICharacter, Dictionary<ResourceData, int>> characterResources = new Dictionary<ICharacter, Dictionary<ResourceData, int>>();
 
+        bool isShowed = false;
         public override LocatorOfCollectedResources LocatorOfCollectedResources => locatorOfCollectedResources;
         public Vector3 Position => position.position;
         public Dictionary<ICharacter, Dictionary<ResourceData, int>> CharacterResources => characterResources;
 
         public override int ResourcesCount => 0;
-        //{
-        //    get
-        //    {
-        //        //int count = 0;
-        //        //foreach(var item in Resources)
-        //        //{
-        //        //    count += item.Value;
-        //        //}
-        //        //return count;
-        //        return 0;
-        //    }
-        //}
 
         public UnityEvent OnResourcesAdded;
         public UnityEvent OnVictory;
@@ -161,15 +165,40 @@ namespace DecisionMaking
                 }
             }
 
-            if(victory)
+            if(victory && !isShowed)
             {
+                isShowed = true;
                 var sortedKeyValuePairs = keyValuePairs.OrderBy(kvp => kvp.Value).ToList();
+
                 string strLine = $"-------------------------------------------------------- \n";
 
                 string message = "Results: \n";
                 message += strLine;
 
-                for(int i = 0; i< sortedKeyValuePairs.Count; i++)
+                int currentLevel = CurrentLevel;
+                CurrentLevel++;
+
+                int BTPlace = GetPlace(sortedKeyValuePairs, AlgoritmType.BT);
+                int BTRemainsToBeAssembled = GetRemainsToBeAssembled(sortedKeyValuePairs, AlgoritmType.BT);
+                int SMPlace = GetPlace(sortedKeyValuePairs, AlgoritmType.SM);
+                int SMRemainsToBeAssembled = GetRemainsToBeAssembled(sortedKeyValuePairs, AlgoritmType.SM);
+                int TBPlace = GetPlace(sortedKeyValuePairs, AlgoritmType.TB);
+                int TBRemainsToBeAssembled = GetRemainsToBeAssembled(sortedKeyValuePairs, AlgoritmType.TB);
+                int RSPlace = GetPlace(sortedKeyValuePairs, AlgoritmType.RS);
+                int RSRemainsToBeAssembled = GetRemainsToBeAssembled(sortedKeyValuePairs, AlgoritmType.RS);
+
+                WriteResultsToExcel(currentLevel,
+                    BTPlace, BTRemainsToBeAssembled,
+                    SMPlace, SMRemainsToBeAssembled,
+                    TBPlace, TBRemainsToBeAssembled,
+                    RSPlace, RSRemainsToBeAssembled);
+
+                message += $"{AlgoritmType.BT}, p-{BTPlace}, r-{BTRemainsToBeAssembled} \n ";
+                message += $"{AlgoritmType.SM}, p-{SMPlace}, r-{SMRemainsToBeAssembled} \n ";
+                message += $"{AlgoritmType.TB}, p-{TBPlace}, r-{TBRemainsToBeAssembled} \n ";
+                message += $"{AlgoritmType.RS}, p-{RSPlace}, r-{RSRemainsToBeAssembled} \n ";
+
+                for(int i = 0; i < sortedKeyValuePairs.Count; i++)
                 {
                     var kvp = sortedKeyValuePairs[i];
                     string str = $"Place: {i + 1}, Character: {kvp.Key.CharacterInfo.Name}, Remains to be assembled: {kvp.Value} \n";
@@ -178,9 +207,63 @@ namespace DecisionMaking
                     Debug.Log(str);
                 }
 
+                //WriteResultsToExcel(currentLevel, )
                 AlertUI.Instance.ShowAlert(message, 10f);
 
                 OnVictory?.Invoke();
+            }
+        }
+
+        private int GetPlace(List<KeyValuePair<ICharacter, int>> keyValuePairs, AlgoritmType algoritmType)
+        {
+            for(int i = 0; i < keyValuePairs.Count; i++)
+            {
+                if(keyValuePairs[i].Key.CharacterInfo.AlgoritmType == algoritmType)
+                {
+                    return i + 1;
+                }
+            }
+            return 0;
+        }
+
+        private int GetRemainsToBeAssembled(List<KeyValuePair<ICharacter, int>> keyValuePairs, AlgoritmType algoritmType)
+        {
+            for(int i = 0; i < keyValuePairs.Count; i++)
+            {
+                if(keyValuePairs[i].Key.CharacterInfo.AlgoritmType == algoritmType)
+                {
+                    return keyValuePairs[i].Value;
+                }
+            }
+            return 0;
+        }
+
+        private void WriteResultsToExcel(int levelNumber,
+            int BTPlace, int BTRemainsToBeAssembled,
+            int SMPlace, int SMRemainsToBeAssembled,
+            int TBPlace, int TBRemainsToBeAssembled,
+            int RSPlace, int RSRemainsToBeAssembled)
+        {
+            string filePath = "DecisionMaking.csv";
+
+            bool fileExists = File.Exists(filePath);
+
+            using(StreamWriter writer = new StreamWriter(filePath, true))
+            {
+                if(!fileExists)
+                {
+                    writer.WriteLine("Level," +
+                        "Behaviour Trees Place,Behaviour Trees Remains to be assembled," +
+                        "State Mashine Place,State Mashine Remains to be assembled," +
+                        "Timer Based Place,Timer Based Remains to be assembled," +
+                        "Random Select Place,Random Select Remains to be assembled,");
+                }
+
+                writer.WriteLine($"{levelNumber}," +
+                    $"{BTPlace},{BTRemainsToBeAssembled}," +
+                    $"{SMPlace},{SMRemainsToBeAssembled}," +
+                    $"{TBPlace},{TBRemainsToBeAssembled}," +
+                    $"{RSPlace},{RSRemainsToBeAssembled}");
             }
         }
     }
