@@ -9,7 +9,6 @@ namespace DecisionMaking.TimerBased {
       readonly float wanderRadius;
 
       public NPCWanderState(NPCTimerBased npc, Animator animator, NavMeshAgent agent, float wanderRadius) : base(npc, animator) {
-        Debug.Log("NPCWanderState");
         this.agent = agent;
         this.startPoint = npc.transform.position;
         this.wanderRadius = wanderRadius;

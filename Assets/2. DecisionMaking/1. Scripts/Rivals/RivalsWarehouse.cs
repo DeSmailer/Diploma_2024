@@ -46,7 +46,6 @@ namespace DecisionMaking
 
         public void Initialize(CostInResourcesData necessaryResourcesForVictory, List<ICharacter> characters)
         {
-            CurrentLevel = 1;
             stopwatchTimer = new StopwatchTimer();
             stopwatchTimer.Start();
 
@@ -208,7 +207,7 @@ namespace DecisionMaking
                     SMPlace, SMRemainsToBeAssembled,
                     TBPlace, TBRemainsToBeAssembled,
                     RSPlace, RSRemainsToBeAssembled,
-                    competitionDuration);
+                  (int)competitionDuration);
 
                 //message += $"{AlgoritmType.BT}, p-{BTPlace}, r-{BTRemainsToBeAssembled} \n ";
                 //message += $"{AlgoritmType.SM}, p-{SMPlace}, r-{SMRemainsToBeAssembled} \n ";
@@ -265,7 +264,7 @@ namespace DecisionMaking
             int BTPlace, int BTRemainsToBeAssembled,
             int SMPlace, int SMRemainsToBeAssembled,
             int TBPlace, int TBRemainsToBeAssembled,
-            int RSPlace, int RSRemainsToBeAssembled, float competitionDuration)
+            int RSPlace, int RSRemainsToBeAssembled, int competitionDuration)
         {
             string filePath = "DecisionMaking.csv";
 

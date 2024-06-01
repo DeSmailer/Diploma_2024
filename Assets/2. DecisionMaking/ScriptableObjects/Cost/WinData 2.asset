@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 783a5b2a6121db0468f2b3ccc9294d97, type: 3}
+  m_Name: WinData 2
+  m_EditorClassIdentifier: 
+  costInResources:
+  - Resource: {fileID: 11400000, guid: 6419d261cf38a75419599329dbff9171, type: 2}
+    Amount: 20
+  - Resource: {fileID: 11400000, guid: 2a9a8a7a11ebbe84db511c1c5741b26c, type: 2}
+    Amount: 20
+  - Resource: {fileID: 11400000, guid: 7421952e840667a47a0c130f1dcf66b3, type: 2}
+    Amount: 20
+  - Resource: {fileID: 11400000, guid: d903a5d0c86ae6c4dbb99a3fc2c1d707, type: 2}
+    Amount: 20

@@ -4427,7 +4427,7 @@ MonoBehaviour:
   farms: []
   warehouse: {fileID: 0}
   rivalsWarehouseView: {fileID: 0}
-  necessaryResourcesForVictory: {fileID: 11400000, guid: c50b570f2875abd429e266c3b33810f4,
+  necessaryResourcesForVictory: {fileID: 11400000, guid: 1f68201380778d747a17962f48ca114d,
     type: 2}
 --- !u!4 &984704607
 Transform:
@@ -9081,6 +9081,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56583740570bed5409b7f7ebd91ff6ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  restart: 1
+  delayBeforeRestart: 1
   position: {fileID: 1924487484}
   locatorOfCollectedResources: {fileID: 367214257049291183}
   OnResourcesAdded:
