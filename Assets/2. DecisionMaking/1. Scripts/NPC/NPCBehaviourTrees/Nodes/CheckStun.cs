@@ -22,10 +22,8 @@ namespace DecisionMaking.BehaviorTree
 
         public override NodeState Evaluate()
         {
-            Debug.Log("CheckStun 1");
             if(collisionDetector.IsDetected)
             {
-                Debug.Log("CheckStun 2");
                 state = NodeState.SUCCESS;
                 return state;
             }
@@ -35,7 +33,6 @@ namespace DecisionMaking.BehaviorTree
                 return state;
             }
 
-            Debug.Log("CheckStun 3");
             state = NodeState.FAILURE;
             return state;
         }
@@ -54,15 +51,12 @@ namespace DecisionMaking.BehaviorTree
 
         public override NodeState Evaluate()
         {
-            Debug.Log("CheckNoStun 1");
-
             if(!stunTimer.IsRunning)
             {
                 state = NodeState.SUCCESS;
                 return state;
             }
 
-            Debug.Log("CheckNoStun 2");
             state = NodeState.RUNNING;
             return state;
         }
@@ -83,23 +77,19 @@ namespace DecisionMaking.BehaviorTree
 
         public override NodeState Evaluate()
         {
-            Debug.Log("Stun");
             if(!stunTimer.IsRunning)
             {
                 EnterToStan();
             }
 
-            Debug.Log("Stun 2");
             animator.Play(stunnedHash);
             state = NodeState.RUNNING;
 
-            Debug.Log("Stun 3");
             return state;
         }
 
         public void EnterToStan()
         {
-            Debug.Log("Stun 1");
             animator.Play(stunnedHash);
             npc.Stun();
             npc.StopMovement();
@@ -125,7 +115,6 @@ namespace DecisionMaking.BehaviorTree
         {
             Resume();
 
-            Debug.Log("GoToTarget");
             agent.SetDestination(target);
             animator.Play(locomotionHash);
 
@@ -135,7 +124,6 @@ namespace DecisionMaking.BehaviorTree
 
         public void Resume()
         {
-            Debug.Log("GoToTarget 3");
             npc.ResumeMovement();
             npc.StopAllForces();
         }
@@ -170,15 +158,12 @@ namespace DecisionMaking.BehaviorTree
                 return state;
             }
 
-            Debug.Log("CheckNeedRunToFarm 1");
             if(npc.Inventory.FillPercentage < percent)
             {
-                Debug.Log("CheckNeedRunToFarm 2");
                 state = NodeState.SUCCESS;
                 return state;
             }
 
-            Debug.Log("CheckNeedRunToFarm 3");
             state = NodeState.FAILURE;
             return state;
         }
@@ -203,12 +188,6 @@ namespace DecisionMaking.BehaviorTree
 
         public override NodeState Evaluate()
         {
-            Debug.Log("GoToFarm");
-            //Resume();
-
-            //Debug.Log("GoToFarm 2 " + targetFarm);
-            //Debug.Log("GoToFarm 2 " + targetFarm.CanHarvest);
-            //Debug.Log("GoToFarm 2 " + target);
             agent.SetDestination(target);
 
             if(targetFarm == null || !targetFarm.CanHarvest)
@@ -259,15 +238,12 @@ namespace DecisionMaking.BehaviorTree
 
         public override NodeState Evaluate()
         {
-            Debug.Log("CheckNeedRunToWarehouse 1");
             if(npc.Inventory.FillPercentage >= percent)
             {
-                Debug.Log("CheckNeedRunToWarehouse 2");
                 state = NodeState.SUCCESS;
                 return state;
             }
 
-            Debug.Log("CheckNeedRunToWarehouse 3");
             state = NodeState.FAILURE;
             return state;
         }
@@ -294,12 +270,10 @@ namespace DecisionMaking.BehaviorTree
             }
             if(c == 0)
             {
-                Debug.Log("CantDoAnything 1");
                 state = NodeState.SUCCESS;
                 return state;
             }
 
-            Debug.Log("CantDoAnything 3");
             state = NodeState.FAILURE;
             return state;
         }

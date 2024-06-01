@@ -4,13 +4,30 @@ using System.IO;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
+using UnityUtils;
 
 namespace DecisionMaking
 {
     public class RivalsWarehouse : ResourcesStorage
     {
-        private const string LevelKey = "CurrentLevel";
+        [SerializeField] bool restart = true;
+        [SerializeField] float delayBeforeRestart = 1f;
 
+        [SerializeField] Transform position;
+        [SerializeField] LocatorOfCollectedResources locatorOfCollectedResources;
+
+        CostInResourcesData necessaryResourcesForVictory;
+        Dictionary<ICharacter, Dictionary<ResourceData, int>> characterResources = new Dictionary<ICharacter, Dictionary<ResourceData, int>>();
+        bool isShowed = false;
+
+        private const string LevelKey = "CurrentLevel";
+        public override LocatorOfCollectedResources LocatorOfCollectedResources => locatorOfCollectedResources;
+        public Vector3 Position => position.position;
+        public Dictionary<ICharacter, Dictionary<ResourceData, int>> CharacterResources => characterResources;
+
+        public StopwatchTimer stopwatchTimer;
+        public override int ResourcesCount => 0;
         public int CurrentLevel
         {
             get
@@ -24,26 +41,15 @@ namespace DecisionMaking
             }
         }
 
-        [SerializeField] Transform position;
-        [SerializeField] LocatorOfCollectedResources locatorOfCollectedResources;
-
-        CostInResourcesData necessaryResourcesForVictory;
-
-        Dictionary<ICharacter, Dictionary<ResourceData, int>> characterResources = new Dictionary<ICharacter, Dictionary<ResourceData, int>>();
-
-        bool isShowed = false;
-        public override LocatorOfCollectedResources LocatorOfCollectedResources => locatorOfCollectedResources;
-        public Vector3 Position => position.position;
-        public Dictionary<ICharacter, Dictionary<ResourceData, int>> CharacterResources => characterResources;
-
-        public override int ResourcesCount => 0;
-
         public UnityEvent OnResourcesAdded;
         public UnityEvent OnVictory;
 
         public void Initialize(CostInResourcesData necessaryResourcesForVictory, List<ICharacter> characters)
         {
             CurrentLevel = 1;
+            stopwatchTimer = new StopwatchTimer();
+            stopwatchTimer.Start();
+
             this.necessaryResourcesForVictory = necessaryResourcesForVictory;
             characterResources = new Dictionary<ICharacter, Dictionary<ResourceData, int>>();
 
@@ -57,6 +63,11 @@ namespace DecisionMaking
                 }
                 characterResources.Add(character, resources);
             }
+        }
+
+        void Update()
+        {
+            stopwatchTimer.Tick(Time.deltaTime);
         }
 
         public void AddResources(List<CollectedResource> resources, ICharacter character)
@@ -175,6 +186,8 @@ namespace DecisionMaking
 
                 string message = "Results: \n";
                 message += strLine;
+                message += $"Level {CurrentLevel} \n";
+                message += strLine;
 
                 int currentLevel = CurrentLevel;
                 CurrentLevel++;
@@ -188,16 +201,19 @@ namespace DecisionMaking
                 int RSPlace = GetPlace(sortedKeyValuePairs, AlgoritmType.RS);
                 int RSRemainsToBeAssembled = GetRemainsToBeAssembled(sortedKeyValuePairs, AlgoritmType.RS);
 
+                float competitionDuration = stopwatchTimer.GetTime();
+
                 WriteResultsToExcel(currentLevel,
                     BTPlace, BTRemainsToBeAssembled,
                     SMPlace, SMRemainsToBeAssembled,
                     TBPlace, TBRemainsToBeAssembled,
-                    RSPlace, RSRemainsToBeAssembled);
+                    RSPlace, RSRemainsToBeAssembled,
+                    competitionDuration);
 
-                message += $"{AlgoritmType.BT}, p-{BTPlace}, r-{BTRemainsToBeAssembled} \n ";
-                message += $"{AlgoritmType.SM}, p-{SMPlace}, r-{SMRemainsToBeAssembled} \n ";
-                message += $"{AlgoritmType.TB}, p-{TBPlace}, r-{TBRemainsToBeAssembled} \n ";
-                message += $"{AlgoritmType.RS}, p-{RSPlace}, r-{RSRemainsToBeAssembled} \n ";
+                //message += $"{AlgoritmType.BT}, p-{BTPlace}, r-{BTRemainsToBeAssembled} \n ";
+                //message += $"{AlgoritmType.SM}, p-{SMPlace}, r-{SMRemainsToBeAssembled} \n ";
+                //message += $"{AlgoritmType.TB}, p-{TBPlace}, r-{TBRemainsToBeAssembled} \n ";
+                //message += $"{AlgoritmType.RS}, p-{RSPlace}, r-{RSRemainsToBeAssembled} \n ";
 
                 for(int i = 0; i < sortedKeyValuePairs.Count; i++)
                 {
@@ -207,9 +223,15 @@ namespace DecisionMaking
                     message += strLine;
                     Debug.Log(str);
                 }
+                message += "time has passed: " + competitionDuration.ToString();
 
                 //WriteResultsToExcel(currentLevel, )
                 AlertUI.Instance.ShowAlert(message, 10f);
+
+                if(restart)
+                {
+                    Invoke(nameof(RestartScene), delayBeforeRestart);
+                }
 
                 OnVictory?.Invoke();
             }
@@ -243,7 +265,7 @@ namespace DecisionMaking
             int BTPlace, int BTRemainsToBeAssembled,
             int SMPlace, int SMRemainsToBeAssembled,
             int TBPlace, int TBRemainsToBeAssembled,
-            int RSPlace, int RSRemainsToBeAssembled)
+            int RSPlace, int RSRemainsToBeAssembled, float competitionDuration)
         {
             string filePath = "DecisionMaking.csv";
 
@@ -257,15 +279,22 @@ namespace DecisionMaking
                         "Behaviour Trees Place,Behaviour Trees Remains to be assembled," +
                         "State Mashine Place,State Mashine Remains to be assembled," +
                         "Timer Based Place,Timer Based Remains to be assembled," +
-                        "Random Select Place,Random Select Remains to be assembled,");
+                        "Random Select Place,Random Select Remains to be assembled," +
+                        "Competition duration");
                 }
 
                 writer.WriteLine($"{levelNumber}," +
                     $"{BTPlace},{BTRemainsToBeAssembled}," +
                     $"{SMPlace},{SMRemainsToBeAssembled}," +
                     $"{TBPlace},{TBRemainsToBeAssembled}," +
-                    $"{RSPlace},{RSRemainsToBeAssembled}");
+                    $"{RSPlace},{RSRemainsToBeAssembled}," +
+                    $"{competitionDuration}");
             }
+        }
+        public void RestartScene()
+        {
+            int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+            SceneManager.LoadScene(currentSceneIndex);
         }
     }
 }
