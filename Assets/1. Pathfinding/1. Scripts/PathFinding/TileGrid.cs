@@ -47,9 +47,9 @@ namespace PathFinding
         public Tile[] Tiles { get; private set; }
 
         //private int[] gridSizes = { 5 };
-        private int[] gridSizes = { 5, 10, 25, };
+        //private int[] gridSizes = { 5, 10, 25, };
         //private int[] gridSizes = { 5, 10, 25, 50, 75, };
-        //private int[] gridSizes = { 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000 };
+        private int[] gridSizes = { 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000 };
         //private int[] gridSizes = { 10, 100, 300, 700, 1000, 1500, 2000, 2500 };
 
         private IEnumerator _pathRoutine;
@@ -579,3 +579,12 @@ namespace PathFinding
         }
     }
 }
+
+//Breadth First Search,
+//Dijkstra,
+//AStar,
+//Greedy Best First Search,
+//Depth First Search,
+//Bidirectional Search,
+//Lee Algorithm,
+//Dynamic Programming Maze
