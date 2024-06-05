@@ -948,8 +948,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_AgentTypeID: 0
   m_CollectObjects: 1
-  m_Size: {x: 64, y: 16, z: 64}
-  m_Center: {x: 0, y: 2, z: 0}
+  m_Size: {x: 64, y: 7.5024924, z: 64}
+  m_Center: {x: 0, y: -2.2487538, z: 0}
   m_LayerMask:
     serializedVersion: 2
     m_Bits: 183
@@ -4423,10 +4423,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e0234b71f7307a0438889c79527a445f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NPSs: []
-  farms: []
-  warehouse: {fileID: 0}
-  rivalsWarehouseView: {fileID: 0}
   necessaryResourcesForVictory: {fileID: 11400000, guid: c50b570f2875abd429e266c3b33810f4,
     type: 2}
 --- !u!4 &984704607

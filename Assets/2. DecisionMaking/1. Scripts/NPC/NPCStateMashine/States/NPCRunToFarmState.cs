@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using DecisionMaking.Utils;
+﻿using DecisionMaking.Utils;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -37,7 +36,6 @@ namespace DecisionMaking.StateMashine
             if(!selectedFarm.CanHarvest)
             {
                 IsComplete = true;
-                //SelectFarm();
             }
         }
 
@@ -51,7 +49,6 @@ namespace DecisionMaking.StateMashine
         void SelectFarm()
         {
             IFarmSelector farmSelector = new RequiredResourceFarmSelector(farms, npc, npc.transform, rivalsWarehouse);
-            //IFarmSelector farmSelector = new RandomFromClosestFarmSelector(farms, npc.transform, 3);
             selectedFarm = farmSelector.SelectFarm();
             Vector3 result = GetPositionInRadius(selectedFarm.transform);
 
