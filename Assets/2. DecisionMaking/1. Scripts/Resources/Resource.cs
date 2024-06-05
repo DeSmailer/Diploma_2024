@@ -11,19 +11,12 @@ namespace DecisionMaking {
 
     public void Collect(out CollectedResource spawnedResource) {
 
-      CollectedResource collectedResource = Instantiate(resource.CollectedPrefab, transform.position, Quaternion.identity).GetComponent<CollectedResource>();
+      CollectedResource collectedResource = Instantiate(resource.CollectedPrefab, 
+          transform.position, Quaternion.identity)
+                .GetComponent<CollectedResource>();
       collectedResource.Initialize(resource);
       spawnedResource = collectedResource;
       Destroy(gameObject);
     }
   }
 }
-
-//public void Collect(Inventory inventory) {
-
-//  CollectedResource collectedResource = Instantiate(resource.CollectedPrefab, transform.position, Quaternion.identity).GetComponent<CollectedResource>();
-//  collectedResource.Initialize(resource);
-//  inventory.AddResource(collectedResource);
-//  Destroy(gameObject);
-//}
-

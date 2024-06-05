@@ -29,8 +29,6 @@ namespace DecisionMaking
 
         private void CollectResources(Inventory inventory)
         {
-
-            //Сортируем список по расстоянию до инвентаря
             resourceSpawnManager.SpawnedResources.Sort((a, b) =>
               Vector3.Distance(a.transform.position, inventory.transform.position)
               .CompareTo(Vector3.Distance(b.transform.position, inventory.transform.position)));
