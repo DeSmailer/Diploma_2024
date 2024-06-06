@@ -35,13 +35,6 @@ namespace DecisionMaking.RandomSelectBased {
       kamikazeState = new NPCKamikazeState(this, animator, otherCharacters, agent, transform, kamikazeRadius);
 
       npcBaseStates.Add(wanderState);
-      npcBaseStates.Add(wanderState);
-      npcBaseStates.Add(wanderState);
-      npcBaseStates.Add(wanderState);
-      npcBaseStates.Add(runToFarmState);
-      npcBaseStates.Add(runToFarmState);
-      npcBaseStates.Add(runToFarmState);
-      npcBaseStates.Add(runToFarmState);
       npcBaseStates.Add(runToFarmState);
       npcBaseStates.Add(runToWarehouseState);
       npcBaseStates.Add(kamikazeState);
@@ -49,6 +42,18 @@ namespace DecisionMaking.RandomSelectBased {
       current = wanderState;
       stateMachine.SetState(wanderState);
     }
+
+      //  npcBaseStates.Add(wanderState);
+      //npcBaseStates.Add(wanderState);
+      //npcBaseStates.Add(wanderState);
+      //npcBaseStates.Add(wanderState);
+      //npcBaseStates.Add(runToFarmState);
+      //npcBaseStates.Add(runToFarmState);
+      //npcBaseStates.Add(runToFarmState);
+      //npcBaseStates.Add(runToFarmState);
+      //npcBaseStates.Add(runToFarmState);
+      //npcBaseStates.Add(runToWarehouseState);
+      //npcBaseStates.Add(kamikazeState);
 
     void Update() {
       stateMachine.Update();

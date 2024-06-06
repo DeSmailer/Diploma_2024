@@ -64,7 +64,6 @@ namespace DecisionMaking.BehaviorTree
                     new CantDoAnything(farms),
                     new GoToTarget(this, rivalsWarehouse.Position, animator, agent)
                 }),
-                //new TaskPatrol(transform, waypoints),
             });
         }
 

@@ -29,7 +29,5 @@ namespace DecisionMaking.BehaviorTree
             state = NodeState.FAILURE;
             return state;
         }
-
     }
-
 }
