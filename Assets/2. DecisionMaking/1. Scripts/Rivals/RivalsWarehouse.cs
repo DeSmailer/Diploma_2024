@@ -209,11 +209,6 @@ namespace DecisionMaking
                     RSPlace, RSRemainsToBeAssembled,
                   (int)competitionDuration);
 
-                //message += $"{AlgoritmType.BT}, p-{BTPlace}, r-{BTRemainsToBeAssembled} \n ";
-                //message += $"{AlgoritmType.SM}, p-{SMPlace}, r-{SMRemainsToBeAssembled} \n ";
-                //message += $"{AlgoritmType.TB}, p-{TBPlace}, r-{TBRemainsToBeAssembled} \n ";
-                //message += $"{AlgoritmType.RS}, p-{RSPlace}, r-{RSRemainsToBeAssembled} \n ";
-
                 for(int i = 0; i < sortedKeyValuePairs.Count; i++)
                 {
                     var kvp = sortedKeyValuePairs[i];
@@ -224,7 +219,6 @@ namespace DecisionMaking
                 }
                 message += "time has passed: " + competitionDuration.ToString();
 
-                //WriteResultsToExcel(currentLevel, )
                 AlertUI.Instance.ShowAlert(message, 10f);
 
                 if(restart)
@@ -290,6 +284,7 @@ namespace DecisionMaking
                     $"{competitionDuration}");
             }
         }
+
         public void RestartScene()
         {
             int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
