@@ -1024,9 +1024,9 @@ MonoBehaviour:
   colsText: {fileID: 18126196}
   obstaclesText: {fileID: 1939148324}
   expensiveText: {fileID: 1175207369}
-  Rows: 17
-  Cols: 17
-  seed: 1
+  Rows: 13
+  Cols: 13
+  seed: 15
   numberOfObstacles: 1
   numberOfExpensiveTiles: 1
   numberOfIterations: 40
